@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
 <title>Brain Rush</title>
 
 <style>
@@ -18,58 +19,89 @@ body{
   padding:0;
   min-height:100%;
   background:#03040d;
-  color:white;
+  color:#fff;
   font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
   overflow-x:hidden;
+  overscroll-behavior:none;
 }
 
 button{
   font:inherit;
+  -webkit-appearance:none;
 }
 
 #app{
   min-height:100vh;
   position:relative;
   overflow:hidden;
+
   background:
-    radial-gradient(circle at 50% 15%,rgba(45,80,180,.28),transparent 35%),
-    radial-gradient(circle at 20% 80%,rgba(180,0,255,.10),transparent 35%),
-    radial-gradient(circle at 85% 75%,rgba(0,255,220,.08),transparent 35%),
+    radial-gradient(
+      circle at 50% 10%,
+      rgba(55,70,210,.28),
+      transparent 36%
+    ),
+    radial-gradient(
+      circle at 10% 75%,
+      rgba(170,0,255,.10),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 90% 75%,
+      rgba(0,255,220,.08),
+      transparent 35%
+    ),
     #03040d;
 }
-
-/* =========================
-   GRID BACKGROUND
-========================= */
 
 #app::before{
   content:"";
   position:absolute;
-  inset:0;
+  left:-20%;
+  right:-20%;
+  top:34%;
+  height:80%;
   pointer-events:none;
-  opacity:.22;
+  opacity:.20;
+
   background-image:
-    linear-gradient(rgba(70,120,255,.12) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(70,120,255,.12) 1px,transparent 1px);
+    linear-gradient(
+      rgba(70,120,255,.12) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(70,120,255,.12) 1px,
+      transparent 1px
+    );
+
   background-size:42px 42px;
-  transform:perspective(600px) rotateX(60deg) scale(1.8);
+
+  transform:
+    perspective(600px)
+    rotateX(60deg)
+    scale(1.7);
+
   transform-origin:center bottom;
-  top:35%;
 }
 
-/* =========================
-   HOME
-========================= */
+
+/* =========================================================
+   SCREENS
+========================================================= */
 
 .screen{
   position:relative;
   z-index:2;
+
   width:100%;
   min-height:100vh;
+
   display:none;
+
   padding:42px 22px 55px;
 }
 
@@ -77,7 +109,13 @@ button{
   display:block;
 }
 
+
+/* =========================================================
+   HOME
+========================================================= */
+
 .home{
+  width:100%;
   max-width:760px;
   margin:0 auto;
   text-align:center;
@@ -85,37 +123,58 @@ button{
 
 .logo{
   margin-top:5px;
-  font-size:clamp(42px,11vw,78px);
+
+  font-size:clamp(
+    42px,
+    11vw,
+    78px
+  );
+
   font-weight:1000;
   font-style:italic;
+
   letter-spacing:-3px;
   line-height:.9;
-  background:linear-gradient(
-    90deg,
-    #e9ffff 0%,
-    #ffffff 28%,
-    #48efff 55%,
-    #ff38d7 82%,
-    #ffffff 100%
-  );
+
+  background:
+    linear-gradient(
+      90deg,
+      #e9ffff 0%,
+      #ffffff 28%,
+      #48efff 55%,
+      #ff38d7 82%,
+      #ffffff 100%
+    );
+
   -webkit-background-clip:text;
   background-clip:text;
+
   color:transparent;
+
   filter:
-    drop-shadow(0 0 10px rgba(60,230,255,.65))
-    drop-shadow(0 0 28px rgba(255,30,210,.35));
+    drop-shadow(
+      0 0 10px
+      rgba(60,230,255,.65)
+    )
+    drop-shadow(
+      0 0 28px
+      rgba(255,30,210,.35)
+    );
 }
 
 .tagline{
   margin-top:15px;
+
   font-size:12px;
   letter-spacing:6px;
+
   color:#d9d9e9;
 }
 
 .choose{
   margin-top:62px;
   margin-bottom:26px;
+
   font-size:20px;
   letter-spacing:4px;
   font-weight:700;
@@ -123,75 +182,83 @@ button{
 
 .mode-grid{
   display:grid;
-  grid-template-columns:1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr;
+
   gap:16px;
 }
 
 .mode-card{
   position:relative;
+
   min-height:190px;
+
   padding:28px 26px;
+
   border-radius:28px;
+
   text-align:left;
-  border:1px solid rgba(110,130,255,.13);
+
+  border:1px solid
+    rgba(110,130,255,.13);
+
   background:
     linear-gradient(
       145deg,
       rgba(15,22,60,.75),
       rgba(6,8,25,.78)
     );
+
   box-shadow:
-    inset 0 0 35px rgba(60,80,255,.035),
-    0 12px 40px rgba(0,0,0,.25);
-  transition:.22s ease;
+    inset 0 0 35px
+    rgba(60,80,255,.035),
+
+    0 12px 40px
+    rgba(0,0,0,.25);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease,
+    border-color .2s ease;
+
   cursor:pointer;
+
   overflow:hidden;
 }
 
-.mode-card::after{
-  content:"";
-  position:absolute;
-  inset:-2px;
-  border-radius:30px;
-  opacity:0;
-  background:linear-gradient(
-    120deg,
-    transparent,
-    rgba(50,240,255,.25),
-    transparent
-  );
-  transition:.25s;
-}
-
-.mode-card:hover{
-  transform:translateY(-3px);
-}
-
 .mode-card:active{
-  transform:scale(.98);
+  transform:scale(.985);
 }
 
 .mode-card.active{
-  border:1px solid #35eaff;
-  box-shadow:
-    0 0 10px rgba(30,240,255,.4),
-    0 0 28px rgba(30,240,255,.16),
-    inset 0 0 30px rgba(30,240,255,.06);
-}
+  border-color:#35eaff;
 
-.mode-card.active::after{
-  opacity:1;
+  box-shadow:
+    0 0 10px
+    rgba(30,240,255,.4),
+
+    0 0 28px
+    rgba(30,240,255,.16),
+
+    inset 0 0 30px
+    rgba(30,240,255,.06);
 }
 
 .mode-card.locked{
-  opacity:.36;
+  opacity:.35;
   cursor:not-allowed;
 }
 
 .mode-icon{
   font-size:42px;
+
   margin-bottom:25px;
-  filter:drop-shadow(0 0 10px currentColor);
+
+  filter:
+    drop-shadow(
+      0 0 10px currentColor
+    );
 }
 
 .mode-name{
@@ -202,17 +269,23 @@ button{
 
 .mode-desc{
   margin-top:10px;
+
   color:#8d91a9;
+
   font-size:14px;
   line-height:1.4;
 }
 
 .mode-status{
   position:absolute;
+
   top:24px;
   right:22px;
+
   font-size:10px;
+
   font-weight:bold;
+
   letter-spacing:1px;
 }
 
@@ -242,23 +315,37 @@ button{
 
 .start-button{
   width:100%;
+
   margin-top:20px;
+
   min-height:62px;
+
   border:0;
+
   border-radius:22px;
+
   cursor:pointer;
+
   font-weight:900;
+
   letter-spacing:4px;
+
   color:#081021;
-  background:linear-gradient(
-    100deg,
-    #55f4ff,
-    #b8f9ff 40%,
-    #9b54ff 100%
-  );
+
+  background:
+    linear-gradient(
+      100deg,
+      #55f4ff,
+      #b8f9ff 40%,
+      #9b54ff 100%
+    );
+
   box-shadow:
-    0 0 15px rgba(70,240,255,.45),
-    0 0 35px rgba(130,70,255,.22);
+    0 0 15px
+    rgba(70,240,255,.45),
+
+    0 0 35px
+    rgba(130,70,255,.22);
 }
 
 .start-button:active{
@@ -267,17 +354,24 @@ button{
 
 .home-foot{
   margin-top:22px;
+
   color:#9b9db1;
+
   font-size:12px;
+
   letter-spacing:2px;
 }
 
-/* =========================
+
+/* =========================================================
    GAME
-========================= */
+========================================================= */
 
 #gameScreen{
-  padding:18px 16px 30px;
+  padding:
+    18px
+    16px
+    30px;
 }
 
 .game-shell{
@@ -288,28 +382,43 @@ button{
 
 .game-top{
   display:grid;
-  grid-template-columns:1fr 1fr 1fr;
+
+  grid-template-columns:
+    1fr 1fr 1fr;
+
   gap:10px;
+
   margin-bottom:13px;
 }
 
 .stat{
   padding:12px 10px;
+
   border-radius:15px;
+
   text-align:center;
-  border:1px solid rgba(70,240,255,.14);
-  background:rgba(8,12,32,.8);
+
+  border:
+    1px solid
+    rgba(70,240,255,.14);
+
+  background:
+    rgba(8,12,32,.8);
 }
 
 .stat-label{
   font-size:9px;
+
   letter-spacing:2px;
+
   color:#777b99;
 }
 
 .stat-value{
   margin-top:4px;
+
   font-size:20px;
+
   font-weight:900;
 }
 
@@ -327,15 +436,21 @@ button{
 
 .level-row{
   display:flex;
+
   justify-content:space-between;
+
   align-items:center;
+
   padding:0 4px;
+
   margin-bottom:10px;
 }
 
 .level-number{
   color:#8c91a9;
+
   font-size:12px;
+
   letter-spacing:2px;
 }
 
@@ -347,9 +462,14 @@ button{
 .life{
   width:13px;
   height:13px;
+
   border-radius:50%;
+
   background:#ff397d;
-  box-shadow:0 0 10px rgba(255,50,130,.75);
+
+  box-shadow:
+    0 0 10px
+    rgba(255,50,130,.75);
 }
 
 .life.off{
@@ -360,111 +480,222 @@ button{
 .instruction{
   position:relative;
   z-index:20;
+
   min-height:92px;
-  padding:16px 18px;
+
+  padding:
+    16px
+    18px;
+
   border-radius:20px;
-  border:1px solid rgba(75,239,255,.35);
+
+  border:
+    1px solid
+    rgba(75,239,255,.35);
+
   background:
     linear-gradient(
       135deg,
       rgba(13,24,55,.94),
       rgba(9,10,32,.94)
     );
+
   text-align:center;
+
   box-shadow:
-    0 0 22px rgba(30,230,255,.08);
+    0 0 22px
+    rgba(30,230,255,.08);
 }
 
 .instruction-small{
   color:#6eefff;
+
   font-size:10px;
+
   letter-spacing:3px;
+
   font-weight:800;
 }
 
 .instruction-main{
   margin-top:7px;
-  font-size:clamp(17px,4vw,25px);
+
+  font-size:
+    clamp(
+      17px,
+      4vw,
+      25px
+    );
+
   font-weight:900;
+
   letter-spacing:1px;
 }
 
 .instruction-state{
   margin-top:6px;
+
   min-height:17px;
+
   color:#8f94ad;
+
   font-size:11px;
+
   letter-spacing:2px;
 }
 
 .arena{
   position:relative;
-  height:min(64vh,560px);
+
+  height:
+    min(
+      64vh,
+      560px
+    );
+
   min-height:400px;
+
   margin-top:14px;
+
   overflow:hidden;
+
   border-radius:28px;
-  border:1px solid rgba(85,100,255,.2);
+
+  border:
+    1px solid
+    rgba(85,100,255,.2);
+
   background:
-    radial-gradient(circle at 50% 50%,rgba(20,30,75,.3),transparent 60%),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(20,30,75,.3),
+      transparent 60%
+    ),
     rgba(4,6,20,.88);
+
   box-shadow:
-    inset 0 0 80px rgba(20,30,100,.08),
-    0 15px 50px rgba(0,0,0,.3);
+    inset 0 0 80px
+    rgba(20,30,100,.08),
+
+    0 15px 50px
+    rgba(0,0,0,.3);
+
+  touch-action:manipulation;
 }
 
 .arena::before{
   content:"";
+
   position:absolute;
+
   inset:0;
+
   pointer-events:none;
+
   background-image:
-    linear-gradient(rgba(70,120,255,.06) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(70,120,255,.06) 1px,transparent 1px);
+    linear-gradient(
+      rgba(70,120,255,.06) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(70,120,255,.06) 1px,
+      transparent 1px
+    );
+
   background-size:40px 40px;
 }
 
 .arena.reading::after{
   content:"READ";
+
   position:absolute;
+
   inset:0;
+
   display:flex;
+
   align-items:center;
+
   justify-content:center;
+
   font-size:48px;
+
   font-weight:1000;
+
   letter-spacing:8px;
-  color:rgba(90,240,255,.15);
+
+  color:
+    rgba(90,240,255,.12);
+
   pointer-events:none;
 }
 
 .target{
   position:absolute;
+
   width:70px;
   height:70px;
+
   border-radius:50%;
+
   cursor:pointer;
-  transform:translate(-50%,-50%);
+
+  transform:
+    translate(
+      -50%,
+      -50%
+    );
+
   background:
     radial-gradient(
       circle,
       #fff 0 8%,
       #65f7ff 10% 23%,
       #00cfff 25% 42%,
-      rgba(0,207,255,.22) 44% 65%,
+      rgba(0,207,255,.22)
+      44% 65%,
       transparent 68%
     );
+
   box-shadow:
     0 0 12px #52f4ff,
-    0 0 35px rgba(30,235,255,.75),
-    0 0 70px rgba(30,150,255,.3);
-  animation:targetPulse .8s infinite alternate;
+
+    0 0 35px
+    rgba(30,235,255,.75),
+
+    0 0 70px
+    rgba(30,150,255,.3);
+
+  animation:
+    targetPulse
+    .8s
+    infinite
+    alternate;
+
   z-index:10;
 }
 
 @keyframes targetPulse{
-  from{transform:translate(-50%,-50%) scale(.94)}
-  to{transform:translate(-50%,-50%) scale(1.08)}
+
+  from{
+    transform:
+      translate(
+        -50%,
+        -50%
+      )
+      scale(.94);
+  }
+
+  to{
+    transform:
+      translate(
+        -50%,
+        -50%
+      )
+      scale(1.08);
+  }
+
 }
 
 .target.small{
@@ -479,12 +710,16 @@ button{
       #fff 0 7%,
       #ff5c9c 10% 25%,
       #ff145e 28% 45%,
-      rgba(255,20,94,.18) 48% 65%,
+      rgba(255,20,94,.18)
+      48% 65%,
       transparent 68%
     );
+
   box-shadow:
     0 0 15px #ff377b,
-    0 0 40px rgba(255,30,100,.7);
+
+    0 0 40px
+    rgba(255,30,100,.7);
 }
 
 .target.moving{
@@ -493,91 +728,180 @@ button{
 
 .sequence-dot{
   position:absolute;
+
   width:48px;
   height:48px;
+
   border-radius:50%;
+
   display:flex;
+
   align-items:center;
   justify-content:center;
+
   font-weight:900;
+
   font-size:18px;
+
   background:#111a42;
-  border:2px solid #54f4ff;
+
+  border:
+    2px solid
+    #54f4ff;
+
   color:#fff;
-  box-shadow:0 0 20px rgba(50,230,255,.35);
+
+  box-shadow:
+    0 0 20px
+    rgba(50,230,255,.35);
+
+  transform:
+    translate(
+      -50%,
+      -50%
+    );
+
+  z-index:10;
 }
 
 .feedback{
   position:absolute;
+
   left:50%;
   top:50%;
-  transform:translate(-50%,-50%);
+
+  transform:
+    translate(
+      -50%,
+      -50%
+    );
+
   z-index:30;
+
   pointer-events:none;
+
   font-size:34px;
+
   font-weight:1000;
+
   letter-spacing:3px;
+
   opacity:0;
 }
 
 .feedback.show{
-  animation:feedback .55s ease-out;
+  animation:
+    feedback
+    .55s
+    ease-out;
 }
 
 .feedback.good{
   color:#5dffbd;
-  text-shadow:0 0 25px rgba(80,255,190,.8);
+
+  text-shadow:
+    0 0 25px
+    rgba(80,255,190,.8);
 }
 
 .feedback.bad{
   color:#ff4f88;
-  text-shadow:0 0 25px rgba(255,50,110,.8);
+
+  text-shadow:
+    0 0 25px
+    rgba(255,50,110,.8);
 }
 
 @keyframes feedback{
+
   0%{
     opacity:0;
-    transform:translate(-50%,-50%) scale(.7);
+
+    transform:
+      translate(
+        -50%,
+        -50%
+      )
+      scale(.7);
   }
+
   25%{
     opacity:1;
   }
+
   100%{
     opacity:0;
-    transform:translate(-50%,-80%) scale(1.1);
+
+    transform:
+      translate(
+        -50%,
+        -80%
+      )
+      scale(1.1);
   }
+
 }
 
 .particle{
   position:absolute;
+
   width:5px;
   height:5px;
+
   border-radius:50%;
+
   background:#62f5ff;
+
   pointer-events:none;
-  animation:particle .65s ease-out forwards;
+
+  animation:
+    particle
+    .65s
+    ease-out
+    forwards;
+
+  z-index:40;
 }
 
 @keyframes particle{
+
   to{
-    transform:translate(var(--x),var(--y)) scale(0);
+    transform:
+      translate(
+        var(--x),
+        var(--y)
+      )
+      scale(0);
+
     opacity:0;
   }
+
 }
 
 .game-bottom{
   margin-top:13px;
+
   display:flex;
+
   gap:10px;
 }
 
 .game-button{
   flex:1;
+
   min-height:48px;
+
   border-radius:15px;
-  border:1px solid rgba(100,110,255,.25);
-  background:rgba(12,15,40,.9);
+
+  border:
+    1px solid
+    rgba(100,110,255,.25);
+
+  background:
+    rgba(12,15,40,.9);
+
   color:#bbbfd3;
+
   cursor:pointer;
 }
 
@@ -585,19 +909,103 @@ button{
   transform:scale(.98);
 }
 
-/* =========================
-   OVERLAY
-========================= */
+
+/* =========================================================
+   COUNTDOWN
+========================================================= */
+
+.countdown{
+  position:fixed;
+
+  inset:0;
+
+  z-index:90;
+
+  display:none;
+
+  align-items:center;
+  justify-content:center;
+
+  pointer-events:none;
+
+  background:
+    rgba(2,3,12,.55);
+
+  backdrop-filter:blur(5px);
+}
+
+.countdown.show{
+  display:flex;
+}
+
+.countdown-number{
+  font-size:
+    clamp(
+      90px,
+      28vw,
+      220px
+    );
+
+  font-weight:1000;
+
+  font-style:italic;
+
+  color:#fff;
+
+  text-shadow:
+    0 0 20px #4defff,
+
+    0 0 70px
+    rgba(40,220,255,.8);
+
+  animation:
+    countPop
+    .75s
+    ease-out;
+}
+
+@keyframes countPop{
+
+  0%{
+    opacity:0;
+
+    transform:scale(1.5);
+  }
+
+  30%{
+    opacity:1;
+  }
+
+  100%{
+    opacity:0;
+
+    transform:scale(.9);
+  }
+
+}
+
+
+/* =========================================================
+   RESULT OVERLAY
+========================================================= */
 
 .overlay{
   position:fixed;
+
   inset:0;
+
   z-index:100;
+
   display:none;
+
   align-items:center;
   justify-content:center;
+
   padding:24px;
-  background:rgba(1,2,10,.82);
+
+  background:
+    rgba(1,2,10,.82);
+
   backdrop-filter:blur(10px);
 }
 
@@ -606,108 +1014,105 @@ button{
 }
 
 .overlay-box{
-  width:min(480px,100%);
-  padding:34px 24px;
+  width:
+    min(
+      480px,
+      100%
+    );
+
+  padding:
+    34px
+    24px;
+
   text-align:center;
+
   border-radius:28px;
-  border:1px solid rgba(75,240,255,.28);
+
+  border:
+    1px solid
+    rgba(75,240,255,.28);
+
   background:
     linear-gradient(
       145deg,
       rgba(11,20,48,.98),
       rgba(5,6,22,.98)
     );
+
   box-shadow:
-    0 0 60px rgba(20,220,255,.12);
+    0 0 60px
+    rgba(20,220,255,.12);
 }
 
 .overlay-title{
   font-size:38px;
+
   font-weight:1000;
+
   letter-spacing:2px;
 }
 
 .overlay-sub{
   margin-top:10px;
+
   color:#9296ad;
+
   line-height:1.6;
 }
 
 .overlay-score{
-  margin:24px 0;
+  margin:
+    24px 0;
+
   font-size:44px;
+
   font-weight:1000;
+
   color:#55efff;
 }
 
 .overlay-button{
   width:100%;
+
   min-height:54px;
+
   border:0;
+
   border-radius:18px;
+
   cursor:pointer;
+
   font-weight:900;
+
   letter-spacing:3px;
-  background:linear-gradient(100deg,#52efff,#a653ff);
+
+  background:
+    linear-gradient(
+      100deg,
+      #52efff,
+      #a653ff
+    );
+
   color:#07101f;
 }
 
-/* =========================
-   COUNTDOWN
-========================= */
 
-.countdown{
-  position:fixed;
-  inset:0;
-  z-index:90;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  pointer-events:none;
-  background:rgba(2,3,12,.5);
-}
-
-.countdown.show{
-  display:flex;
-}
-
-.countdown-number{
-  font-size:clamp(90px,28vw,220px);
-  font-weight:1000;
-  font-style:italic;
-  color:#fff;
-  text-shadow:
-    0 0 20px #4defff,
-    0 0 70px rgba(40,220,255,.8);
-  animation:countPop .75s ease-out;
-}
-
-@keyframes countPop{
-  0%{
-    opacity:0;
-    transform:scale(1.5);
-  }
-  30%{
-    opacity:1;
-  }
-  100%{
-    opacity:0;
-    transform:scale(.9);
-  }
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
+/* =========================================================
+   MOBILE
+========================================================= */
 
 @media(max-width:600px){
 
   .screen{
-    padding:28px 16px 40px;
+    padding:
+      28px
+      16px
+      40px;
   }
 
   .choose{
     margin-top:46px;
+
     font-size:17px;
   }
 
@@ -717,12 +1122,17 @@ button{
 
   .mode-card{
     min-height:160px;
-    padding:20px 18px;
+
+    padding:
+      20px
+      18px;
+
     border-radius:23px;
   }
 
   .mode-icon{
     font-size:32px;
+
     margin-bottom:20px;
   }
 
@@ -736,6 +1146,7 @@ button{
 
   .arena{
     min-height:430px;
+
     height:60vh;
   }
 
@@ -746,18 +1157,40 @@ button{
 
 }
 
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media(prefers-reduced-motion:reduce){
+
+  *,
+  *::before,
+  *::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+
+}
+
 </style>
 </head>
+
 
 <body>
 
 <div id="app">
 
-<!-- =========================
-     HOME
-========================= -->
 
-<section id="homeScreen" class="screen active">
+<!-- =======================================================
+     HOME
+======================================================= -->
+
+<section
+  id="homeScreen"
+  class="screen active"
+>
 
   <div class="home">
 
@@ -773,67 +1206,182 @@ button{
       CHOOSE YOUR BATTLE
     </div>
 
+
     <div class="mode-grid">
 
-      <button class="mode-card active speed" id="speedMode">
-        <div class="mode-status">30 LEVELS</div>
-        <div class="mode-icon">ϟ</div>
-        <div class="mode-name">SPEED</div>
+
+      <!-- SPEED -->
+
+      <button
+        id="speedMode"
+        class="mode-card active speed"
+        type="button"
+      >
+
+        <div class="mode-status">
+          30 LEVELS
+        </div>
+
+        <div class="mode-icon">
+          ϟ
+        </div>
+
+        <div class="mode-name">
+          SPEED
+        </div>
+
         <div class="mode-desc">
           Reaction · timing · pressure
         </div>
+
       </button>
 
-      <button class="mode-card locked memory">
-        <div class="mode-status">LOCKED</div>
-        <div class="mode-icon">▥</div>
-        <div class="mode-name">MEMORY</div>
+
+      <!-- MEMORY -->
+
+      <button
+        class="mode-card locked memory"
+        type="button"
+        disabled
+      >
+
+        <div class="mode-status">
+          LOCKED
+        </div>
+
+        <div class="mode-icon">
+          ▥
+        </div>
+
+        <div class="mode-name">
+          MEMORY
+        </div>
+
         <div class="mode-desc">
           Remember · adapt · repeat
         </div>
+
       </button>
 
-      <button class="mode-card locked observation">
-        <div class="mode-status">LOCKED</div>
-        <div class="mode-icon">◉</div>
-        <div class="mode-name">OBSERVATION</div>
+
+      <!-- OBSERVATION -->
+
+      <button
+        class="mode-card locked observation"
+        type="button"
+        disabled
+      >
+
+        <div class="mode-status">
+          LOCKED
+        </div>
+
+        <div class="mode-icon">
+          ◉
+        </div>
+
+        <div class="mode-name">
+          OBSERVATION
+        </div>
+
         <div class="mode-desc">
           Notice · compare · detect
         </div>
+
       </button>
 
-      <button class="mode-card locked precision">
-        <div class="mode-status">LOCKED</div>
-        <div class="mode-icon">◎</div>
-        <div class="mode-name">PRECISION</div>
+
+      <!-- PRECISION -->
+
+      <button
+        class="mode-card locked precision"
+        type="button"
+        disabled
+      >
+
+        <div class="mode-status">
+          LOCKED
+        </div>
+
+        <div class="mode-icon">
+          ◎
+        </div>
+
+        <div class="mode-name">
+          PRECISION
+        </div>
+
         <div class="mode-desc">
           Control · accuracy · focus
         </div>
+
       </button>
 
-      <button class="mode-card locked pattern">
-        <div class="mode-status">LOCKED</div>
-        <div class="mode-icon">▦</div>
-        <div class="mode-name">PATTERN</div>
+
+      <!-- PATTERN -->
+
+      <button
+        class="mode-card locked pattern"
+        type="button"
+        disabled
+      >
+
+        <div class="mode-status">
+          LOCKED
+        </div>
+
+        <div class="mode-icon">
+          ▦
+        </div>
+
+        <div class="mode-name">
+          PATTERN
+        </div>
+
         <div class="mode-desc">
           Sequence · logic · predict
         </div>
+
       </button>
 
-      <button class="mode-card locked trap">
-        <div class="mode-status">LOCKED</div>
-        <div class="mode-icon">△</div>
-        <div class="mode-name">TRAP</div>
+
+      <!-- TRAP -->
+
+      <button
+        class="mode-card locked trap"
+        type="button"
+        disabled
+      >
+
+        <div class="mode-status">
+          LOCKED
+        </div>
+
+        <div class="mode-icon">
+          △
+        </div>
+
+        <div class="mode-name">
+          TRAP
+        </div>
+
         <div class="mode-desc">
           Decoys · danger · instinct
         </div>
+
       </button>
 
     </div>
 
-    <button id="startBtn" class="start-button">
+
+    <button
+      id="startBtn"
+      class="start-button"
+      type="button"
+    >
       ⚡ &nbsp; START SPEED RUN
     </button>
+
 
     <div class="home-foot">
       30 LEVELS · 3 LIVES · BUILD YOUR STREAK
@@ -844,72 +1392,143 @@ button{
 </section>
 
 
-<!-- =========================
-     GAME
-========================= -->
 
-<section id="gameScreen" class="screen">
+<!-- =======================================================
+     GAME
+======================================================= -->
+
+<section
+  id="gameScreen"
+  class="screen"
+>
 
   <div class="game-shell">
 
+
     <div class="game-top">
 
-      <div class="stat">
-        <div class="stat-label">SCORE</div>
-        <div id="scoreValue" class="stat-value">0</div>
-      </div>
 
       <div class="stat">
-        <div class="stat-label">STREAK</div>
-        <div id="streakValue" class="stat-value">0</div>
+
+        <div class="stat-label">
+          SCORE
+        </div>
+
+        <div
+          id="scoreValue"
+          class="stat-value"
+        >
+          0
+        </div>
+
       </div>
 
+
       <div class="stat">
-        <div class="stat-label">BEST</div>
-        <div id="bestValue" class="stat-value">0</div>
+
+        <div class="stat-label">
+          STREAK
+        </div>
+
+        <div
+          id="streakValue"
+          class="stat-value"
+        >
+          0
+        </div>
+
+      </div>
+
+
+      <div class="stat">
+
+        <div class="stat-label">
+          BEST
+        </div>
+
+        <div
+          id="bestValue"
+          class="stat-value"
+        >
+          0
+        </div>
+
       </div>
 
     </div>
+
 
     <div class="level-row">
 
-      <div id="levelNumber" class="level-number">
+
+      <div
+        id="levelNumber"
+        class="level-number"
+      >
         LEVEL 1 / 30
       </div>
 
-      <div id="lives" class="lives">
+
+      <div
+        id="lives"
+        class="lives"
+      >
+
         <div class="life"></div>
         <div class="life"></div>
         <div class="life"></div>
+
       </div>
 
     </div>
 
+
     <div class="instruction">
+
 
       <div class="instruction-small">
         SPEED CHALLENGE
       </div>
 
-      <div id="instructionMain" class="instruction-main">
+
+      <div
+        id="instructionMain"
+        class="instruction-main"
+      >
         GET READY
       </div>
 
-      <div id="instructionState" class="instruction-state">
-        READ THE RULE
+
+      <div
+        id="instructionState"
+        class="instruction-state"
+      >
+        PREPARE YOUR BRAIN
       </div>
 
     </div>
 
-    <div id="arena" class="arena">
 
-      <div id="feedback" class="feedback"></div>
+    <div
+      id="arena"
+      class="arena"
+    >
+
+      <div
+        id="feedback"
+        class="feedback"
+      ></div>
 
     </div>
 
+
     <div class="game-bottom">
 
-      <button id="quitBtn" class="game-button">
+      <button
+        id="quitBtn"
+        class="game-button"
+        type="button"
+      >
         QUIT RUN
       </button>
 
@@ -920,38 +1539,68 @@ button{
 </section>
 
 
-<!-- =========================
-     COUNTDOWN
-========================= -->
 
-<div id="countdown" class="countdown">
-  <div id="countdownNumber" class="countdown-number">
+<!-- =======================================================
+     COUNTDOWN
+======================================================= -->
+
+<div
+  id="countdown"
+  class="countdown"
+>
+
+  <div
+    id="countdownNumber"
+    class="countdown-number"
+  >
     3
   </div>
+
 </div>
 
 
-<!-- =========================
-     RESULT OVERLAY
-========================= -->
 
-<div id="overlay" class="overlay">
+<!-- =======================================================
+     RESULT
+======================================================= -->
+
+<div
+  id="overlay"
+  class="overlay"
+>
 
   <div class="overlay-box">
 
-    <div id="overlayTitle" class="overlay-title">
+
+    <div
+      id="overlayTitle"
+      class="overlay-title"
+    >
       RUN COMPLETE
     </div>
 
-    <div id="overlaySub" class="overlay-sub">
+
+    <div
+      id="overlaySub"
+      class="overlay-sub"
+    >
       You survived the rush.
     </div>
 
-    <div id="overlayScore" class="overlay-score">
+
+    <div
+      id="overlayScore"
+      class="overlay-score"
+    >
       0
     </div>
 
-    <button id="againBtn" class="overlay-button">
+
+    <button
+      id="againBtn"
+      class="overlay-button"
+      type="button"
+    >
       RUN AGAIN
     </button>
 
@@ -960,71 +1609,117 @@ button{
 </div>
 
 
+
 <script>
 
 /* =========================================================
-   BRAIN RUSH
-   SPEED MODE
+   DOM HELPER
 ========================================================= */
 
-const $ = id =>
-  document.getElementById(id);
-
-
-/* =========================
-   GAME STATE
-========================= */
-
-const TOTAL_LEVELS = 30;
-
-let level = 1;
-let score = 0;
-let streak = 0;
-let lives = 3;
-
-let levelStarted = 0;
-
-let timer = null;
-let animation = null;
-
-let challengeActive = false;
-let starting = false;
-
-let best =
-  Number(localStorage.getItem("brainRushBest") || 0);
-
-
-/* =========================
-   LEVEL TYPES
-========================= */
-
-function levelType(n){
-
-  if(n <= 3) return "reaction";
-
-  if(n <= 6) return "rapid";
-
-  if(n <= 9) return "avoid";
-
-  if(n <= 13) return "moving";
-
-  if(n <= 17) return "sequence";
-
-  if(n <= 21) return "precision";
-
-  if(n <= 24) return "reaction";
-
-  if(n <= 26) return "rapid";
-
-  if(n <= 28) return "moving";
-
-  return "precision";
+function $(id){
+  return document.getElementById(id);
 }
 
 
-/* =========================
+/* =========================================================
+   CONSTANTS
+========================================================= */
+
+const TOTAL_LEVELS = 30;
+
+const READING_TIME_NEW = 1000;
+
+const READING_TIME_SAME = 300;
+
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let level = 1;
+
+let score = 0;
+
+let streak = 0;
+
+let lives = 3;
+
+let best = 0;
+
+let timer = null;
+
+let animationFrame = null;
+
+let challengeActive = false;
+
+let runStarting = false;
+
+let lastChallengeType = null;
+
+let challengeToken = 0;
+
+
+/* =========================================================
+   BEST SCORE
+========================================================= */
+
+try{
+
+  best =
+    Number(
+      localStorage.getItem(
+        "brainRushBest"
+      )
+    ) || 0;
+
+}catch(error){
+
+  best = 0;
+
+}
+
+
+/* =========================================================
+   LEVEL TYPE
+========================================================= */
+
+function levelType(n){
+
+  if(n <= 3)
+    return "reaction";
+
+  if(n <= 6)
+    return "rapid";
+
+  if(n <= 9)
+    return "avoid";
+
+  if(n <= 13)
+    return "moving";
+
+  if(n <= 17)
+    return "sequence";
+
+  if(n <= 21)
+    return "precision";
+
+  if(n <= 24)
+    return "reaction";
+
+  if(n <= 26)
+    return "rapid";
+
+  if(n <= 28)
+    return "moving";
+
+  return "precision";
+
+}
+
+
+/* =========================================================
    LEVEL NAMES
-========================= */
+========================================================= */
 
 function levelName(n){
 
@@ -1072,13 +1767,17 @@ function levelName(n){
 
   };
 
-  return names[n] || "SPEED CHALLENGE";
+  return (
+    names[n] ||
+    "SPEED CHALLENGE"
+  );
+
 }
 
 
-/* =========================
+/* =========================================================
    INSTRUCTIONS
-========================= */
+========================================================= */
 
 function instructionFor(type){
 
@@ -1089,7 +1788,7 @@ function instructionFor(type){
     return "TAP EVERY TARGET";
 
   if(type === "avoid")
-    return "TAP THE BLUE — AVOID RED";
+    return "TAP BLUE · AVOID RED";
 
   if(type === "moving")
     return "TAP THE MOVING TARGET";
@@ -1101,58 +1800,79 @@ function instructionFor(type){
     return "HIT THE TARGET WHEN IT APPEARS";
 
   return "TAP THE TARGET";
+
 }
 
 
-/* =========================
+/* =========================================================
    HUD
-========================= */
+========================================================= */
 
 function updateHUD(){
 
   $("scoreValue").textContent =
-    score;
+    String(score);
 
   $("streakValue").textContent =
-    streak;
+    String(streak);
 
   $("bestValue").textContent =
-    best;
+    String(best);
 
   $("levelNumber").textContent =
-    "LEVEL " + level + " / " + TOTAL_LEVELS;
+    "LEVEL " +
+    level +
+    " / " +
+    TOTAL_LEVELS;
 
-  const lifeEls =
-    document.querySelectorAll(".life");
 
-  lifeEls.forEach(
-    (el,index)=>{
-      el.classList.toggle(
-        "off",
-        index >= lives
-      );
-    }
-  );
+  document
+    .querySelectorAll(".life")
+    .forEach(
+      (life,index)=>{
+
+        life.classList.toggle(
+          "off",
+          index >= lives
+        );
+
+      }
+    );
+
 }
 
 
-/* =========================
-   CLEAR
-========================= */
+/* =========================================================
+   CLEAR TIMERS
+========================================================= */
 
 function clearTimers(){
 
-  if(timer){
+  if(timer !== null){
+
     clearTimeout(timer);
+
     timer = null;
+
   }
 
-  if(animation){
-    cancelAnimationFrame(animation);
-    animation = null;
+
+  if(animationFrame !== null){
+
+    cancelAnimationFrame(
+      animationFrame
+    );
+
+    animationFrame = null;
+
   }
 
 }
+
+
+/* =========================================================
+   CLEAR TARGETS
+========================================================= */
 
 function clearTargets(){
 
@@ -1161,15 +1881,17 @@ function clearTargets(){
       ".target,.sequence-dot"
     )
     .forEach(
-      el => el.remove()
+      element=>{
+        element.remove();
+      }
     );
 
 }
 
 
-/* =========================
-   ARENA POSITION
-========================= */
+/* =========================================================
+   RANDOM POSITION
+========================================================= */
 
 function randomPosition(){
 
@@ -1179,65 +1901,84 @@ function randomPosition(){
   const rect =
     arena.getBoundingClientRect();
 
-  const padding = 55;
+  const padding = 65;
+
+  const width =
+    Math.max(
+      80,
+      rect.width - padding * 2
+    );
+
+  const height =
+    Math.max(
+      80,
+      rect.height - padding * 2
+    );
 
   return {
 
     x:
       padding +
       Math.random() *
-      Math.max(
-        20,
-        rect.width - padding * 2
-      ),
+      width,
 
     y:
       padding +
       Math.random() *
-      Math.max(
-        20,
-        rect.height - padding * 2
-      )
+      height
 
   };
 
 }
 
 
-/* =========================
+/* =========================================================
    PARTICLES
-========================= */
+========================================================= */
 
 function particles(x,y){
 
   for(let i=0;i<12;i++){
 
-    const p =
-      document.createElement("div");
+    const particle =
+      document.createElement(
+        "div"
+      );
 
-    p.className =
+    particle.className =
       "particle";
 
-    p.style.left =
+    particle.style.left =
       x + "px";
 
-    p.style.top =
+    particle.style.top =
       y + "px";
 
-    p.style.setProperty(
+    particle.style.setProperty(
       "--x",
-      ((Math.random()-.5)*150)+"px"
+      (
+        (Math.random() - .5) *
+        150
+      ) + "px"
     );
 
-    p.style.setProperty(
+    particle.style.setProperty(
       "--y",
-      ((Math.random()-.5)*150)+"px"
+      (
+        (Math.random() - .5) *
+        150
+      ) + "px"
     );
 
-    $("arena").appendChild(p);
+    $("arena")
+      .appendChild(
+        particle
+      );
 
     setTimeout(
-      ()=>p.remove(),
+      ()=>{
+        particle.remove();
+      },
       700
     );
 
@@ -1246,25 +1987,32 @@ function particles(x,y){
 }
 
 
-/* =========================
+/* =========================================================
    FEEDBACK
-========================= */
+========================================================= */
 
-function feedback(text,good=true){
+function showFeedback(
+  text,
+  good
+){
 
-  const el =
+  const element =
     $("feedback");
 
-  el.textContent =
+  element.textContent =
     text;
 
-  el.className =
+  element.className =
     "feedback show " +
-    (good ? "good" : "bad");
+    (
+      good
+      ? "good"
+      : "bad"
+    );
 
   setTimeout(
     ()=>{
-      el.className =
+      element.className =
         "feedback";
     },
     600
@@ -1273,123 +2021,16 @@ function feedback(text,good=true){
 }
 
 
-/* =========================
-   SUCCESS
-========================= */
-
-function success(points=100){
-
-  if(!challengeActive)
-    return;
-
-  challengeActive =
-    false;
-
-  clearTimers();
-
-  streak++;
-
-  const multiplier =
-    1 + Math.min(streak * .1,2);
-
-  const gained =
-    Math.round(points * multiplier);
-
-  score += gained;
-
-  if(score > best){
-
-    best = score;
-
-    localStorage.setItem(
-      "brainRushBest",
-      best
-    );
-
-  }
-
-  feedback(
-    "+" + gained,
-    true
-  );
-
-  updateHUD();
-
-  if(level >= TOTAL_LEVELS){
-
-    timer =
-      setTimeout(
-        finishRun,
-        650
-      );
-
-    return;
-  }
-
-  level++;
-
-  timer =
-    setTimeout(
-      startLevel,
-      750
-    );
-
-}
-
-
-/* =========================
-   FAILURE
-========================= */
-
-function fail(reason){
-
-  if(!challengeActive)
-    return;
-
-  challengeActive =
-    false;
-
-  clearTimers();
-
-  lives--;
-
-  streak = 0;
-
-  feedback(
-    reason || "MISS",
-    false
-  );
-
-  updateHUD();
-
-  if(lives <= 0){
-
-    timer =
-      setTimeout(
-        gameOver,
-        650
-      );
-
-    return;
-  }
-
-  timer =
-    setTimeout(
-      startLevel,
-      900
-    );
-
-}
-
-
-/* =========================
+/* =========================================================
    CREATE TARGET
-========================= */
+========================================================= */
 
-function createTarget(options={}){
+function createTarget(options = {}){
 
   const target =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   target.className =
     "target";
@@ -1400,94 +2041,272 @@ function createTarget(options={}){
   if(options.danger)
     target.classList.add("danger");
 
-  const pos =
+  const position =
     randomPosition();
 
   target.style.left =
-    pos.x + "px";
+    position.x + "px";
 
   target.style.top =
-    pos.y + "px";
+    position.y + "px";
 
-  $("arena").appendChild(target);
+  $("arena")
+    .appendChild(
+      target
+    );
 
-  target.addEventListener(
-    "pointerdown",
-    e=>{
+  return {
+    element:target,
+    x:position.x,
+    y:position.y
+  };
 
-      e.preventDefault();
+}
 
-      if(!challengeActive)
-        return;
 
-      particles(
-        pos.x,
-        pos.y
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+function success(
+  points,
+  token
+){
+
+  if(
+    !challengeActive ||
+    token !== challengeToken
+  ){
+    return;
+  }
+
+  challengeActive =
+    false;
+
+  clearTimers();
+
+  clearTargets();
+
+  streak++;
+
+  const multiplier =
+    1 +
+    Math.min(
+      streak * .1,
+      2
+    );
+
+  const gained =
+    Math.round(
+      points *
+      multiplier
+    );
+
+  score += gained;
+
+  if(score > best){
+
+    best = score;
+
+    try{
+
+      localStorage.setItem(
+        "brainRushBest",
+        String(best)
       );
 
-      if(options.danger){
+    }catch(error){}
 
-        fail("WRONG TARGET");
+  }
 
-      }else{
+  showFeedback(
+    "+" + gained,
+    true
+  );
 
-        success(
-          options.points || 100
-        );
+  updateHUD();
 
+
+  if(level >= TOTAL_LEVELS){
+
+    timer =
+      setTimeout(
+        finishRun,
+        600
+      );
+
+    return;
+
+  }
+
+
+  level++;
+
+  timer =
+    setTimeout(
+      startLevel,
+      600
+    );
+
+}
+
+
+/* =========================================================
+   FAILURE
+========================================================= */
+
+function fail(
+  reason,
+  token
+){
+
+  if(
+    !challengeActive ||
+    token !== challengeToken
+  ){
+    return;
+  }
+
+  challengeActive =
+    false;
+
+  clearTimers();
+
+  clearTargets();
+
+  lives--;
+
+  streak = 0;
+
+  showFeedback(
+    reason || "MISS",
+    false
+  );
+
+  updateHUD();
+
+
+  if(lives <= 0){
+
+    timer =
+      setTimeout(
+        gameOver,
+        600
+      );
+
+    return;
+
+  }
+
+
+  level++;
+
+  if(level > TOTAL_LEVELS){
+
+    finishRun();
+
+    return;
+
+  }
+
+
+  timer =
+    setTimeout(
+      startLevel,
+      750
+    );
+
+}
+
+
+/* =========================================================
+   REACTION
+========================================================= */
+
+function reaction(){
+
+  const token =
+    challengeToken;
+
+  challengeActive =
+    true;
+
+  $("instructionState")
+    .textContent =
+    "GO!";
+
+
+  const result =
+    createTarget({
+      small:
+        level >= 18,
+
+      points:
+        110 +
+        level * 5
+    });
+
+
+  const timeout =
+    Math.max(
+      950,
+      2300 -
+      level * 42
+    );
+
+
+  result.element.addEventListener(
+    "pointerdown",
+    event=>{
+
+      event.preventDefault();
+
+      if(
+        !challengeActive ||
+        token !== challengeToken
+      ){
+        return;
       }
+
+      particles(
+        result.x,
+        result.y
+      );
+
+      success(
+        110 +
+        level * 5,
+        token
+      );
 
     }
   );
 
-  return target;
-}
-
-
-/* =========================
-   REACTION
-========================= */
-
-function reaction(){
-
-  challengeActive =
-    true;
-
-  $("instructionState")
-    .textContent =
-    "GO!";
-
-  const target =
-    createTarget({
-      points:
-        110 + level * 5,
-      small:
-        level >= 18
-    });
-
-  const difficulty =
-    Math.max(
-      900,
-      2300 - level * 42
-    );
 
   timer =
     setTimeout(
       ()=>{
-        if(challengeActive)
-          fail("TOO SLOW");
+
+        fail(
+          "TOO SLOW",
+          token
+        );
+
       },
-      difficulty
+      timeout
     );
 
 }
 
 
-/* =========================
+/* =========================================================
    RAPID FIRE
-========================= */
+========================================================= */
 
 function rapid(){
+
+  const token =
+    challengeToken;
 
   challengeActive =
     true;
@@ -1496,82 +2315,144 @@ function rapid(){
     .textContent =
     "GO!";
 
+
   let remaining =
     Math.min(
-      2 + Math.floor((level-4)/2),
+      2 +
+      Math.floor(
+        (level - 4) / 2
+      ),
       5
     );
+
 
   const total =
     remaining;
 
-  function next(){
 
-    if(!challengeActive)
+  let targetTimer =
+    null;
+
+
+  function spawn(){
+
+    if(
+      !challengeActive ||
+      token !== challengeToken
+    ){
       return;
+    }
+
 
     if(remaining <= 0){
 
       success(
-        130 + total * 25
+        130 +
+        total * 25,
+        token
       );
 
       return;
+
     }
 
-    const target =
+
+    const result =
       createTarget({
-        points:90
+        small:
+          level >= 20
       });
+
 
     const timeout =
       Math.max(
-        750,
-        1500 - level * 25
+        850,
+        1550 -
+        level * 25
       );
 
-    timer =
+
+    function hit(event){
+
+      event.preventDefault();
+
+      if(
+        !challengeActive ||
+        token !== challengeToken
+      ){
+        return;
+      }
+
+      clearTimeout(
+        targetTimer
+      );
+
+      particles(
+        result.x,
+        result.y
+      );
+
+      result.element.remove();
+
+      remaining--;
+
+      if(remaining <= 0){
+
+        success(
+          130 +
+          total * 25,
+          token
+        );
+
+      }else{
+
+        timer =
+          setTimeout(
+            spawn,
+            70
+          );
+
+      }
+
+    }
+
+
+    result.element.addEventListener(
+      "pointerdown",
+      hit,
+      {once:true}
+    );
+
+
+    targetTimer =
       setTimeout(
         ()=>{
-          if(challengeActive)
-            fail("TOO SLOW");
+
+          fail(
+            "TOO SLOW",
+            token
+          );
+
         },
         timeout
       );
 
-    target.addEventListener(
-      "pointerdown",
-      ()=>{
-        if(challengeActive){
-          remaining--;
-          clearTimeout(timer);
-
-          if(remaining > 0){
-            setTimeout(
-              ()=>{
-                clearTargets();
-                next();
-              },
-              80
-            );
-          }
-        }
-      },
-      {once:true}
-    );
-
   }
 
-  next();
+
+  spawn();
 
 }
 
 
-/* =========================
+/* =========================================================
    AVOID
-========================= */
+========================================================= */
 
 function avoid(){
+
+  const token =
+    challengeToken;
 
   challengeActive =
     true;
@@ -1580,41 +2461,101 @@ function avoid(){
     .textContent =
     "BLUE = GOOD · RED = BAD";
 
-  const good =
+
+  const blue =
     createTarget({
-      points:
-        130 + level * 4,
       small:
-        level >= 20
+        level >= 18
     });
 
-  const danger =
+
+  const red =
     createTarget({
       danger:true
     });
 
+
+  blue.element.addEventListener(
+    "pointerdown",
+    event=>{
+
+      event.preventDefault();
+
+      if(
+        !challengeActive ||
+        token !== challengeToken
+      ){
+        return;
+      }
+
+      particles(
+        blue.x,
+        blue.y
+      );
+
+      success(
+        140 +
+        level * 4,
+        token
+      );
+
+    },
+    {once:true}
+  );
+
+
+  red.element.addEventListener(
+    "pointerdown",
+    event=>{
+
+      event.preventDefault();
+
+      if(
+        !challengeActive ||
+        token !== challengeToken
+      ){
+        return;
+      }
+
+      fail(
+        "WRONG TARGET",
+        token
+      );
+
+    },
+    {once:true}
+  );
+
+
   timer =
     setTimeout(
       ()=>{
-        if(challengeActive)
-          success(
-            140 + level * 4
-          );
+
+        success(
+          140 +
+          level * 4,
+          token
+        );
+
       },
       Math.max(
         1300,
-        2200 - level * 30
+        2200 -
+        level * 30
       )
     );
 
 }
 
 
-/* =========================
-   MOVING
-========================= */
+/* =========================================================
+   MOVING TARGET
+========================================================= */
 
 function moving(){
+
+  const token =
+    challengeToken;
 
   challengeActive =
     true;
@@ -1623,34 +2564,58 @@ function moving(){
     .textContent =
     "TRACK IT";
 
-  const target =
+
+  const result =
     createTarget({
-      points:
-        150 + level * 5,
       small:
         level >= 20
     });
 
-  target.classList.add(
-    "moving"
-  );
 
-  let start =
+  result.element
+    .classList
+    .add("moving");
+
+
+  const arena =
+    $("arena");
+
+  const rect =
+    arena.getBoundingClientRect();
+
+
+  const duration =
+    Math.max(
+      1400,
+      2500 -
+      level * 40
+    );
+
+
+  const radius =
+    Math.min(
+      rect.width,
+      rect.height
+    ) * .30;
+
+
+  const start =
     performance.now();
 
-  let duration =
-    Math.max(
-      1200,
-      2500 - level * 45
-    );
 
   function animate(now){
 
-    if(!challengeActive)
+    if(
+      !challengeActive ||
+      token !== challengeToken
+    ){
       return;
+    }
+
 
     const elapsed =
       now - start;
+
 
     const progress =
       Math.min(
@@ -1658,68 +2623,114 @@ function moving(){
         1
       );
 
-    const arena =
-      $("arena");
-
-    const rect =
-      arena.getBoundingClientRect();
-
-    const radius =
-      Math.min(
-        rect.width,
-        rect.height
-      ) * .32;
 
     const angle =
       progress *
       Math.PI *
-      (2 + level*.05);
+      (
+        2 +
+        level * .045
+      );
+
 
     const x =
-      rect.width/2 +
+      rect.width / 2 +
       Math.cos(angle) *
       radius;
 
+
     const y =
-      rect.height/2 +
-      Math.sin(angle*1.15) *
+      rect.height / 2 +
+      Math.sin(angle * 1.15) *
       radius;
 
-    target.style.left =
+
+    result.element.style.left =
       x + "px";
 
-    target.style.top =
+    result.element.style.top =
       y + "px";
 
-    animation =
+
+    animationFrame =
       requestAnimationFrame(
         animate
       );
 
   }
 
-  animation =
+
+  result.element.addEventListener(
+    "pointerdown",
+    event=>{
+
+      event.preventDefault();
+
+      if(
+        !challengeActive ||
+        token !== challengeToken
+      ){
+        return;
+      }
+
+      particles(
+        parseFloat(
+          result.element.style.left
+        ),
+        parseFloat(
+          result.element.style.top
+        )
+      );
+
+      success(
+        150 +
+        level * 5,
+        token
+      );
+
+    },
+    {once:true}
+  );
+
+
+  animationFrame =
     requestAnimationFrame(
       animate
     );
 
+
   timer =
     setTimeout(
       ()=>{
-        if(challengeActive)
-          fail("MISSED IT");
+
+        fail(
+          "MISSED IT",
+          token
+        );
+
       },
-      duration + 700
+      duration + 650
     );
 
 }
 
 
-/* =========================
+/* =========================================================
    SEQUENCE
-========================= */
+========================================================= */
 
 function sequence(){
+
+  const token =
+    challengeToken;
+
+  /*
+   * The instruction has already
+   * been shown during startLevel().
+   *
+   * Now briefly show the actual
+   * sequence to memorise.
+   */
 
   challengeActive =
     false;
@@ -1728,104 +2739,145 @@ function sequence(){
     .textContent =
     "MEMORISE THE ORDER";
 
+
   const count =
     Math.min(
-      2 + Math.floor((level-14)/2),
+      2 +
+      Math.floor(
+        (level - 14) / 2
+      ),
       5
     );
 
+
   const dots = [];
 
-  for(let i=0;i<count;i++){
 
-    const pos =
+  for(
+    let i = 0;
+    i < count;
+    i++
+  ){
+
+    const position =
       randomPosition();
 
+
     const dot =
-      document.createElement("div");
+      document.createElement(
+        "div"
+      );
 
     dot.className =
       "sequence-dot";
 
     dot.textContent =
-      i + 1;
+      String(i + 1);
 
     dot.style.left =
-      pos.x + "px";
+      position.x + "px";
 
     dot.style.top =
-      pos.y + "px";
+      position.y + "px";
 
-    $("arena").appendChild(dot);
 
-    dots.push(dot);
+    $("arena")
+      .appendChild(
+        dot
+      );
+
+
+    dots.push({
+      element:dot,
+      x:position.x,
+      y:position.y,
+      number:i + 1
+    });
 
   }
+
 
   timer =
     setTimeout(
       ()=>{
-        clearTargets();
+
+        if(token !== challengeToken)
+          return;
+
+
+        dots.forEach(
+          dot=>{
+            dot.element.style.opacity =
+              "0.18";
+          }
+        );
+
+
+        let expected = 1;
 
         challengeActive =
           true;
+
 
         $("instructionState")
           .textContent =
           "NOW TAP 1 → 2 → 3";
 
-        let expected =
-          1;
-
-        dots.forEach(
-          (dot,index)=>{
-
-            dot.style.left =
-              dot.dataset.x;
-
-          }
-        );
 
         dots.forEach(
           dot=>{
 
-            dot.style.display =
-              "flex";
-
-            dot.addEventListener(
+            dot.element.addEventListener(
               "pointerdown",
-              e=>{
+              event=>{
 
-                e.preventDefault();
+                event.preventDefault();
 
-                if(!challengeActive)
+                if(
+                  !challengeActive ||
+                  token !== challengeToken
+                ){
                   return;
+                }
 
-                const number =
-                  Number(
-                    dot.textContent
+
+                if(
+                  dot.number !== expected
+                ){
+
+                  fail(
+                    "WRONG ORDER",
+                    token
                   );
 
-                if(number !== expected){
-
-                  fail("WRONG ORDER");
                   return;
 
                 }
 
+
                 particles(
-                  parseFloat(dot.style.left),
-                  parseFloat(dot.style.top)
+                  parseFloat(
+                    dot.element.style.left
+                  ),
+                  parseFloat(
+                    dot.element.style.top
+                  )
                 );
 
-                dot.remove();
+
+                dot.element.remove();
 
                 expected++;
 
-                if(expected > count){
+
+                if(
+                  expected > count
+                ){
 
                   success(
-                    180 + level * 6
+                    180 +
+                    level * 6,
+                    token
                   );
 
                 }
@@ -1833,21 +2885,41 @@ function sequence(){
               }
             );
 
-          }
-        );
+          });
+
+
+        timer =
+          setTimeout(
+            ()=>{
+
+              fail(
+                "TOO SLOW",
+                token
+              );
+
+            },
+            Math.max(
+              1800,
+              3200 -
+              level * 35
+            )
+          );
 
       },
-      1100
+      850
     );
 
 }
 
 
-/* =========================
+/* =========================================================
    PRECISION
-========================= */
+========================================================= */
 
 function precision(){
+
+  const token =
+    challengeToken;
 
   challengeActive =
     true;
@@ -1856,24 +2928,59 @@ function precision(){
     .textContent =
     "HIT THE CORE";
 
-  const target =
+
+  const result =
     createTarget({
-      points:
-        170 + level * 7,
       small:true
     });
 
+
   const timeout =
     Math.max(
-      900,
-      1900 - level * 30
+      1000,
+      2000 -
+      level * 28
     );
+
+
+  result.element.addEventListener(
+    "pointerdown",
+    event=>{
+
+      event.preventDefault();
+
+      if(
+        !challengeActive ||
+        token !== challengeToken
+      ){
+        return;
+      }
+
+      particles(
+        result.x,
+        result.y
+      );
+
+      success(
+        170 +
+        level * 7,
+        token
+      );
+
+    },
+    {once:true}
+  );
+
 
   timer =
     setTimeout(
       ()=>{
-        if(challengeActive)
-          fail("TOO SLOW");
+
+        fail(
+          "TOO SLOW",
+          token
+        );
+
       },
       timeout
     );
@@ -1881,21 +2988,37 @@ function precision(){
 }
 
 
-/* =========================
-   READING PHASE
-========================= */
+/* =========================================================
+   START LEVEL
+========================================================= */
 
 function startLevel(){
 
   clearTimers();
+
   clearTargets();
 
   challengeActive =
     false;
 
-  $("arena")
-    .classList
-    .add("reading");
+  challengeToken++;
+
+
+  const currentToken =
+    challengeToken;
+
+
+  const type =
+    levelType(level);
+
+
+  const instruction =
+    instructionFor(type);
+
+
+  const isNewMechanic =
+    type !== lastChallengeType;
+
 
   $("levelNumber")
     .textContent =
@@ -1904,78 +3027,133 @@ function startLevel(){
     " / " +
     TOTAL_LEVELS;
 
-  const type =
-    levelType(level);
 
   $("instructionMain")
     .textContent =
-    instructionFor(type);
+    instruction;
+
 
   $("instructionState")
     .textContent =
-    "READ THE RULE";
+    isNewMechanic
+      ? "READ THE RULE"
+      : "GET READY";
+
 
   updateHUD();
 
+
+  if(isNewMechanic){
+
+    $("arena")
+      .classList
+      .add("reading");
+
+  }else{
+
+    $("arena")
+      .classList
+      .remove("reading");
+
+  }
+
+
   /*
-   * IMPORTANT:
+   * New mechanic:
+   * 1 second.
    *
-   * No target.
-   * No challenge timer.
-   * No life can be lost.
-   *
-   * The player gets the full
-   * 2 seconds to read.
+   * Existing mechanic:
+   * 0.3 second.
    */
+
+  const delay =
+    isNewMechanic
+      ? READING_TIME_NEW
+      : READING_TIME_SAME;
+
+
+  lastChallengeType =
+    type;
+
 
   timer =
     setTimeout(
       ()=>{
 
+        if(
+          currentToken !==
+          challengeToken
+        ){
+          return;
+        }
+
+
         $("arena")
           .classList
           .remove("reading");
+
 
         $("instructionState")
           .textContent =
           "GO!";
 
+
         /*
-         * Challenge timer begins
-         * only after reading phase.
+         * IMPORTANT:
+         *
+         * The actual challenge
+         * begins HERE.
+         *
+         * Therefore the reading
+         * period never counts.
          */
 
-        levelStarted =
-          performance.now();
+        if(type === "reaction"){
 
-        if(type === "reaction")
           reaction();
 
-        else if(type === "rapid")
+        }
+
+        else if(type === "rapid"){
+
           rapid();
 
-        else if(type === "avoid")
+        }
+
+        else if(type === "avoid"){
+
           avoid();
 
-        else if(type === "moving")
+        }
+
+        else if(type === "moving"){
+
           moving();
 
-        else if(type === "sequence")
+        }
+
+        else if(type === "sequence"){
+
           sequence();
 
-        else
+        }
+
+        else{
+
           precision();
 
+        }
+
       },
-      2000
+      delay
     );
 
 }
 
 
-/* =========================
+/* =========================================================
    COUNTDOWN
-========================= */
+========================================================= */
 
 function countdown(done){
 
@@ -1985,121 +3163,172 @@ function countdown(done){
   const number =
     $("countdownNumber");
 
-  overlay.classList.add("show");
 
-  let n = 3;
+  overlay
+    .classList
+    .add("show");
+
+
+  let current = 3;
+
 
   function tick(){
 
-    if(n === 0){
+    if(current === 0){
 
       number.textContent =
         "GO!";
 
-      number.style.color =
-        "#5dfffa";
 
       setTimeout(
         ()=>{
-          overlay.classList.remove("show");
-          number.style.color = "";
+
+          overlay
+            .classList
+            .remove("show");
+
           done();
+
         },
-        450
+        400
       );
 
+
       return;
+
     }
 
+
     number.textContent =
-      n;
+      String(current);
+
 
     number.style.animation =
       "none";
 
+
     void number.offsetWidth;
+
 
     number.style.animation =
       "countPop .75s ease-out";
 
-    n--;
+
+    current--;
+
 
     setTimeout(
       tick,
-      750
+      700
     );
 
   }
+
 
   tick();
 
 }
 
 
-/* =========================
+/* =========================================================
    START RUN
-========================= */
+========================================================= */
 
 function startRun(){
 
-  if(starting)
+  if(runStarting)
     return;
 
-  starting =
+
+  runStarting =
     true;
+
+
+  clearTimers();
+
+  clearTargets();
+
+
+  challengeActive =
+    false;
+
+
+  lastChallengeType =
+    null;
+
+
+  challengeToken++;
+
+
+  level = 1;
+
+  score = 0;
+
+  streak = 0;
+
+  lives = 3;
+
 
   $("overlay")
     .classList
     .remove("show");
 
+
   $("homeScreen")
     .classList
     .remove("active");
+
 
   $("gameScreen")
     .classList
     .add("active");
 
-  clearTimers();
-  clearTargets();
-
-  level = 1;
-  score = 0;
-  streak = 0;
-  lives = 3;
 
   updateHUD();
+
 
   $("instructionMain")
     .textContent =
     "GET READY";
 
+
   $("instructionState")
     .textContent =
     "PREPARE YOUR BRAIN";
 
+
   countdown(
     ()=>{
-      starting = false;
+
+      runStarting =
+        false;
+
       startLevel();
+
     }
   );
 
 }
 
 
-/* =========================
+/* =========================================================
    GAME OVER
-========================= */
+========================================================= */
 
 function gameOver(){
 
   clearTimers();
+
   clearTargets();
+
+  challengeActive =
+    false;
+
 
   $("overlayTitle")
     .textContent =
     "RUN OVER";
+
 
   $("overlaySub")
     .textContent =
@@ -2107,9 +3336,11 @@ function gameOver(){
     level +
     ". Build your streak and try again.";
 
+
   $("overlayScore")
     .textContent =
-    score;
+    String(score);
+
 
   $("overlay")
     .classList
@@ -2118,26 +3349,34 @@ function gameOver(){
 }
 
 
-/* =========================
+/* =========================================================
    FINISH
-========================= */
+========================================================= */
 
 function finishRun(){
 
   clearTimers();
+
   clearTargets();
+
+  challengeActive =
+    false;
+
 
   $("overlayTitle")
     .textContent =
     "BRAIN RUSH COMPLETE";
 
+
   $("overlaySub")
     .textContent =
     "30 levels survived. Your brain is officially warmed up.";
 
+
   $("overlayScore")
     .textContent =
-    score;
+    String(score);
+
 
   $("overlay")
     .classList
@@ -2146,9 +3385,56 @@ function finishRun(){
 }
 
 
-/* =========================
-   HOME / BUTTONS
-========================= */
+/* =========================================================
+   QUIT
+========================================================= */
+
+function quitRun(){
+
+  clearTimers();
+
+  clearTargets();
+
+
+  challengeActive =
+    false;
+
+  runStarting =
+    false;
+
+
+  challengeToken++;
+
+
+  $("countdown")
+    .classList
+    .remove("show");
+
+
+  $("overlay")
+    .classList
+    .remove("show");
+
+
+  $("gameScreen")
+    .classList
+    .remove("active");
+
+
+  $("homeScreen")
+    .classList
+    .add("active");
+
+
+  lastChallengeType =
+    null;
+
+}
+
+
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 $("speedMode")
   .addEventListener(
@@ -2156,11 +3442,13 @@ $("speedMode")
     startRun
   );
 
+
 $("startBtn")
   .addEventListener(
     "click",
     startRun
   );
+
 
 $("againBtn")
   .addEventListener(
@@ -2168,50 +3456,47 @@ $("againBtn")
     startRun
   );
 
+
 $("quitBtn")
   .addEventListener(
     "click",
-    ()=>{
+    quitRun
+  );
+
+
+/* =========================================================
+   VISIBILITY SAFETY
+========================================================= */
+
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+
+    if(
+      document.hidden &&
+      $("gameScreen")
+        .classList
+        .contains("active")
+    ){
+
       clearTimers();
+
       clearTargets();
 
       challengeActive =
         false;
 
-      starting =
-        false;
-
-      $("gameScreen")
-        .classList
-        .remove("active");
-
-      $("homeScreen")
-        .classList
-        .add("active");
+      challengeToken++;
 
     }
-  );
 
-
-/* =========================
-   PREVENT DOUBLE TAP
-========================= */
-
-document.addEventListener(
-  "visibilitychange",
-  ()=>{
-    if(document.hidden){
-      clearTimers();
-      clearTargets();
-      challengeActive = false;
-    }
   }
 );
 
 
-/* =========================
-   INITIAL HUD
-========================= */
+/* =========================================================
+   INITIALISE
+========================================================= */
 
 updateHUD();
 

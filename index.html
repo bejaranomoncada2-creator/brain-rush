@@ -219,6 +219,78 @@ button{
 
 .mode-card{
   position:relative;
+  min-height:122px;
+  padding:17px;
+  border-radius:20px;
+  border:1px solid rgba(92,133,255,.22);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(14,20,48,.94),
+      rgba(4,7,22,.97)
+    );
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+  overflow:hidden;
+  transition:
+    transform .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease;
+}
+
+.mode-card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      currentColor,
+      transparent 45%
+    );
+  opacity:.035;
+  pointer-events:none;
+}
+
+.mode-card:active{
+  transform:scale(.97);
+}
+
+.mode-card.speed-mode{
+  color:var(--cyan);
+  border-color:rgba(36,232,255,.75);
+  box-shadow:
+    0 0 15px rgba(36,232,255,.18),
+    inset 0 0 30px rgba(36,232,255,.035);
+}
+
+.mode-card.speed-mode:hover{
+  box-shadow:
+    0 0 20px rgba(36,232,255,.35),
+    inset 0 0 35px rgba(36,232,255,.06);
+}
+
+.mode-card.memory-mode{
+  color:#a855ff;
+}
+
+.mode-card.observation-mode{
+  color:#35f29a;
+}
+
+.mode-card.precision-mode{
+  color:#ffd84d;
+}
+
+.mode-card.pattern-mode{
+  color:#ff3fd1;
+}
+
+.mode-card.trap-mode{
+  color:#ff426d;
+}
+  position:relative;
   min-height:92px;
   padding:15px;
   border-radius:18px;
@@ -266,11 +338,52 @@ button{
 }
 
 .mode-icon{
+  width:34px;
+  height:34px;
+  margin-bottom:9px;
+}
+
+.neon-icon{
+  color:inherit;
+  filter:
+    drop-shadow(0 0 5px currentColor)
+    drop-shadow(0 0 13px currentColor);
+}
+
+.neon-icon svg{
+  width:100%;
+  height:100%;
+  display:block;
+}
   font-size:24px;
   margin-bottom:7px;
 }
 
 .mode-name{
+  color:#f4f7ff;
+  font-size:14px;
+  font-weight:900;
+  letter-spacing:1.5px;
+}
+
+.mode-description{
+  margin-top:6px;
+  font-family:Arial,sans-serif;
+  font-size:9px;
+  color:#7785a8;
+  line-height:1.4;
+}
+
+.mode-meta{
+  position:absolute;
+  right:14px;
+  bottom:13px;
+  color:inherit;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:1px;
+  opacity:.75;
+}
   font-size:14px;
   font-weight:800;
   letter-spacing:1px;
@@ -910,10 +1023,47 @@ button{
   }
 
   .logo-brain{
+  width:58px;
+  height:58px;
+  margin:0 auto 7px;
+  color:var(--cyan);
+  filter:
+    drop-shadow(0 0 7px var(--cyan))
+    drop-shadow(0 0 18px var(--purple));
+  animation:
+    brainFloat 3s ease-in-out infinite;
+}
+
+.logo-brain svg{
+  width:100%;
+  height:100%;
+}
+
+@keyframes brainFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-5px);
+  }
+}
     font-size:38px;
   }
 
   .logo h1{
+  margin:0;
+  font-size:clamp(38px,11vw,62px);
+  font-weight:900;
+  letter-spacing:-3px;
+  font-style:italic;
+  line-height:.95;
+  color:#fff;
+  text-shadow:
+    0 0 7px rgba(255,255,255,.8),
+    0 0 18px var(--cyan),
+    0 0 35px rgba(168,85,255,.55);
+}
     font-size:42px;
   }
 
@@ -958,8 +1108,21 @@ button{
 
     <div class="logo">
 
-      <div class="logo-brain">🧠</div>
-
+     <div class="logo-brain">
+  <svg viewBox="0 0 100 100" aria-hidden="true">
+    <path d="M45 18C34 10 20 18 22 31C11 33 10 49 20 54C13 64 21 79 34 77C38 89 55 89 60 78C72 84 86 74 82 62C93 55 88 39 78 36C81 22 65 13 55 20C52 14 48 14 45 18Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="5"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
+    <path d="M50 20V78M34 31C42 32 45 38 45 44M26 53C35 50 42 54 45 60M66 30C59 33 55 38 55 44M74 52C65 50 59 54 55 61M37 70C43 67 47 69 50 74M63 69C58 66 54 69 51 74"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linecap="round"/>
+  </svg>
+</div>
       <h1>
         BRAIN <span>RUSH</span>
       </h1>
@@ -975,6 +1138,214 @@ button{
     </div>
 
     <div class="mode-grid">
+
+  <button class="mode-card speed-mode"
+          onclick="startSpeed()">
+
+    <div class="mode-icon neon-icon">
+      <svg viewBox="0 0 64 64">
+        <path d="M35 4L12 36H28L24 60L52 24H35L35 4Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div class="mode-name">
+      SPEED
+    </div>
+
+    <div class="mode-description">
+      Reaction · timing · pressure
+    </div>
+
+    <div class="mode-meta">
+      30 LEVELS
+    </div>
+
+  </button>
+
+
+  <button class="mode-card memory-mode locked"
+          onclick="comingSoon('MEMORY')">
+
+    <div class="mode-icon neon-icon">
+      <svg viewBox="0 0 64 64">
+        <path d="M14 20C14 12 22 8 29 12L32 15L35 12C42 8 50 12 50 20V45C50 53 42 57 35 53L32 50L29 53C22 57 14 53 14 45Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linejoin="round"/>
+        <path d="M32 15V50M21 25H27M37 25H43M21 36H27M37 36H43"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="mode-name">
+      MEMORY
+    </div>
+
+    <div class="mode-description">
+      Remember · adapt · repeat
+    </div>
+
+    <div class="mode-meta">
+      LOCKED
+    </div>
+
+  </button>
+
+
+  <button class="mode-card observation-mode locked"
+          onclick="comingSoon('OBSERVATION')">
+
+    <div class="mode-icon neon-icon">
+      <svg viewBox="0 0 64 64">
+        <path d="M5 32C13 18 22 12 32 12C42 12 51 18 59 32C51 46 42 52 32 52C22 52 13 46 5 32Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"/>
+        <circle cx="32" cy="32" r="10"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="4"/>
+        <circle cx="32" cy="32" r="3"
+                fill="currentColor"/>
+      </svg>
+    </div>
+
+    <div class="mode-name">
+      OBSERVATION
+    </div>
+
+    <div class="mode-description">
+      Notice · compare · detect
+    </div>
+
+    <div class="mode-meta">
+      LOCKED
+    </div>
+
+  </button>
+
+
+  <button class="mode-card precision-mode locked"
+          onclick="comingSoon('PRECISION')">
+
+    <div class="mode-icon neon-icon">
+      <svg viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="21"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"/>
+        <circle cx="32" cy="32" r="11"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"/>
+        <circle cx="32" cy="32" r="3"
+                fill="currentColor"/>
+        <path d="M32 4V16M32 48V60M4 32H16M48 32H60"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="mode-name">
+      PRECISION
+    </div>
+
+    <div class="mode-description">
+      Control · accuracy · focus
+    </div>
+
+    <div class="mode-meta">
+      LOCKED
+    </div>
+
+  </button>
+
+
+  <button class="mode-card pattern-mode locked"
+          onclick="comingSoon('PATTERN')">
+
+    <div class="mode-icon neon-icon">
+      <svg viewBox="0 0 64 64">
+        <rect x="9" y="9" width="18" height="18"
+              rx="3"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"/>
+        <rect x="37" y="9" width="18" height="18"
+              rx="3"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"/>
+        <rect x="9" y="37" width="18" height="18"
+              rx="3"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"/>
+        <path d="M46 37V55M37 46H55"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <div class="mode-name">
+      PATTERN
+    </div>
+
+    <div class="mode-description">
+      Sequence · logic · predict
+    </div>
+
+    <div class="mode-meta">
+      LOCKED
+    </div>
+
+  </button>
+
+
+  <button class="mode-card trap-mode locked"
+          onclick="comingSoon('TRAP')">
+
+    <div class="mode-icon neon-icon">
+      <svg viewBox="0 0 64 64">
+        <path d="M32 7L57 53H7L32 7Z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linejoin="round"/>
+        <path d="M32 23V37"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"/>
+        <circle cx="32" cy="45" r="2.5"
+                fill="currentColor"/>
+      </svg>
+    </div>
+
+    <div class="mode-name">
+      TRAP
+    </div>
+
+    <div class="mode-description">
+      Decoys · danger · instinct
+    </div>
+
+    <div class="mode-meta">
+      LOCKED
+    </div>
+
+  </button>
+
+</div>
 
       <button class="mode-card active"
               onclick="startSpeed()">

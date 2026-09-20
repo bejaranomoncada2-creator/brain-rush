@@ -2,53 +2,32 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-               maximum-scale=1.0, user-scalable=no">
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Brain Rush</title>
 
 <style>
-
-/* =========================================================
-   BRAIN RUSH — NEON ARCADE
-========================================================= */
-
-@import url(
-  'https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&display=swap'
-);
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&display=swap');
 
 :root{
   --bg:#030510;
-  --panel:#080d20;
-  --panel2:#0b1230;
-
-  --white:#f5f8ff;
-  --muted:#7886a8;
-
   --cyan:#24e8ff;
-  --blue:#4d7cff;
   --purple:#a855ff;
   --pink:#ff3fd1;
   --yellow:#ffd84d;
   --green:#35f29a;
   --red:#ff426d;
+  --muted:#7886a8;
 }
 
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 
-html,
-body{
+html,body{
   margin:0;
   width:100%;
   height:100%;
   overflow:hidden;
   background:var(--bg);
-  color:var(--white);
+  color:white;
   font-family:Orbitron,Arial,sans-serif;
 }
 
@@ -57,102 +36,33 @@ button{
 }
 
 .hidden{
-  display:none !important;
+  display:none!important;
 }
 
-/* =========================================================
-   BACKGROUND
-========================================================= */
+/* BACKGROUND */
 
-#background{
+body{
+  background:
+    radial-gradient(circle at 20% 10%,rgba(80,40,255,.16),transparent 32%),
+    radial-gradient(circle at 90% 80%,rgba(255,0,180,.10),transparent 30%),
+    linear-gradient(#030510,#050718);
+}
+
+body:before{
+  content:"";
   position:fixed;
-  inset:0;
-  overflow:hidden;
+  inset:-40%;
   pointer-events:none;
   background:
-    radial-gradient(
-      circle at 50% 25%,
-      rgba(55,70,190,.20),
-      transparent 38%
-    ),
-    radial-gradient(
-      circle at 10% 90%,
-      rgba(168,85,255,.12),
-      transparent 32%
-    ),
-    radial-gradient(
-      circle at 90% 15%,
-      rgba(36,232,255,.09),
-      transparent 30%
-    ),
-    var(--bg);
+    linear-gradient(rgba(70,100,220,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(70,100,220,.05) 1px,transparent 1px);
+  background-size:40px 40px;
+  transform:perspective(500px) rotateX(60deg);
+  animation:grid 12s linear infinite;
 }
 
-#background::before{
-  content:"";
-  position:absolute;
-  inset:-50%;
-  background:
-    linear-gradient(
-      rgba(70,100,220,.055) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(70,100,220,.055) 1px,
-      transparent 1px
-    );
-  background-size:42px 42px;
-  transform:
-    perspective(550px)
-    rotateX(60deg);
-  transform-origin:center;
-  animation:gridMove 12s linear infinite;
-}
-
-@keyframes gridMove{
-  from{
-    transform:
-      perspective(550px)
-      rotateX(60deg)
-      translateY(0);
-  }
-
-  to{
-    transform:
-      perspective(550px)
-      rotateX(60deg)
-      translateY(42px);
-  }
-}
-
-.orb{
-  position:absolute;
-  width:300px;
-  height:300px;
-  border-radius:50%;
-  filter:blur(90px);
-  opacity:.16;
-  animation:orbFloat 9s ease-in-out infinite alternate;
-}
-
-.orb.one{
-  background:#4930ff;
-  left:-150px;
-  top:-100px;
-}
-
-.orb.two{
-  background:#ff20c8;
-  right:-150px;
-  bottom:-130px;
-  animation-delay:-4s;
-}
-
-@keyframes orbFloat{
-  to{
-    transform:translate(60px,40px) scale(1.2);
-  }
+@keyframes grid{
+  to{transform:perspective(500px) rotateX(60deg) translateY(40px)}
 }
 
 #particles{
@@ -161,16 +71,12 @@ button{
   width:100%;
   height:100%;
   pointer-events:none;
-  z-index:20;
+  z-index:100;
 }
-
-/* =========================================================
-   APP
-========================================================= */
 
 #app{
   position:relative;
-  z-index:5;
+  z-index:2;
   width:100%;
   max-width:650px;
   height:100vh;
@@ -179,14 +85,12 @@ button{
 
 .screen{
   width:100%;
-  height:100vh;
+  height:100%;
   padding:18px;
   overflow:hidden;
 }
 
-/* =========================================================
-   HOME
-========================================================= */
+/* HOME */
 
 #home{
   display:flex;
@@ -196,20 +100,18 @@ button{
 
 .logo{
   text-align:center;
-  margin-bottom:22px;
+  margin-bottom:20px;
 }
 
 .logo-brain{
-  width:54px;
-  height:54px;
-  margin:0 auto 8px;
+  width:55px;
+  height:55px;
+  margin:auto;
   color:var(--cyan);
-
   filter:
-    drop-shadow(0 0 6px var(--cyan))
-    drop-shadow(0 0 18px var(--purple));
-
-  animation:brainFloat 3s ease-in-out infinite;
+    drop-shadow(0 0 7px var(--cyan))
+    drop-shadow(0 0 20px var(--purple));
+  animation:float 3s ease-in-out infinite;
 }
 
 .logo-brain svg{
@@ -217,39 +119,28 @@ button{
   height:100%;
 }
 
-@keyframes brainFloat{
-  0%,100%{
-    transform:translateY(0);
-  }
-
-  50%{
-    transform:translateY(-5px);
-  }
+@keyframes float{
+  50%{transform:translateY(-5px)}
 }
 
 .logo h1{
-  margin:0;
+  margin:5px 0 0;
   font-size:clamp(40px,11vw,64px);
   line-height:.9;
   letter-spacing:-3px;
   font-style:italic;
   font-weight:900;
-
-  color:#fff;
-
   text-shadow:
-    0 0 7px rgba(255,255,255,.9),
+    0 0 7px white,
     0 0 18px var(--cyan),
-    0 0 38px rgba(168,85,255,.65);
+    0 0 35px var(--purple);
 }
 
 .logo h1 span{
   color:var(--pink);
-
   text-shadow:
-    0 0 7px #fff,
-    0 0 18px var(--pink),
-    0 0 38px rgba(255,63,209,.6);
+    0 0 7px white,
+    0 0 18px var(--pink);
 }
 
 .tagline{
@@ -259,29 +150,16 @@ button{
   letter-spacing:4px;
 }
 
-/* =========================================================
-   HOME BEST
-========================================================= */
-
 .home-best{
-  width:100%;
   max-width:430px;
-  margin:0 auto 16px;
+  width:100%;
+  margin:0 auto 14px;
   padding:12px 16px;
-
   display:flex;
   justify-content:space-between;
-  align-items:center;
-
-  border:1px solid rgba(75,130,255,.25);
-  border-radius:15px;
-
-  background:
-    linear-gradient(
-      135deg,
-      rgba(12,20,50,.82),
-      rgba(5,8,22,.88)
-    );
+  border:1px solid rgba(80,130,255,.28);
+  border-radius:16px;
+  background:rgba(7,12,35,.75);
 }
 
 .home-best-label{
@@ -294,30 +172,14 @@ button{
   color:var(--yellow);
   font-size:14px;
   font-weight:900;
-
-  text-shadow:
-    0 0 10px rgba(255,216,77,.5);
 }
-
-/* =========================================================
-   MODE TITLE
-========================================================= */
 
 .mode-title{
   text-align:center;
   margin-bottom:12px;
-
-  color:#fff;
   font-size:12px;
   letter-spacing:3px;
-
-  text-shadow:
-    0 0 10px rgba(255,255,255,.25);
 }
-
-/* =========================================================
-   MODE GRID
-========================================================= */
 
 .mode-grid{
   display:grid;
@@ -328,181 +190,90 @@ button{
 .mode-card{
   position:relative;
   min-height:116px;
-
   padding:15px;
-
   border-radius:19px;
-
-  border:1px solid rgba(75,110,220,.22);
-
+  border:1px solid rgba(80,110,220,.22);
   background:
-    linear-gradient(
-      145deg,
-      rgba(13,20,50,.94),
-      rgba(4,7,21,.97)
-    );
-
-  color:#fff;
+    linear-gradient(145deg,rgba(13,20,50,.95),rgba(4,7,21,.98));
+  color:white;
   text-align:left;
-
   cursor:pointer;
-
-  overflow:hidden;
-
-  transition:
-    transform .18s ease,
-    border-color .18s ease,
-    box-shadow .18s ease;
 }
 
 .mode-card:active{
   transform:scale(.97);
 }
 
-.mode-card::before{
-  content:"";
-  position:absolute;
-  inset:0;
-
-  background:
-    linear-gradient(
-      120deg,
-      transparent 20%,
-      rgba(255,255,255,.06),
-      transparent 80%
-    );
-
-  transform:translateX(-120%);
-}
-
-.mode-card:hover::before{
-  animation:cardSweep .7s ease;
-}
-
-@keyframes cardSweep{
-  to{
-    transform:translateX(120%);
-  }
-}
-
-/* Mode colours */
-
 .speed-mode{
   color:var(--cyan);
   border-color:rgba(36,232,255,.8);
-
   box-shadow:
-    0 0 16px rgba(36,232,255,.18),
-    inset 0 0 25px rgba(36,232,255,.035);
+    0 0 18px rgba(36,232,255,.18),
+    inset 0 0 30px rgba(36,232,255,.04);
 }
 
-.speed-mode:hover{
-  box-shadow:
-    0 0 25px rgba(36,232,255,.38),
-    inset 0 0 35px rgba(36,232,255,.06);
-}
+.memory-mode{color:var(--purple)}
+.observation-mode{color:var(--green)}
+.precision-mode{color:var(--yellow)}
+.pattern-mode{color:var(--pink)}
+.trap-mode{color:var(--red)}
 
-.memory-mode{
-  color:var(--purple);
-}
-
-.observation-mode{
-  color:var(--green);
-}
-
-.precision-mode{
-  color:var(--yellow);
-}
-
-.pattern-mode{
-  color:var(--pink);
-}
-
-.trap-mode{
-  color:var(--red);
-}
-
-.mode-card.locked{
+.locked{
   opacity:.42;
   cursor:default;
 }
 
 .mode-icon{
-  width:33px;
-  height:33px;
+  width:34px;
+  height:34px;
   margin-bottom:9px;
-
   color:inherit;
-
   filter:
     drop-shadow(0 0 5px currentColor)
-    drop-shadow(0 0 13px currentColor);
+    drop-shadow(0 0 12px currentColor);
 }
 
 .mode-icon svg{
   width:100%;
   height:100%;
-  display:block;
 }
 
 .mode-name{
-  color:#f2f5ff;
   font-size:13px;
   font-weight:900;
-  letter-spacing:1.2px;
+  letter-spacing:1px;
 }
 
 .mode-description{
   margin-top:5px;
-
   color:#7180a2;
-
   font-family:Arial,sans-serif;
   font-size:9px;
-  line-height:1.35;
 }
 
 .mode-meta{
   position:absolute;
   right:13px;
   bottom:11px;
-
   color:inherit;
-
   font-size:7px;
-  font-weight:800;
   letter-spacing:1px;
-
-  opacity:.8;
 }
-
-/* =========================================================
-   HOME FOOTER
-========================================================= */
 
 .home-footer{
   display:flex;
   justify-content:center;
   gap:24px;
-
-  margin-top:16px;
-
+  margin-top:15px;
   color:#596987;
   font-size:8px;
-  letter-spacing:1px;
 }
 
-/* =========================================================
-   GAME SCREEN
-========================================================= */
+/* GAME HEADER */
 
 #speedGame{
   display:flex;
   flex-direction:column;
-}
-
-.game-header{
-  flex-shrink:0;
 }
 
 .game-top{
@@ -511,8 +282,12 @@ button{
   align-items:center;
 }
 
-.stat-box.right{
+.right{
   text-align:right;
+}
+
+.center{
+  text-align:center;
 }
 
 .stat-label{
@@ -523,63 +298,32 @@ button{
 }
 
 .stat-value{
-  color:#fff;
   font-size:13px;
   font-weight:900;
 }
 
 .game-title{
-  color:#fff;
   font-size:15px;
   font-weight:900;
-  letter-spacing:1px;
-
-  text-shadow:
-    0 0 8px var(--cyan),
-    0 0 20px rgba(36,232,255,.55);
+  text-shadow:0 0 10px var(--cyan);
 }
 
 .progress-wrap{
-  width:100%;
   height:6px;
   margin-top:12px;
-
-  border-radius:20px;
-
   background:#0b1430;
-
-  border:1px solid rgba(60,109,220,.3);
-
+  border-radius:20px;
   overflow:hidden;
 }
 
 #progress{
-  width:0%;
+  width:0;
   height:100%;
-
-  border-radius:20px;
-
-  background:
-    linear-gradient(
-      90deg,
-      var(--cyan),
-      var(--blue),
-      var(--purple)
-    );
-
-  box-shadow:
-    0 0 8px var(--cyan),
-    0 0 18px var(--purple);
-
-  transition:width .35s ease;
+  background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));
+  box-shadow:0 0 15px var(--cyan);
 }
 
-/* =========================================================
-   LEVEL HEADER
-========================================================= */
-
 .level-heading{
-  flex-shrink:0;
   text-align:center;
   margin-top:13px;
 }
@@ -592,614 +336,251 @@ button{
 
 .challenge-title{
   margin-top:5px;
-
-  color:#fff;
-
   font-size:21px;
   font-weight:900;
-  letter-spacing:1px;
-
-  text-shadow:
-    0 0 8px rgba(255,255,255,.7),
-    0 0 20px var(--purple);
+  text-shadow:0 0 10px white,0 0 22px var(--purple);
 }
 
 .instruction{
   min-height:27px;
-  max-width:470px;
-
-  margin:6px auto 0;
-
+  margin-top:6px;
   color:#7f8eaf;
-
   font-family:Arial,sans-serif;
   font-size:11px;
-  line-height:1.35;
 }
 
-/* =========================================================
-   ARENA
-========================================================= */
+/* ARENA */
 
 #arena{
   position:relative;
-
   flex:1;
   min-height:0;
-
   margin-top:10px;
-
-  border-radius:25px;
-
   border:1px solid rgba(75,130,255,.35);
-
+  border-radius:25px;
+  overflow:hidden;
   background:
-    radial-gradient(
-      circle at center,
-      rgba(25,50,130,.14),
-      transparent 60%
-    ),
-    rgba(2,5,18,.76);
-
+    radial-gradient(circle,rgba(25,50,130,.14),transparent 60%),
+    rgba(2,5,18,.8);
   box-shadow:
     inset 0 0 70px rgba(30,70,150,.10),
-    0 0 35px rgba(50,70,255,.08);
-
-  overflow:hidden;
+    0 0 30px rgba(50,70,255,.08);
 }
 
-#arena::before{
+#arena:before{
   content:"";
-
   position:absolute;
   inset:0;
-
   background:
-    linear-gradient(
-      rgba(50,100,255,.045) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(50,100,255,.045) 1px,
-      transparent 1px
-    );
-
+    linear-gradient(rgba(50,100,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(50,100,255,.045) 1px,transparent 1px);
   background-size:34px 34px;
-
-  pointer-events:none;
 }
-
-.arena-glow{
-  position:absolute;
-
-  width:280px;
-  height:280px;
-
-  left:50%;
-  top:50%;
-
-  transform:translate(-50%,-50%);
-
-  border-radius:50%;
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(36,100,255,.09),
-      transparent 65%
-    );
-
-  pointer-events:none;
-}
-
-/* =========================================================
-   MESSAGE
-========================================================= */
 
 #message{
   position:absolute;
-
-  top:9%;
+  top:8%;
   left:50%;
-
-  transform:translateX(-50%);
-
   width:90%;
-
+  transform:translateX(-50%);
   text-align:center;
-
   color:#b7c5e7;
-
   font-size:11px;
   letter-spacing:1.5px;
-
-  z-index:15;
+  z-index:10;
 }
 
 #feedback{
   position:absolute;
-
   bottom:7%;
   left:50%;
-
-  transform:translateX(-50%);
-
   width:90%;
-
+  transform:translateX(-50%);
   text-align:center;
-
   font-size:14px;
   font-weight:900;
-
-  letter-spacing:1px;
-
   z-index:30;
-
-  pointer-events:none;
 }
 
 .feedback.good{
   color:var(--green);
-
-  text-shadow:
-    0 0 10px var(--green);
-
-  animation:feedbackPop .3s ease;
+  text-shadow:0 0 12px var(--green);
 }
 
 .feedback.bad{
   color:var(--red);
-
-  text-shadow:
-    0 0 10px var(--red);
-
-  animation:feedbackPop .3s ease;
+  text-shadow:0 0 12px var(--red);
 }
-
-@keyframes feedbackPop{
-  from{
-    opacity:0;
-    transform:
-      translateX(-50%)
-      scale(.7);
-  }
-
-  to{
-    opacity:1;
-    transform:
-      translateX(-50%)
-      scale(1);
-  }
-}
-
-/* =========================================================
-   COUNTDOWN
-========================================================= */
 
 #countdown{
   position:absolute;
-
   left:50%;
   top:50%;
-
   transform:translate(-50%,-50%);
-
-  z-index:50;
-
-  color:#fff;
-
-  font-size:92px;
+  font-size:90px;
   font-weight:900;
-
+  z-index:50;
   text-shadow:
-    0 0 10px #fff,
-    0 0 25px var(--cyan),
+    0 0 10px white,
+    0 0 30px var(--cyan),
     0 0 60px var(--purple);
-
-  pointer-events:none;
 }
 
 .countdown-pop{
-  animation:
-    countdownPop .7s
-    cubic-bezier(.2,1.5,.4,1);
+  animation:count .7s ease;
 }
 
-@keyframes countdownPop{
-
-  0%{
-    opacity:0;
-
-    transform:
-      translate(-50%,-50%)
-      scale(2);
-  }
-
-  35%{
-    opacity:1;
-
-    transform:
-      translate(-50%,-50%)
-      scale(1);
-  }
-
-  100%{
-    opacity:0;
-
-    transform:
-      translate(-50%,-50%)
-      scale(.7);
-  }
-
+@keyframes count{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(2)}
+  35%{opacity:1;transform:translate(-50%,-50%) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(.7)}
 }
 
-/* =========================================================
-   TARGETS
-========================================================= */
+/* TARGETS */
 
 .target{
   position:absolute;
-
   width:70px;
   height:70px;
-
   padding:0;
-
   border:0;
   border-radius:50%;
-
-  transform:
-    translate(-50%,-50%);
-
+  transform:translate(-50%,-50%);
   cursor:pointer;
-
-  z-index:20;
-
   display:none;
-
-  touch-action:manipulation;
+  z-index:20;
 }
 
-.target::before{
+.target:after{
   content:"";
-
   position:absolute;
+  inset:22%;
+  border-radius:50%;
+  background:white;
+  box-shadow:0 0 14px white;
+}
 
+.target:before{
+  content:"";
+  position:absolute;
   inset:-8px;
-
   border-radius:50%;
-
   border:2px solid currentColor;
-
   opacity:.35;
-
-  animation:
-    targetPulse 1s
-    ease-in-out infinite;
+  animation:pulse 1s infinite;
 }
 
-.target::after{
-  content:"";
-
-  position:absolute;
-
-  inset:21%;
-
-  border-radius:50%;
-
-  background:rgba(255,255,255,.9);
-
-  box-shadow:
-    0 0 12px #fff;
+@keyframes pulse{
+  50%{transform:scale(1.15);opacity:.65}
 }
 
 .target.blue{
   color:var(--cyan);
-
-  background:
-    radial-gradient(
-      circle,
-      #fff 0 8%,
-      var(--cyan) 20%,
-      #1675ff 58%,
-      #091d75 100%
-    );
-
-  box-shadow:
-    0 0 10px var(--cyan),
-    0 0 25px var(--cyan),
-    0 0 55px rgba(36,232,255,.8);
+  background:radial-gradient(circle,#fff 5%,var(--cyan) 20%,#1675ff 60%,#091d75);
+  box-shadow:0 0 12px var(--cyan),0 0 30px var(--cyan);
 }
 
 .target.yellow{
   color:var(--yellow);
-
-  background:
-    radial-gradient(
-      circle,
-      #fff 0 8%,
-      var(--yellow) 20%,
-      #ff9d00 58%,
-      #713800 100%
-    );
-
-  box-shadow:
-    0 0 10px var(--yellow),
-    0 0 25px var(--yellow),
-    0 0 55px rgba(255,216,77,.75);
+  background:radial-gradient(circle,#fff 5%,var(--yellow) 20%,#ff9d00 60%,#713800);
+  box-shadow:0 0 12px var(--yellow),0 0 30px var(--yellow);
 }
 
 .target.green{
   color:var(--green);
-
-  background:
-    radial-gradient(
-      circle,
-      #effff7 0 8%,
-      var(--green) 20%,
-      #00a86b 58%,
-      #064b36 100%
-    );
-
-  box-shadow:
-    0 0 10px var(--green),
-    0 0 25px var(--green),
-    0 0 55px rgba(53,242,154,.75);
+  background:radial-gradient(circle,#fff 5%,var(--green) 20%,#00a86b 60%,#064b36);
+  box-shadow:0 0 12px var(--green),0 0 30px var(--green);
 }
 
 .target.red{
   color:var(--red);
-
-  background:
-    radial-gradient(
-      circle,
-      #fff 0 8%,
-      var(--red) 20%,
-      #b5003c 58%,
-      #510018 100%
-    );
-
-  box-shadow:
-    0 0 10px var(--red),
-    0 0 25px var(--red),
-    0 0 55px rgba(255,66,109,.75);
+  background:radial-gradient(circle,#fff 5%,var(--red) 20%,#b5003c 60%,#510018);
+  box-shadow:0 0 12px var(--red),0 0 30px var(--red);
 }
 
 .target.purple{
   color:var(--purple);
-
-  background:
-    radial-gradient(
-      circle,
-      #fff 0 8%,
-      var(--purple) 20%,
-      #6930e8 58%,
-      #27055e 100%
-    );
-
-  box-shadow:
-    0 0 10px var(--purple),
-    0 0 25px var(--purple),
-    0 0 55px rgba(168,85,255,.75);
+  background:radial-gradient(circle,#fff 5%,var(--purple) 20%,#6930e8 60%,#27055e);
+  box-shadow:0 0 12px var(--purple),0 0 30px var(--purple);
 }
 
-@keyframes targetPulse{
-
-  0%,100%{
-    transform:scale(.9);
-    opacity:.25;
-  }
-
-  50%{
-    transform:scale(1.15);
-    opacity:.65;
-  }
-
+.pop{
+  animation:pop .25s ease;
 }
 
-.target.pop{
-  animation:
-    targetPop .28s
-    cubic-bezier(.2,1.5,.4,1);
+@keyframes pop{
+  from{opacity:0;transform:translate(-50%,-50%) scale(.1)}
+  to{opacity:1;transform:translate(-50%,-50%) scale(1)}
 }
 
-@keyframes targetPop{
-
-  from{
-    opacity:0;
-
-    transform:
-      translate(-50%,-50%)
-      scale(.1);
-  }
-
-  to{
-    opacity:1;
-
-    transform:
-      translate(-50%,-50%)
-      scale(1);
-  }
-
-}
-
-.target:active{
-  transform:
-    translate(-50%,-50%)
-    scale(.84);
-}
-
-/* =========================================================
-   CENTER BUTTON
-========================================================= */
+/* DON'T JUMP */
 
 #centerButton{
   position:absolute;
-
   left:50%;
   top:50%;
-
   width:150px;
   height:150px;
-
-  transform:
-    translate(-50%,-50%);
-
+  transform:translate(-50%,-50%);
   border-radius:50%;
-
   border:2px solid var(--red);
-
-  background:
-    radial-gradient(
-      circle,
-      #35101c,
-      #09030a
-    );
-
+  background:#190711;
   color:#ff8ba2;
-
-  font-size:14px;
   font-weight:900;
   letter-spacing:2px;
-
-  cursor:pointer;
-
   z-index:20;
-
-  box-shadow:
-    0 0 15px rgba(255,66,109,.5),
-    0 0 50px rgba(255,66,109,.2),
-    inset 0 0 30px rgba(255,66,109,.1);
 }
 
 #centerButton.ready{
   border-color:var(--green);
-
-  background:
-    radial-gradient(
-      circle,
-      #0c563b,
-      #03120d
-    );
-
+  background:#063421;
   color:#b9ffe0;
-
-  box-shadow:
-    0 0 18px var(--green),
-    0 0 60px rgba(53,242,154,.5),
-    inset 0 0 30px rgba(53,242,154,.15);
-
-  animation:
-    readyPulse .45s
-    infinite alternate;
+  box-shadow:0 0 25px var(--green),0 0 60px rgba(53,242,154,.4);
 }
 
-@keyframes readyPulse{
-  from{
-    transform:
-      translate(-50%,-50%)
-      scale(1);
-  }
-
-  to{
-    transform:
-      translate(-50%,-50%)
-      scale(1.06);
-  }
-}
-
-/* =========================================================
-   GAME FOOTER
-========================================================= */
+/* FOOTER */
 
 .game-footer{
-  flex-shrink:0;
-
   height:30px;
-
   display:flex;
-  align-items:center;
   justify-content:center;
-
+  align-items:center;
   color:#526486;
-
   font-size:7px;
   letter-spacing:1px;
 }
 
-/* =========================================================
-   FINISH SCREEN
-========================================================= */
+/* FINISH */
 
 #finish{
   display:flex;
   flex-direction:column;
-  align-items:center;
   justify-content:center;
+  align-items:center;
   text-align:center;
 }
 
 .finish-icon{
-  font-size:65px;
-
-  filter:
-    drop-shadow(0 0 10px var(--yellow))
-    drop-shadow(0 0 30px var(--purple));
-
-  animation:
-    trophyFloat 2s
-    ease-in-out infinite;
-}
-
-@keyframes trophyFloat{
-  50%{
-    transform:
-      translateY(-9px)
-      rotate(3deg);
-  }
+  font-size:60px;
+  filter:drop-shadow(0 0 20px var(--yellow));
 }
 
 .finish-title{
-  margin-top:12px;
-
-  color:#fff;
-
-  font-size:
-    clamp(31px,9vw,50px);
-
+  margin-top:10px;
+  font-size:42px;
   font-weight:900;
   font-style:italic;
-
-  line-height:.95;
-
-  text-shadow:
-    0 0 10px #fff,
-    0 0 25px var(--purple),
-    0 0 50px var(--pink);
+  text-shadow:0 0 15px var(--pink);
 }
 
 .finish-card{
   width:100%;
   max-width:430px;
-
-  margin-top:22px;
+  margin-top:20px;
   padding:22px;
-
-  border-radius:23px;
-
+  border-radius:22px;
   border:1px solid rgba(168,85,255,.5);
-
-  background:
-    linear-gradient(
-      145deg,
-      rgba(17,22,60,.9),
-      rgba(6,8,25,.94)
-    );
-
-  box-shadow:
-    0 0 30px rgba(168,85,255,.12),
-    inset 0 0 30px rgba(60,70,255,.08);
+  background:rgba(8,12,35,.92);
 }
 
 .final-label{
@@ -1210,22 +591,14 @@ button{
 
 .final-score{
   margin-top:8px;
-
   color:var(--yellow);
-
   font-size:42px;
   font-weight:900;
-
-  text-shadow:
-    0 0 10px var(--yellow),
-    0 0 30px rgba(255,216,77,.5);
 }
 
 .best{
   margin-top:7px;
-
   color:var(--cyan);
-
   font-size:9px;
 }
 
@@ -1233,18 +606,13 @@ button{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
-
   margin-top:18px;
 }
 
 .finish-stat{
-  padding:11px 5px;
-
-  border-radius:13px;
-
-  background:rgba(3,7,20,.6);
-
+  padding:10px 4px;
   border:1px solid rgba(75,110,220,.25);
+  border-radius:12px;
 }
 
 .finish-stat strong{
@@ -1255,1276 +623,592 @@ button{
 .finish-stat span{
   display:block;
   margin-top:4px;
-
   color:#68799f;
-
   font-family:Arial,sans-serif;
   font-size:7px;
 }
 
-.action-button{
+.action-button,.secondary-button{
   width:100%;
-
-  margin-top:17px;
-  padding:15px;
-
-  border:0;
-  border-radius:15px;
-
   cursor:pointer;
-
-  color:#fff;
-
-  font-size:12px;
-  font-weight:900;
-  letter-spacing:1px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #176eff,
-      #a13cff,
-      #ff29cf
-    );
-
-  box-shadow:
-    0 0 12px rgba(71,113,255,.5),
-    0 0 30px rgba(168,60,255,.25);
 }
 
-.action-button:active{
-  transform:scale(.97);
+.action-button{
+  margin-top:17px;
+  padding:15px;
+  border:0;
+  border-radius:15px;
+  color:white;
+  font-weight:900;
+  background:linear-gradient(90deg,#176eff,#a13cff,#ff29cf);
 }
 
 .secondary-button{
-  width:100%;
-
   margin-top:9px;
   padding:12px;
-
   border-radius:15px;
-
-  cursor:pointer;
-
   color:#8fa1ca;
-
-  background:rgba(5,9,25,.7);
-
+  background:#050919;
   border:1px solid rgba(82,116,220,.35);
-
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:1px;
 }
 
-/* =========================================================
-   EFFECTS
-========================================================= */
-
-.shake{
-  animation:
-    shake .28s ease;
-}
-
-@keyframes shake{
-
-  0%,100%{
-    transform:translateX(0);
-  }
-
-  20%{
-    transform:translateX(-8px);
-  }
-
-  40%{
-    transform:translateX(8px);
-  }
-
-  60%{
-    transform:translateX(-6px);
-  }
-
-  80%{
-    transform:translateX(6px);
-  }
-
-}
-
-.flash-good{
-  animation:
-    flashGood .35s ease;
-}
-
-@keyframes flashGood{
-
-  0%{
-    box-shadow:
-      inset 0 0 0
-      rgba(53,242,154,0);
-  }
-
-  50%{
-    box-shadow:
-      inset 0 0 100px
-      rgba(53,242,154,.15);
-  }
-
-  100%{
-    box-shadow:
-      inset 0 0 0
-      rgba(53,242,154,0);
-  }
-
-}
-
-.flash-bad{
-  animation:
-    flashBad .35s ease;
-}
-
-@keyframes flashBad{
-
-  0%{
-    box-shadow:
-      inset 0 0 0
-      rgba(255,66,109,0);
-  }
-
-  50%{
-    box-shadow:
-      inset 0 0 100px
-      rgba(255,66,109,.18);
-  }
-
-  100%{
-    box-shadow:
-      inset 0 0 0
-      rgba(255,66,109,0);
-  }
-
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
+/* SMALL SCREENS */
 
 @media(max-height:700px){
-
-  #home{
-    justify-content:flex-start;
-    padding-top:10px;
-  }
-
-  .logo{
-    margin-bottom:12px;
-  }
-
-  .logo-brain{
-    width:40px;
-    height:40px;
-  }
-
-  .logo h1{
-    font-size:43px;
-  }
-
-  .home-best{
-    margin-bottom:10px;
-  }
-
-  .mode-card{
-    min-height:95px;
-    padding:12px;
-  }
-
-  .mode-icon{
-    width:27px;
-    height:27px;
-  }
-
-  .mode-name{
-    font-size:11px;
-  }
-
-  .mode-description{
-    font-size:8px;
-  }
-
-  .mode-meta{
-    font-size:6px;
-  }
-
+  #home{justify-content:flex-start;padding-top:8px}
+  .logo{margin-bottom:10px}
+  .logo-brain{width:40px;height:40px}
+  .logo h1{font-size:43px}
+  .home-best{margin-bottom:9px}
+  .mode-card{min-height:92px;padding:11px}
+  .mode-icon{width:27px;height:27px}
+  .mode-name{font-size:11px}
+  .mode-description{font-size:8px}
 }
-
-
-/* =========================================================
-   VERY SMALL HEIGHT
-========================================================= */
-
-@media(max-height:600px){
-
-  .mode-grid{
-    gap:7px;
-  }
-
-  .mode-card{
-    min-height:82px;
-  }
-
-  .home-footer{
-    margin-top:9px;
-  }
-
-}
-
 </style>
 </head>
 
-
 <body>
 
-<!-- =======================================================
-     BACKGROUND
-======================================================== -->
-
-<div id="background">
-
-  <div class="orb one"></div>
-  <div class="orb two"></div>
-
-</div>
-
-<canvas id="particles"></canvas>
-
-
-<!-- =======================================================
-     APP
-======================================================== -->
+<div id="particles"></div>
 
 <div id="app">
 
+<!-- HOME -->
+<section id="home" class="screen">
 
-  <!-- =====================================================
-       HOME — ONLY HOME SCREEN
-  ====================================================== -->
+  <div class="logo">
 
-  <section id="home"
-           class="screen">
+    <div class="logo-brain">
+      <svg viewBox="0 0 100 100">
+        <path d="M45 18C34 10 20 18 22 31C11 33 10 49 20 54C13 64 21 79 34 77C38 89 55 89 60 78C72 84 86 74 82 62C93 55 88 39 78 36C81 22 65 13 55 20C52 14 48 14 45 18Z"
+          fill="none" stroke="currentColor" stroke-width="5"/>
+        <path d="M50 20V78M34 31C42 32 45 38 45 44M26 53C35 50 42 54 45 60M66 30C59 33 55 38 55 44M74 52C65 50 59 54 55 61"
+          fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </div>
 
-    <div class="logo">
+    <h1>BRAIN <span>RUSH</span></h1>
 
-      <div class="logo-brain">
+    <div class="tagline">
+      THINK FAST. SEE FASTER.
+    </div>
 
-        <svg viewBox="0 0 100 100">
+  </div>
 
-          <path
-            d="
-              M45 18
-              C34 10 20 18 22 31
-              C11 33 10 49 20 54
-              C13 64 21 79 34 77
-              C38 89 55 89 60 78
-              C72 84 86 74 82 62
-              C93 55 88 39 78 36
-              C81 22 65 13 55 20
-              C52 14 48 14 45 18Z
-            "
+  <div class="home-best">
+    <div class="home-best-label">SPEED PERSONAL BEST</div>
+    <div id="homeBest" class="home-best-score">0</div>
+  </div>
 
-            fill="none"
-            stroke="currentColor"
-            stroke-width="5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
+  <div class="mode-title">CHOOSE YOUR BATTLE</div>
 
-          <path
-            d="
-              M50 20V78
-              M34 31C42 32 45 38 45 44
-              M26 53C35 50 42 54 45 60
-              M66 30C59 33 55 38 55 44
-              M74 52C65 50 59 54 55 61
-              M37 70C43 67 47 69 50 74
-              M63 69C58 66 54 69 51 74
-            "
+  <div class="mode-grid">
 
-            fill="none"
-            stroke="currentColor"
-            stroke-width="4"
-            stroke-linecap="round"
-          />
-
+    <button class="mode-card speed-mode" onclick="startSpeed()">
+      <div class="mode-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M35 4L12 36H28L24 60L52 24H35L35 4Z"
+            fill="none" stroke="currentColor" stroke-width="4"/>
         </svg>
+      </div>
+      <div class="mode-name">SPEED</div>
+      <div class="mode-description">Reaction · timing · pressure</div>
+      <div class="mode-meta">PLAY NOW</div>
+    </button>
 
+    <button class="mode-card memory-mode locked" onclick="comingSoon('MEMORY')">
+      <div class="mode-icon">
+        <svg viewBox="0 0 64 64">
+          <rect x="14" y="12" width="36" height="40" rx="8"
+            fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M32 12V52M22 25H27M37 25H42M22 36H27M37 36H42"
+            stroke="currentColor" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="mode-name">MEMORY</div>
+      <div class="mode-description">Remember · adapt · repeat</div>
+      <div class="mode-meta">LOCKED</div>
+    </button>
+
+    <button class="mode-card observation-mode locked" onclick="comingSoon('OBSERVATION')">
+      <div class="mode-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M5 32C13 18 22 12 32 12C42 12 51 18 59 32C51 46 42 52 32 52C22 52 13 46 5 32Z"
+            fill="none" stroke="currentColor" stroke-width="4"/>
+          <circle cx="32" cy="32" r="10" fill="none"
+            stroke="currentColor" stroke-width="4"/>
+        </svg>
+      </div>
+      <div class="mode-name">OBSERVATION</div>
+      <div class="mode-description">Notice · compare · detect</div>
+      <div class="mode-meta">LOCKED</div>
+    </button>
+
+    <button class="mode-card precision-mode locked" onclick="comingSoon('PRECISION')">
+      <div class="mode-icon">
+        <svg viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="21" fill="none"
+            stroke="currentColor" stroke-width="3"/>
+          <circle cx="32" cy="32" r="10" fill="none"
+            stroke="currentColor" stroke-width="3"/>
+          <circle cx="32" cy="32" r="3" fill="currentColor"/>
+          <path d="M32 4V16M32 48V60M4 32H16M48 32H60"
+            stroke="currentColor" stroke-width="3"/>
+        </svg>
+      </div>
+      <div class="mode-name">PRECISION</div>
+      <div class="mode-description">Control · accuracy · focus</div>
+      <div class="mode-meta">LOCKED</div>
+    </button>
+
+    <button class="mode-card pattern-mode locked" onclick="comingSoon('PATTERN')">
+      <div class="mode-icon">
+        <svg viewBox="0 0 64 64">
+          <rect x="9" y="9" width="18" height="18"
+            fill="none" stroke="currentColor" stroke-width="4"/>
+          <rect x="37" y="9" width="18" height="18"
+            fill="none" stroke="currentColor" stroke-width="4"/>
+          <rect x="9" y="37" width="18" height="18"
+            fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M46 37V55M37 46H55"
+            stroke="currentColor" stroke-width="4"/>
+        </svg>
+      </div>
+      <div class="mode-name">PATTERN</div>
+      <div class="mode-description">Sequence · logic · predict</div>
+      <div class="mode-meta">LOCKED</div>
+    </button>
+
+    <button class="mode-card trap-mode locked" onclick="comingSoon('TRAP')">
+      <div class="mode-icon">
+        <svg viewBox="0 0 64 64">
+          <path d="M32 7L57 53H7L32 7Z"
+            fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M32 23V37"
+            stroke="currentColor" stroke-width="5"/>
+          <circle cx="32" cy="45" r="2.5" fill="currentColor"/>
+        </svg>
+      </div>
+      <div class="mode-name">TRAP</div>
+      <div class="mode-description">Decoys · danger · instinct</div>
+      <div class="mode-meta">LOCKED</div>
+    </button>
+
+  </div>
+
+  <div class="home-footer">
+    <span>⚙ SETTINGS</span>
+    <span>🏆 PERSONAL BEST</span>
+  </div>
+
+</section>
+
+
+<!-- SPEED GAME -->
+<section id="speedGame" class="screen hidden">
+
+  <div class="game-top">
+
+    <div>
+      <div class="stat-label">LEVEL</div>
+      <div id="levelStat" class="stat-value">1/30</div>
+    </div>
+
+    <div class="game-title">⚡ SPEED</div>
+
+    <div class="right">
+      <div class="stat-label">SCORE</div>
+      <div id="scoreStat" class="stat-value">0</div>
+    </div>
+
+  </div>
+
+  <div class="game-top" style="margin-top:8px">
+
+    <div>
+      <div class="stat-label">LIVES</div>
+      <div id="livesStat" class="stat-value">❤️❤️❤️</div>
+    </div>
+
+    <div class="center">
+      <div class="stat-label">STREAK</div>
+      <div id="streakStat" class="stat-value">0</div>
+    </div>
+
+    <div class="right">
+      <div class="stat-label">BEST</div>
+      <div id="bestStat" class="stat-value">0</div>
+    </div>
+
+  </div>
+
+  <div class="progress-wrap">
+    <div id="progress"></div>
+  </div>
+
+  <div class="level-heading">
+    <div id="levelLabel" class="level-number">SPEED — LEVEL 1</div>
+    <div id="challengeTitle" class="challenge-title">REACTION</div>
+    <div id="instruction" class="instruction">Get ready.</div>
+  </div>
+
+  <div id="arena">
+
+    <div id="message"></div>
+
+    <div id="countdown" class="hidden"></div>
+
+    <button id="target"
+      class="target"
+      onclick="targetClicked()">
+    </button>
+
+    <button id="centerButton"
+      class="hidden"
+      onclick="centerClicked()">
+      WAIT
+    </button>
+
+    <div id="feedback"></div>
+
+  </div>
+
+  <div class="game-footer">
+    BRAIN RUSH • TRAIN YOUR REACTION
+  </div>
+
+</section>
+
+
+<!-- FINISH -->
+<section id="finish" class="screen hidden">
+
+  <div class="finish-icon">🏆</div>
+
+  <div class="finish-title">
+    GAME<br>COMPLETE!
+  </div>
+
+  <div class="finish-card">
+
+    <div class="final-label">FINAL SCORE</div>
+
+    <div id="finishScore" class="final-score">
+      0
+    </div>
+
+    <div id="finishBest" class="best">
+      PERSONAL BEST: 0
+    </div>
+
+    <div class="finish-stats">
+
+      <div class="finish-stat">
+        <strong id="finishLevels">0</strong>
+        <span>LEVELS</span>
       </div>
 
+      <div class="finish-stat">
+        <strong id="finishAccuracy">0%</strong>
+        <span>ACCURACY</span>
+      </div>
 
-      <h1>
-        BRAIN <span>RUSH</span>
-      </h1>
-
-      <div class="tagline">
-        THINK FAST. SEE FASTER.
+      <div class="finish-stat">
+        <strong id="finishStreak">x0</strong>
+        <span>MAX STREAK</span>
       </div>
 
     </div>
 
-
-    <!-- PERSONAL BEST -->
-
-    <div class="home-best">
-
-      <div class="home-best-label">
-        SPEED PERSONAL BEST
-      </div>
-
-      <div id="homeBest"
-           class="home-best-score">
-        0
-      </div>
-
-    </div>
-
-
-    <div class="mode-title">
-      CHOOSE YOUR BATTLE
-    </div>
-
-
-    <!-- =================================================
-         MODE CARDS — ONE SET ONLY
-    ================================================== -->
-
-    <div class="mode-grid">
-
-
-      <!-- SPEED -->
-
-      <button
-        class="mode-card speed-mode"
-        onclick="startSpeed()">
-
-        <div class="mode-icon">
-
-          <svg viewBox="0 0 64 64">
-
-            <path
-              d="
-                M35 4
-                L12 36
-                H28
-                L24 60
-                L52 24
-                H35
-                L35 4Z
-              "
-
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-              stroke-linejoin="round"
-            />
-
-          </svg>
-
-        </div>
-
-        <div class="mode-name">
-          SPEED
-        </div>
-
-        <div class="mode-description">
-          Reaction · timing · pressure
-        </div>
-
-        <div class="mode-meta">
-          PLAY NOW
-        </div>
-
-      </button>
-
-
-      <!-- MEMORY -->
-
-      <button
-        class="mode-card memory-mode locked"
-        onclick="comingSoon('MEMORY')">
-
-        <div class="mode-icon">
-
-          <svg viewBox="0 0 64 64">
-
-            <path
-              d="
-                M14 20
-                C14 12 22 8 29 12
-                L32 15
-                L35 12
-                C42 8 50 12 50 20
-                V45
-                C50 53 42 57 35 53
-                L32 50
-                L29 53
-                C22 57 14 53 14 45Z
-              "
-
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-            />
-
-            <path
-              d="
-                M32 15V50
-                M21 25H27
-                M37 25H43
-                M21 36H27
-                M37 36H43
-              "
-
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-            />
-
-          </svg>
-
-        </div>
-
-        <div class="mode-name">
-          MEMORY
-        </div>
-
-        <div class="mode-description">
-          Remember · adapt · repeat
-        </div>
-
-        <div class="mode-meta">
-          LOCKED
-        </div>
-
-      </button>
-
-
-      <!-- OBSERVATION -->
-
-      <button
-        class="mode-card observation-mode locked"
-        onclick="comingSoon('OBSERVATION')">
-
-        <div class="mode-icon">
-
-          <svg viewBox="0 0 64 64">
-
-            <path
-              d="
-                M5 32
-                C13 18 22 12 32 12
-                C42 12 51 18 59 32
-                C51 46 42 52 32 52
-                C22 52 13 46 5 32Z
-              "
-
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-            />
-
-            <circle
-              cx="32"
-              cy="32"
-              r="10"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-            />
-
-            <circle
-              cx="32"
-              cy="32"
-              r="3"
-              fill="currentColor"
-            />
-
-          </svg>
-
-        </div>
-
-        <div class="mode-name">
-          OBSERVATION
-        </div>
-
-        <div class="mode-description">
-          Notice · compare · detect
-        </div>
-
-        <div class="mode-meta">
-          LOCKED
-        </div>
-
-      </button>
-
-
-      <!-- PRECISION -->
-
-      <button
-        class="mode-card precision-mode locked"
-        onclick="comingSoon('PRECISION')">
-
-        <div class="mode-icon">
-
-          <svg viewBox="0 0 64 64">
-
-            <circle
-              cx="32"
-              cy="32"
-              r="21"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-            />
-
-            <circle
-              cx="32"
-              cy="32"
-              r="11"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-            />
-
-            <circle
-              cx="32"
-              cy="32"
-              r="3"
-              fill="currentColor"
-            />
-
-            <path
-              d="
-                M32 4V16
-                M32 48V60
-                M4 32H16
-                M48 32H60
-              "
-
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-            />
-
-          </svg>
-
-        </div>
-
-        <div class="mode-name">
-          PRECISION
-        </div>
-
-        <div class="mode-description">
-          Control · accuracy · focus
-        </div>
-
-        <div class="mode-meta">
-          LOCKED
-        </div>
-
-      </button>
-
-
-      <!-- PATTERN -->
-
-      <button
-        class="mode-card pattern-mode locked"
-        onclick="comingSoon('PATTERN')">
-
-        <div class="mode-icon">
-
-          <svg viewBox="0 0 64 64">
-
-            <rect
-              x="9"
-              y="9"
-              width="18"
-              height="18"
-              rx="3"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-            />
-
-            <rect
-              x="37"
-              y="9"
-              width="18"
-              height="18"
-              rx="3"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-            />
-
-            <rect
-              x="9"
-              y="37"
-              width="18"
-              height="18"
-              rx="3"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-            />
-
-            <path
-              d="
-                M46 37V55
-                M37 46H55
-              "
-
-              stroke="currentColor"
-              stroke-width="4"
-              stroke-linecap="round"
-            />
-
-          </svg>
-
-        </div>
-
-        <div class="mode-name">
-          PATTERN
-        </div>
-
-        <div class="mode-description">
-          Sequence · logic · predict
-        </div>
-
-        <div class="mode-meta">
-          LOCKED
-        </div>
-
-      </button>
-
-
-      <!-- TRAP -->
-
-      <button
-        class="mode-card trap-mode locked"
-        onclick="comingSoon('TRAP')">
-
-        <div class="mode-icon">
-
-          <svg viewBox="0 0 64 64">
-
-            <path
-              d="
-                M32 7
-                L57 53
-                H7
-                L32 7Z
-              "
-
-              fill="none"
-              stroke="currentColor"
-              stroke-width="4"
-              stroke-linejoin="round"
-            />
-
-            <path
-              d="
-                M32 23V37
-              "
-
-              stroke="currentColor"
-              stroke-width="5"
-              stroke-linecap="round"
-            />
-
-            <circle
-              cx="32"
-              cy="45"
-              r="2.5"
-              fill="currentColor"
-            />
-
-          </svg>
-
-        </div>
-
-        <div class="mode-name">
-          TRAP
-        </div>
-
-        <div class="mode-description">
-          Decoys · danger · instinct
-        </div>
-
-        <div class="mode-meta">
-          LOCKED
-        </div>
-
-      </button>
-
-    </div>
-
-
-    <div class="home-footer">
-
-      <span>⚙ SETTINGS</span>
-
-      <span>🏆 PERSONAL BEST</span>
-
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       SPEED GAME — ONE GAME SCREEN ONLY
-  ====================================================== -->
-
-  <section
-    id="speedGame"
-    class="screen hidden"
-  >
-
-    <div class="game-header">
-
-      <div class="game-top">
-
-        <div class="stat-box">
-
-          <div class="stat-label">
-            LEVEL
-          </div>
-
-          <div
-            id="levelStat"
-            class="stat-value">
-            1/30
-          </div>
-
-        </div>
-
-
-        <div class="game-title">
-          ⚡ SPEED
-        </div>
-
-
-        <div class="stat-box right">
-
-          <div class="stat-label">
-            SCORE
-          </div>
-
-          <div
-            id="scoreStat"
-            class="stat-value">
-            0
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div
-        class="game-top"
-        style="margin-top:8px;"
-      >
-
-        <div class="stat-box">
-
-          <div class="stat-label">
-            LIVES
-          </div>
-
-          <div
-            id="livesStat"
-            class="stat-value">
-            ❤️❤️❤️
-          </div>
-
-        </div>
-
-
-        <div
-          class="stat-box"
-          style="text-align:center;"
-        >
-
-          <div class="stat-label">
-            STREAK
-          </div>
-
-          <div
-            id="streakStat"
-            class="stat-value">
-            0
-          </div>
-
-        </div>
-
-
-        <div class="stat-box right">
-
-          <div class="stat-label">
-            BEST
-          </div>
-
-          <div
-            id="bestStat"
-            class="stat-value">
-            0
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <div class="progress-wrap">
-
-        <div id="progress"></div>
-
-      </div>
-
-
-      <div class="level-heading">
-
-        <div
-          id="levelLabel"
-          class="level-number">
-          SPEED — LEVEL 1
-        </div>
-
-        <div
-          id="challengeTitle"
-          class="challenge-title">
-          REACTION
-        </div>
-
-        <div
-          id="instruction"
-          class="instruction">
-          Get ready.
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- =================================================
-         ARENA
-    ================================================== -->
-
-    <div id="arena">
-
-      <div class="arena-glow"></div>
-
-      <div id="message"></div>
-
-      <div
-        id="countdown"
-        class="hidden">
-      </div>
-
-
-      <button
-        id="target"
-        class="target"
-        onclick="targetClicked()">
-      </button>
-
-
-      <button
-        id="centerButton"
-        class="hidden"
-        onclick="centerClicked()">
-        WAIT
-      </button>
-
-
-      <div id="feedback"></div>
-
-    </div>
-
-
-    <div class="game-footer">
-      BRAIN RUSH • TRAIN YOUR REACTION
-    </div>
-
-  </section>
-
-
-  <!-- =====================================================
-       FINISH SCREEN
-  ====================================================== -->
-
-  <section
-    id="finish"
-    class="screen hidden"
-  >
-
-    <div class="finish-icon">
-      🏆
-    </div>
-
-    <div class="finish-title">
-      GAME<br>
-      COMPLETE!
-    </div>
-
-
-    <div class="finish-card">
-
-      <div class="final-label">
-        FINAL SCORE
-      </div>
-
-      <div
-        id="finishScore"
-        class="final-score">
-        0
-      </div>
-
-      <div
-        id="finishBest"
-        class="best">
-        PERSONAL BEST: 0
-      </div>
-
-
-      <div class="finish-stats">
-
-        <div class="finish-stat">
-
-          <strong id="finishLevels">
-            0
-          </strong>
-
-          <span>
-            LEVELS
-          </span>
-
-        </div>
-
-
-        <div class="finish-stat">
-
-          <strong id="finishAccuracy">
-            0%
-          </strong>
-
-          <span>
-            ACCURACY
-          </span>
-
-        </div>
-
-
-        <div class="finish-stat">
-
-          <strong id="finishStreak">
-            x0
-          </strong>
-
-          <span>
-            MAX STREAK
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <button
-        class="action-button"
-        onclick="startSpeed()">
-
-        ↻ PLAY AGAIN
-
-      </button>
-
-
-      <button
-        class="secondary-button"
-        onclick="goHome()">
-
-        ← BACK TO MENU
-
-      </button>
-
-    </div>
-
-  </section>
+    <button class="action-button"
+      onclick="startSpeed()">
+      ↻ PLAY AGAIN
+    </button>
+
+    <button class="secondary-button"
+      onclick="goHome()">
+      ← BACK TO MENU
+    </button>
+
+  </div>
+
+</section>
 
 </div>
 
 
 <script>
+"use strict";
 
-/* =========================================================
+/* =========================
+   STATE
+========================= */
+
+const TOTAL_LEVELS=30;
+
+let level=1;
+let score=0;
+let lives=3;
+let streak=0;
+let maxStreak=0;
+
+let attempts=0;
+let successfulHits=0;
+
+let levelStartTime=0;
+
+let timer=null;
+let moveTimer=null;
+let sequenceTimer=null;
+
+let rapidCount=0;
+let rapidRequired=3;
+
+let sequenceStep=0;
+
+let levelLocked=false;
+
+
+/* =========================
    HELPERS
-========================================================= */
+========================= */
 
-function $(id){
-  return document.getElementById(id);
-}
+const $=id=>document.getElementById(id);
 
 function random(min,max){
-  return Math.floor(
-    Math.random() * (max-min+1)
-  ) + min;
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function clearTimers(){
+  clearTimeout(timer);
+  clearTimeout(moveTimer);
+  clearTimeout(sequenceTimer);
+  timer=null;
+  moveTimer=null;
+  sequenceTimer=null;
+}
+
+function clearMiniTargets(){
+  document.querySelectorAll(".mini-target")
+    .forEach(el=>el.remove());
+}
+
+function updateStats(){
+
+  $("levelStat").textContent=
+    level+"/"+TOTAL_LEVELS;
+
+  $("scoreStat").textContent=
+    score.toLocaleString();
+
+  $("livesStat").textContent=
+    "❤️".repeat(lives)+
+    "🖤".repeat(3-lives);
+
+  $("streakStat").textContent=
+    streak>1 ? "x"+streak : streak;
+
+  const best=Number(
+    localStorage.getItem("brainRushSpeedBest")||0
+  );
+
+  $("bestStat").textContent=
+    best.toLocaleString();
+
+  $("homeBest").textContent=
+    best.toLocaleString();
+
+  $("progress").style.width=
+    ((level-1)/TOTAL_LEVELS*100)+"%";
+}
+
+function resetArena(){
+
+  clearTimers();
+  clearMiniTargets();
+
+  $("target").style.display="none";
+  $("centerButton").classList.add("hidden");
+
+  $("message").textContent="";
+  $("feedback").textContent="";
+  $("feedback").className="feedback";
+
+  $("countdown").classList.add("hidden");
 }
 
 function setMessage(text){
-  $("message").textContent = text;
+  $("message").textContent=text;
+}
+
+function setFeedback(text,type){
+  $("feedback").textContent=text;
+  $("feedback").className="feedback "+type;
 }
 
 
-/* =========================================================
-   GAME STATE
-========================================================= */
-
-const TOTAL_LEVELS = 30;
-
-let level = 1;
-let score = 0;
-let lives = 3;
-let streak = 0;
-let maxStreak = 0;
-
-let attempts = 0;
-let successfulHits = 0;
-
-let levelStartTime = 0;
-
-let timer = null;
-let targetTimeout = null;
-let sequenceTimer = null;
-
-let rapidCount = 0;
-let rapidTargetSize = 62;
-
-let sequenceStep = 0;
-
-let levelLocked = false;
-
-
-/* =========================================================
+/* =========================
    PARTICLES
-========================================================= */
+========================= */
 
-const canvas =
-  $("particles");
+const particleCanvas=
+  document.createElement("canvas");
 
-const ctx =
-  canvas.getContext("2d");
+particleCanvas.style.position="fixed";
+particleCanvas.style.inset="0";
+particleCanvas.style.width="100%";
+particleCanvas.style.height="100%";
+particleCanvas.style.pointerEvents="none";
+particleCanvas.style.zIndex="100";
 
-let particles = [];
-
-
-function resizeCanvas(){
-
-  canvas.width =
-    window.innerWidth;
-
-  canvas.height =
-    window.innerHeight;
-
-}
-
-resizeCanvas();
-
-window.addEventListener(
-  "resize",
-  resizeCanvas
+document.body.appendChild(
+  particleCanvas
 );
 
+const pctx=
+  particleCanvas.getContext("2d");
 
-function createParticleBurst(
-  x,
-  y,
-  colour,
-  amount=30
-){
+let particles=[];
 
-  for(
-    let i=0;
-    i<amount;
-    i++
-  ){
-
-    const angle =
-      Math.random() *
-      Math.PI * 2;
-
-    const speed =
-      Math.random()*5+1.5;
-
-    particles.push({
-
-      x:x,
-      y:y,
-
-      vx:
-        Math.cos(angle) *
-        speed,
-
-      vy:
-        Math.sin(angle) *
-        speed,
-
-      life:1,
-
-      size:
-        Math.random()*3+1,
-
-      colour:colour
-
-    });
-
-  }
-
+function resizeParticles(){
+  particleCanvas.width=
+    window.innerWidth;
+  particleCanvas.height=
+    window.innerHeight;
 }
 
+resizeParticles();
+window.addEventListener(
+  "resize",
+  resizeParticles
+);
+
+function burst(x,y,color,amount=30){
+
+  for(let i=0;i<amount;i++){
+
+    const angle=
+      Math.random()*Math.PI*2;
+
+    const speed=
+      Math.random()*5+1;
+
+    particles.push({
+      x:x,
+      y:y,
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed,
+      life:1,
+      size:Math.random()*3+1,
+      color:color
+    });
+  }
+}
+
+function burstElement(el,color,amount=30){
+
+  if(!el)return;
+
+  const r=
+    el.getBoundingClientRect();
+
+  burst(
+    r.left+r.width/2,
+    r.top+r.height/2,
+    color,
+    amount
+  );
+}
 
 function particleLoop(){
 
-  ctx.clearRect(
+  pctx.clearRect(
     0,
     0,
-    canvas.width,
-    canvas.height
+    particleCanvas.width,
+    particleCanvas.height
   );
 
-  particles =
-    particles.filter(
-      function(p){
+  particles=
+    particles.filter(p=>{
 
-        p.x += p.vx;
-        p.y += p.vy;
+      p.x+=p.vx;
+      p.y+=p.vy;
 
-        p.vx *= .97;
-        p.vy *= .97;
+      p.vx*=.97;
+      p.vy*=.97;
 
-        p.life -= .025;
+      p.life-=.025;
 
-        if(p.life<=0){
-          return false;
-        }
+      if(p.life<=0)return false;
 
-        ctx.globalAlpha =
-          p.life;
+      pctx.globalAlpha=p.life;
+      pctx.fillStyle=p.color;
 
-        ctx.fillStyle =
-          p.colour;
+      pctx.beginPath();
 
-        ctx.beginPath();
+      pctx.arc(
+        p.x,
+        p.y,
+        p.size,
+        0,
+        Math.PI*2
+      );
 
-        ctx.arc(
-          p.x,
-          p.y,
-          p.size,
-          0,
-          Math.PI*2
-        );
+      pctx.fill();
 
-        ctx.fill();
+      return true;
 
-        return true;
+    });
 
-      }
-    );
-
-  ctx.globalAlpha=1;
+  pctx.globalAlpha=1;
 
   requestAnimationFrame(
     particleLoop
   );
-
 }
 
 particleLoop();
 
 
-function burstFromElement(
-  element,
-  colour,
-  amount=35
-){
+/* =========================
+   SOUND
+========================= */
 
-  if(!element){
-    return;
-  }
+let audioContext=null;
 
-  const rect =
-    element.getBoundingClientRect();
-
-  createParticleBurst(
-    rect.left +
-      rect.width/2,
-
-    rect.top +
-      rect.height/2,
-
-    colour,
-
-    amount
-  );
-
-}
-
-
-/* =========================================================
-   SIMPLE SOUND
-========================================================= */
-
-let audioContext = null;
-
-
-function sound(
-  frequency,
-  duration=.08,
-  type="sine"
-){
+function sound(freq){
 
   try{
 
     if(!audioContext){
 
-      audioContext =
+      audioContext=
         new (
-          window.AudioContext ||
+          window.AudioContext||
           window.webkitAudioContext
         )();
 
     }
 
-    const oscillator =
+    const oscillator=
       audioContext.createOscillator();
 
-    const gain =
+    const gain=
       audioContext.createGain();
 
-    oscillator.type =
-      type;
-
-    oscillator.frequency.value =
-      frequency;
+    oscillator.frequency.value=
+      freq;
 
     gain.gain.setValueAtTime(
-      .07,
+      .06,
       audioContext.currentTime
     );
 
     gain.gain.exponentialRampToValueAtTime(
       .001,
-      audioContext.currentTime +
-      duration
+      audioContext.currentTime+.1
     );
 
     oscillator.connect(gain);
@@ -2533,253 +1217,80 @@ function sound(
     oscillator.start();
 
     oscillator.stop(
-      audioContext.currentTime +
-      duration
+      audioContext.currentTime+.1
     );
 
-  }catch(error){
-
-    /* Audio is optional. */
-
-  }
-
+  }catch(e){}
 }
 
 
-/* =========================================================
-   UI
-========================================================= */
-
-function updateStats(){
-
-  $("levelStat").textContent =
-    level + "/" + TOTAL_LEVELS;
-
-  $("scoreStat").textContent =
-    score.toLocaleString();
-
-  $("livesStat").textContent =
-    "❤️".repeat(lives) +
-    "🖤".repeat(3-lives);
-
-  $("streakStat").textContent =
-    streak > 1
-      ? "x"+streak
-      : streak;
-
-  const best =
-    Number(
-      localStorage.getItem(
-        "brainRushSpeedBest"
-      ) || 0
-    );
-
-  $("bestStat").textContent =
-    best.toLocaleString();
-
-  $("homeBest").textContent =
-    best.toLocaleString();
-
-  $("progress").style.width =
-    (
-      (level-1) /
-      TOTAL_LEVELS *
-      100
-    ) + "%";
-
-}
-
-
-function setFeedback(
-  text,
-  type
-){
-
-  $("feedback").textContent =
-    text;
-
-  $("feedback").className =
-    "feedback " + type;
-
-}
-
-
-function screenFlash(type){
-
-  $("arena").classList.remove(
-    "flash-good",
-    "flash-bad"
-  );
-
-  void $("arena").offsetWidth;
-
-  $("arena").classList.add(
-    type === "good"
-      ? "flash-good"
-      : "flash-bad"
-  );
-
-}
-
-
-function shakeArena(){
-
-  $("arena").classList.remove(
-    "shake"
-  );
-
-  void $("arena").offsetWidth;
-
-  $("arena").classList.add(
-    "shake"
-  );
-
-}
-
-
-/* =========================================================
-   TIMER CLEANUP
-========================================================= */
-
-function clearTimers(){
-
-  clearTimeout(timer);
-  clearTimeout(targetTimeout);
-  clearTimeout(sequenceTimer);
-
-  timer = null;
-  targetTimeout = null;
-  sequenceTimer = null;
-
-}
-
-
-function clearMiniTargets(){
-
-  document
-    .querySelectorAll(
-      ".mini-target"
-    )
-    .forEach(
-      function(el){
-        el.remove();
-      }
-    );
-
-}
-
-
-/* =========================================================
-   RESET ARENA
-========================================================= */
-
-function resetArena(){
-
-  clearTimers();
-
-  clearMiniTargets();
-
-  $("target").style.display =
-    "none";
-
-  $("centerButton").classList.add(
-    "hidden"
-  );
-
-  $("message").textContent =
-    "";
-
-  $("feedback").textContent =
-    "";
-
-  $("feedback").className =
-    "feedback";
-
-  $("countdown").classList.add(
-    "hidden"
-  );
-
-  $("arena").classList.remove(
-    "shake",
-    "flash-good",
-    "flash-bad"
-  );
-
-}
-
-
-/* =========================================================
+/* =========================
    TARGET POSITION
-========================================================= */
+========================= */
 
 function randomPosition(
   element,
   size=70
 ){
 
-  const arena =
+  const arena=
     $("arena").getBoundingClientRect();
 
-  const margin =
-    Math.max(
-      35,
-      size/2+12
-    );
+  const margin=
+    Math.max(32,size/2+10);
 
-  const maxX =
+  const maxX=
     Math.max(
       margin,
       arena.width-margin
     );
 
-  const maxY =
+  const maxY=
     Math.max(
       margin,
       arena.height-margin
     );
 
-  element.style.left =
+  element.style.left=
     random(
       Math.ceil(margin),
       Math.floor(maxX)
-    ) + "px";
+    )+"px";
 
-  element.style.top =
+  element.style.top=
     random(
       Math.ceil(margin),
       Math.floor(maxY)
-    ) + "px";
-
+    )+"px";
 }
 
 
-/* =========================================================
-   DYNAMIC TARGET
-========================================================= */
+/* =========================
+   MINI TARGETS
+========================= */
 
 function createMiniTarget(
-  colour,
+  color,
   correct,
   size,
   action
 ){
 
-  const button =
-    document.createElement(
-      "button"
-    );
+  const button=
+    document.createElement("button");
 
-  button.className =
-    "target mini-target " +
-    colour;
+  button.type="button";
 
-  button.style.width =
+  button.className=
+    "target mini-target "+color;
+
+  button.style.width=
     size+"px";
 
-  button.style.height =
+  button.style.height=
     size+"px";
 
-  button.style.display =
+  button.style.display=
     "block";
 
   randomPosition(
@@ -2787,7 +1298,7 @@ function createMiniTarget(
     size
   );
 
-  button.onclick =
+  button.onclick=
     function(event){
 
       event.stopPropagation();
@@ -2796,7 +1307,6 @@ function createMiniTarget(
         correct,
         button
       );
-
     };
 
   $("arena").appendChild(
@@ -2804,13 +1314,34 @@ function createMiniTarget(
   );
 
   return button;
-
 }
 
 
-/* =========================================================
-   START SPEED
-========================================================= */
+/* =========================
+   LEVEL TYPES
+========================= */
+
+function levelType(n){
+
+  if(n===1)return "reaction";
+  if(n===2)return "rapid";
+  if(n===3)return "dontjump";
+  if(n===4)return "moving";
+  if(n===5)return "sequence";
+
+  if(n%6===0)return "precision";
+  if(n%5===0)return "sequence";
+  if(n%4===0)return "moving";
+  if(n%3===0)return "dontjump";
+  if(n%2===0)return "rapid";
+
+  return "reaction";
+}
+
+
+/* =========================
+   START
+========================= */
 
 function startSpeed(){
 
@@ -2827,50 +1358,44 @@ function startSpeed(){
 
   levelLocked=true;
 
-  $("home").classList.add(
-    "hidden"
-  );
-
-  $("finish").classList.add(
-    "hidden"
-  );
-
-  $("speedGame").classList.remove(
-    "hidden"
-  );
+  $("home").classList.add("hidden");
+  $("finish").classList.add("hidden");
+  $("speedGame").classList.remove("hidden");
 
   resetArena();
-
   updateStats();
 
-  launchCountdown();
-
+  countdown();
 }
 
 
-/* =========================================================
-   3 — 2 — 1 — GO
-========================================================= */
+/* =========================
+   COUNTDOWN
+========================= */
 
-function launchCountdown(){
+function countdown(){
 
-  const countdown =
-    $("countdown");
-
-  const values =
-    ["3","2","1","GO!"];
+  const values=[
+    "3",
+    "2",
+    "1",
+    "GO!"
+  ];
 
   let index=0;
 
-  countdown.classList.remove(
+  const box=
+    $("countdown");
+
+  box.classList.remove(
     "hidden"
   );
 
   function next(){
 
-    if(index >= values.length){
+    if(index>=values.length){
 
-      countdown.classList.add(
+      box.classList.add(
         "hidden"
       );
 
@@ -2879,134 +1404,68 @@ function launchCountdown(){
       startLevel();
 
       return;
-
     }
 
-    countdown.textContent =
+    box.textContent=
       values[index];
 
-    countdown.classList.remove(
+    box.classList.remove(
       "countdown-pop"
     );
 
-    void countdown.offsetWidth;
+    void box.offsetWidth;
 
-    countdown.classList.add(
+    box.classList.add(
       "countdown-pop"
     );
 
-    if(values[index] === "GO!"){
+    sound(
+      values[index]==="GO!"
+        ? 900
+        : 400+index*100
+    );
 
-      sound(880,.12);
+    if(values[index]==="GO!"){
 
-      createParticleBurst(
-        window.innerWidth/2,
-        window.innerHeight/2,
+      burst(
+        innerWidth/2,
+        innerHeight/2,
         "#35f29a",
         45
       );
-
-    }else{
-
-      sound(
-        400 +
-        index*100,
-        .08
-      );
-
     }
 
     index++;
 
-    timer =
+    timer=
       setTimeout(
         next,
         700
       );
-
   }
 
   next();
-
 }
 
 
-/* =========================================================
-   LEVEL SETUP
-========================================================= */
+/* =========================
+   LEVEL START
+========================= */
 
 function setupLevel(
   title,
   instruction
 ){
 
-  $("levelLabel").textContent =
-    "SPEED — LEVEL " +
-    level;
+  $("levelLabel").textContent=
+    "SPEED — LEVEL "+level;
 
-  $("challengeTitle").textContent =
+  $("challengeTitle").textContent=
     title;
 
-  $("instruction").textContent =
+  $("instruction").textContent=
     instruction;
-
 }
-
-
-/* =========================================================
-   LEVEL SELECTOR
-========================================================= */
-
-function getLevelType(n){
-
-  if(n===1){
-    return "reaction";
-  }
-
-  if(n===2){
-    return "rapid";
-  }
-
-  if(n===3){
-    return "dontjump";
-  }
-
-  if(n===4){
-    return "moving";
-  }
-
-  if(n===5){
-    return "sequence";
-  }
-
-  if(n%6===0){
-    return "precision";
-  }
-
-  if(n%5===0){
-    return "sequence";
-  }
-
-  if(n%4===0){
-    return "moving";
-  }
-
-  if(n%3===0){
-    return "dontjump";
-  }
-
-  if(n%2===0){
-    return "rapid";
-  }
-
-  return "reaction";
-
-}
-
-
-/* =========================================================
-   START LEVEL
-========================================================= */
 
 function startLevel(){
 
@@ -3016,39 +1475,32 @@ function startLevel(){
 
   updateStats();
 
-  const type =
-    getLevelType(level);
+  const type=
+    levelType(level);
 
-  if(type==="reaction"){
+  if(type==="reaction")
     levelReaction();
-  }
 
-  else if(type==="rapid"){
+  else if(type==="rapid")
     levelRapid();
-  }
 
-  else if(type==="dontjump"){
+  else if(type==="dontjump")
     levelDontJump();
-  }
 
-  else if(type==="moving"){
+  else if(type==="moving")
     levelMoving();
-  }
 
-  else if(type==="sequence"){
+  else if(type==="sequence")
     levelSequence();
-  }
 
-  else if(type==="precision"){
+  else if(type==="precision")
     levelPrecision();
-  }
-
 }
 
 
-/* =========================================================
-   REACTION
-========================================================= */
+/* =========================
+   LEVEL 1 / REACTION
+========================= */
 
 function levelReaction(){
 
@@ -3057,55 +1509,43 @@ function levelReaction(){
     "Wait for the target. Hit it instantly."
   );
 
-  setMessage(
-    "GET READY..."
-  );
+  setMessage("GET READY...");
 
-  const difficulty =
+  const difficulty=
     Math.min(
       1,
       (level-1)/29
     );
 
-  const size =
+  const size=
     Math.max(
       40,
-      Math.round(
-        70 -
-        difficulty*25
-      )
+      70-difficulty*25
     );
 
-  const delay =
+  const delay=
     random(
-      Math.round(
-        750 -
-        difficulty*250
-      ),
-
-      Math.round(
-        1450 -
-        difficulty*400
-      )
+      750-difficulty*250,
+      1450-difficulty*400
     );
 
-  timer =
+  timer=
     setTimeout(
       function(){
 
-        const target =
+        const target=
           $("target");
 
-        target.className =
+        target.className=
           "target blue";
 
-        target.style.width =
+        target.style.width=
           size+"px";
 
-        target.style.height =
+        target.style.height=
           size+"px";
 
-        target.style.display =
+        target.style.display=
           "block";
 
         randomPosition(
@@ -3117,146 +1557,129 @@ function levelReaction(){
           "pop"
         );
 
-        levelStartTime =
+        levelStartTime=
           performance.now();
 
         setMessage("");
 
-        sound(900,.06);
+        sound(900);
 
       },
       delay
     );
-
 }
 
+function reactionSuccess(){
 
-function levelReactionSuccess(){
-
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
   levelLocked=true;
 
   attempts++;
   successfulHits++;
 
-  const reaction =
-    performance.now() -
+  const reaction=
+    performance.now()-
     levelStartTime;
 
-  const points =
+  const points=
     Math.max(
       80,
       Math.round(
-        900 -
-        reaction*1.25
+        900-reaction*1.25
       )
     );
 
-  score +=
-    points +
+  score+=
+    points+
     streak*10;
 
   streak++;
 
-  maxStreak =
+  maxStreak=
     Math.max(
       maxStreak,
       streak
     );
 
-  burstFromElement(
+  burstElement(
     $("target"),
     "#24e8ff",
     40
   );
 
-  $("target").style.display =
+  $("target").style.display=
     "none";
 
   setFeedback(
-    "+" +
-    points +
-    " • " +
-    Math.round(reaction) +
+    "+"+points+
+    " • "+
+    Math.round(reaction)+
     "ms",
     "good"
   );
 
-  screenFlash("good");
-
-  sound(1200,.09);
+  sound(1200);
 
   updateStats();
 
   nextLevel();
-
 }
 
 
-/* =========================================================
+/* =========================
    RAPID FIRE
-========================================================= */
+========================= */
 
 function levelRapid(){
 
   rapidCount=0;
 
-  rapidTargetSize =
-    Math.max(
-      38,
-      64 -
-      Math.floor(level/4)*4
+  rapidRequired=
+    3+
+    Math.floor(
+      (level-2)/10
     );
 
   setupLevel(
     "RAPID FIRE",
-    "Find BLUE. Red and yellow targets are traps."
+    "Find BLUE. The other targets are traps."
   );
 
-  setMessage(
-    "FIND BLUE"
-  );
+  setMessage("FIND BLUE");
 
-  timer =
+  timer=
     setTimeout(
-      startRapidRound,
+      rapidRound,
       500
     );
-
 }
 
-
-function startRapidRound(){
-
-  if(levelLocked){
-    return;
-  }
+function rapidRound(){
 
   clearMiniTargets();
 
-  const size =
+  const size=
     Math.max(
-      34,
-      rapidTargetSize -
-      rapidCount*4
-    );
-
-  const decoys =
-    Math.min(
-      4,
-      2 +
-      Math.floor(level/10)
+      36,
+      64-
+      rapidCount*5-
+      Math.floor(level/5)*3
     );
 
   createMiniTarget(
     "blue",
     true,
     size,
-    rapidAction
+    rapidClick
   );
+
+  const decoys=
+    Math.min(
+      4,
+      2+
+      Math.floor(level/10)
+    );
 
   for(
     let i=0;
@@ -3266,33 +1689,27 @@ function startRapidRound(){
 
     createMiniTarget(
       i%2===0
-        ? "red"
-        : "yellow",
+        ?"red"
+        :"yellow",
       false,
       size,
-      rapidAction
+      rapidClick
     );
-
   }
 
   if(rapidCount===0){
 
-    levelStartTime =
+    levelStartTime=
       performance.now();
-
   }
-
 }
 
-
-function rapidAction(
+function rapidClick(
   correct,
   button
 ){
 
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
   attempts++;
 
@@ -3303,63 +1720,58 @@ function rapidAction(
     );
 
     return;
-
   }
 
   successfulHits++;
-
   rapidCount++;
 
-  burstFromElement(
+  burstElement(
     button,
     "#24e8ff",
     25
   );
 
   sound(
-    650 +
-    rapidCount*100,
-    .06
+    700+
+    rapidCount*100
   );
 
   clearMiniTargets();
 
-  const required =
-    3 +
-    Math.floor(level/8);
-
-  if(rapidCount>=required){
+  if(
+    rapidCount>=
+    rapidRequired
+  ){
 
     levelLocked=true;
 
-    const elapsed =
-      performance.now() -
+    const elapsed=
+      performance.now()-
       levelStartTime;
 
-    const points =
+    const points=
       Math.max(
         180,
         Math.round(
-          1700 -
+          1700-
           elapsed*1.1
         )
       );
 
-    score +=
-      points +
+    score+=
+      points+
       streak*15;
 
     streak++;
 
-    maxStreak =
+    maxStreak=
       Math.max(
         maxStreak,
         streak
       );
 
     setFeedback(
-      "+" +
-      points +
+      "+"+points+
       " • CLEAR!",
       "good"
     );
@@ -3368,35 +1780,31 @@ function rapidAction(
       "TARGETS CLEARED"
     );
 
-    screenFlash("good");
-
     updateStats();
 
     nextLevel();
 
     return;
-
   }
 
   setFeedback(
-    rapidCount +
-    "/" +
-    required,
+    rapidCount+
+    "/"+
+    rapidRequired,
     "good"
   );
 
-  timer =
+  timer=
     setTimeout(
-      startRapidRound,
-      100
+      rapidRound,
+      120
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    DON'T JUMP
-========================================================= */
+========================= */
 
 function levelDontJump(){
 
@@ -3405,7 +1813,7 @@ function levelDontJump(){
     "Wait. TAP only when the circle turns GREEN."
   );
 
-  const button =
+  const button=
     $("centerButton");
 
   button.classList.remove(
@@ -3416,33 +1824,20 @@ function levelDontJump(){
     "ready"
   );
 
-  button.textContent =
+  button.textContent=
     "WAIT";
 
   setMessage(
     "DON'T TAP"
   );
 
-  const difficulty =
+  const difficulty=
     Math.min(
       1,
       (level-1)/29
     );
 
-  const wait =
-    random(
-      Math.round(
-        900 -
-        difficulty*250
-      ),
-
-      Math.round(
-        1700 -
-        difficulty*400
-      )
-    );
-
-  timer =
+  timer=
     setTimeout(
       function(){
 
@@ -3450,34 +1845,31 @@ function levelDontJump(){
           "ready"
         );
 
-        button.textContent =
+        button.textContent=
           "TAP!";
 
-        levelStartTime =
+        levelStartTime=
           performance.now();
 
-        setMessage(
-          "NOW!"
-        );
+        setMessage("NOW!");
 
-        sound(1000,.08);
+        sound(1000);
 
       },
-      wait
+      random(
+        800-difficulty*200,
+        1600-difficulty*350
+      )
     );
-
 }
-
 
 function centerClicked(){
 
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
   attempts++;
 
-  const button =
+  const button=
     $("centerButton");
 
   if(
@@ -3491,39 +1883,38 @@ function centerClicked(){
     );
 
     return;
-
   }
 
   levelLocked=true;
 
   successfulHits++;
 
-  const reaction =
-    performance.now() -
+  const reaction=
+    performance.now()-
     levelStartTime;
 
-  const points =
+  const points=
     Math.max(
       120,
       Math.round(
-        850 -
+        850-
         reaction*1.2
       )
     );
 
-  score +=
-    points +
+  score+=
+    points+
     streak*10;
 
   streak++;
 
-  maxStreak =
+  maxStreak=
     Math.max(
       maxStreak,
       streak
     );
 
-  burstFromElement(
+  burstElement(
     button,
     "#35f29a",
     45
@@ -3534,32 +1925,24 @@ function centerClicked(){
   );
 
   setFeedback(
-    "+" +
-    points +
-    " • " +
-    Math.round(reaction) +
+    "+"+points+
+    " • "+
+    Math.round(reaction)+
     "ms",
     "good"
   );
 
-  setMessage(
-    "GOOD DISCIPLINE"
-  );
-
-  screenFlash("good");
-
-  sound(1100,.1);
+  sound(1100);
 
   updateStats();
 
   nextLevel();
-
 }
 
 
-/* =========================================================
+/* =========================
    MOVING TARGET
-========================================================= */
+========================= */
 
 function levelMoving(){
 
@@ -3572,30 +1955,30 @@ function levelMoving(){
     "TRACK IT..."
   );
 
-  timer =
+  timer=
     setTimeout(
       function(){
 
-        const target =
+        const target=
           $("target");
 
-        const size =
+        const size=
           Math.max(
             40,
-            68 -
+            68-
             Math.floor(level/5)*4
           );
 
-        target.className =
+        target.className=
           "target yellow";
 
-        target.style.width =
+        target.style.width=
           size+"px";
 
-        target.style.height =
+        target.style.height=
           size+"px";
 
-        target.style.display =
+        target.style.display=
           "block";
 
         randomPosition(
@@ -3603,7 +1986,7 @@ function levelMoving(){
           size
         );
 
-        levelStartTime =
+        levelStartTime=
           performance.now();
 
         moveTarget();
@@ -3611,56 +1994,39 @@ function levelMoving(){
       },
       450
     );
-
 }
-
 
 function moveTarget(){
 
-  if(
-    levelLocked ||
-    getLevelType(level)!=="moving"
-  ){
-    return;
-  }
+  if(levelLocked)return;
 
-  const target =
+  const target=
     $("target");
 
-  const size =
+  const size=
     parseInt(
       target.style.width
-    ) || 60;
+    )||60;
 
   randomPosition(
     target,
     size
   );
 
-  targetTimeout =
+  moveTimer=
     setTimeout(
       moveTarget,
-      random(
-        Math.max(
-          220,
-          520-level*8
-        ),
-
-        Math.max(
-          300,
-          720-level*10
-        )
+      Math.max(
+        230,
+        600-
+        level*10
       )
     );
-
 }
-
 
 function movingSuccess(){
 
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
   levelLocked=true;
 
@@ -3668,91 +2034,64 @@ function movingSuccess(){
   successfulHits++;
 
   clearTimeout(
-    targetTimeout
+    moveTimer
   );
 
-  const elapsed =
-    performance.now() -
+  const elapsed=
+    performance.now()-
     levelStartTime;
 
-  const points =
+  const points=
     Math.max(
       150,
       Math.round(
-        1250 -
+        1250-
         elapsed
       )
     );
 
-  score +=
-    points +
+  score+=
+    points+
     streak*12;
 
   streak++;
 
-  maxStreak =
+  maxStreak=
     Math.max(
       maxStreak,
       streak
     );
 
-  burstFromElement(
+  burstElement(
     $("target"),
     "#ffd84d",
     45
   );
 
-  $("target").style.display =
+  $("target").style.display=
     "none";
 
   setFeedback(
-    "+" +
-    points +
+    "+"+
+    points+
     " • TRACKED",
     "good"
   );
 
-  screenFlash("good");
-
-  sound(950,.08);
+  sound(950);
 
   updateStats();
 
   nextLevel();
-
 }
 
 
-/* =========================================================
+/* =========================
    SEQUENCE
-========================================================= */
-
-function levelSequence(){
-
-  sequenceStep=0;
-
-  setupLevel(
-    "SEQUENCE ASSAULT",
-    "Hit the colours in the correct order."
-  );
-
-  setMessage(
-    const sequence = getSequence();
-
-setMessage(
-  sequence[0].toUpperCase() +
-  " FIRST"
-);
-  );
-
-  timer =
-    setTimeout(
-      startSequenceRound,
-      500
-    );
-
-}
-
+   IMPORTANT FIX:
+   THE DISPLAY ALWAYS MATCHES
+   THE ACTUAL SEQUENCE.
+========================= */
 
 function getSequence(){
 
@@ -3764,7 +2103,6 @@ function getSequence(){
       "green",
       "red"
     ];
-
   }
 
   if(level<25){
@@ -3775,7 +2113,6 @@ function getSequence(){
       "blue",
       "green"
     ];
-
   }
 
   return [
@@ -3784,64 +2121,87 @@ function getSequence(){
     "red",
     "yellow"
   ];
-
 }
 
+function levelSequence(){
 
-function startSequenceRound(){
+  sequenceStep=0;
 
-  if(levelLocked){
-    return;
-  }
+  const sequence=
+    getSequence();
+
+  setupLevel(
+    "SEQUENCE ASSAULT",
+    "Hit the colours in the correct order."
+  );
+
+  /* THIS IS THE FIX */
+  setMessage(
+    "SEQUENCE: "+
+    sequence
+      .map(
+        c=>c.toUpperCase()
+      )
+      .join(" → ")
+  );
+
+  timer=
+    setTimeout(
+      sequenceRound,
+      500
+    );
+}
+
+function sequenceRound(){
 
   clearMiniTargets();
 
-  const sequence =
+  const sequence=
     getSequence();
 
-  const correctColour =
+  const correct=
     sequence[
       sequenceStep
     ];
 
-  const size =
+  const size=
     Math.max(
       38,
-      60 -
-      sequenceStep*5 -
+      62-
+      sequenceStep*5-
       Math.floor(level/10)*4
     );
 
-  const colours =
-    [
-      "blue",
-      "yellow",
-      "green",
-      "red"
-    ];
+  const colours=[
+    "blue",
+    "yellow",
+    "green",
+    "red"
+  ];
 
   colours.forEach(
     function(colour){
 
       createMiniTarget(
         colour,
-        colour===correctColour,
+        colour===correct,
         size,
-        sequenceAction
+        sequenceClick
       );
 
     }
   );
 
-  const timeLimit =
-    Math.max(
-      700,
-      1500 -
-      level*20 -
-      sequenceStep*120
-    );
+  setMessage(
+    "NOW: "+
+    correct.toUpperCase()+
+    "   •   "+
+    (sequenceStep+1)+
+    "/"+
+    sequence.length
+  );
 
-  sequenceTimer =
+  sequenceTimer=
     setTimeout(
       function(){
 
@@ -3850,20 +2210,27 @@ function startSequenceRound(){
         );
 
       },
-      timeLimit
+      Math.max(
+        750,
+        1500-
+        level*20-
+        sequenceStep*120
+      )
     );
 
+  if(sequenceStep===0){
+
+    levelStartTime=
+      performance.now();
+  }
 }
 
-
-function sequenceAction(
+function sequenceClick(
   correct,
   button
 ){
 
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
   attempts++;
 
@@ -3874,7 +2241,6 @@ function sequenceAction(
     );
 
     return;
-
   }
 
   successfulHits++;
@@ -3883,23 +2249,22 @@ function sequenceAction(
     sequenceTimer
   );
 
-  burstFromElement(
+  burstElement(
     button,
     "#a855ff",
     25
   );
 
   sound(
-    650 +
-    sequenceStep*130,
-    .06
+    650+
+    sequenceStep*130
   );
 
   clearMiniTargets();
 
   sequenceStep++;
 
-  const sequence =
+  const sequence=
     getSequence();
 
   if(
@@ -3909,78 +2274,60 @@ function sequenceAction(
 
     levelLocked=true;
 
-    const elapsed =
-      performance.now() -
+    const elapsed=
+      performance.now()-
       levelStartTime;
 
-    const points =
+    const points=
       Math.max(
         220,
         Math.round(
-          1900 -
+          1900-
           elapsed
         )
       );
 
-    score +=
-      points +
+    score+=
+      points+
       streak*20;
 
     streak++;
 
-    maxStreak =
+    maxStreak=
       Math.max(
         maxStreak,
         streak
       );
 
     setFeedback(
-      "+" +
-      points +
+      "+"+
+      points+
       " • SEQUENCE CLEAR",
       "good"
     );
 
     setMessage(
-      "PERFECT SEQUENCE"
+      "PERFECT SEQUENCE!"
     );
-
-    screenFlash("good");
 
     updateStats();
 
     nextLevel();
 
     return;
-
   }
 
-  setFeedback(
-    sequenceStep +
-    "/" +
-    sequence.length,
-    "good"
-  );
-
-  setMessage(
-    "NEXT: " +
-    sequence[
-      sequenceStep
-    ].toUpperCase()
-  );
-
-  timer =
+  timer=
     setTimeout(
-      startSequenceRound,
-      120
+      sequenceRound,
+      130
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    PRECISION
-========================================================= */
+========================= */
 
 function levelPrecision(){
 
@@ -3993,30 +2340,30 @@ function levelPrecision(){
     "FOCUS..."
   );
 
-  timer =
+  timer=
     setTimeout(
       function(){
 
-        const target =
+        const target=
           $("target");
 
-        const size =
+        const size=
           Math.max(
             25,
-            52 -
+            52-
             Math.floor(level/3)*3
           );
 
-        target.className =
+        target.className=
           "target purple";
 
-        target.style.width =
+        target.style.width=
           size+"px";
 
-        target.style.height =
+        target.style.height=
           size+"px";
 
-        target.style.display =
+        target.style.display=
           "block";
 
         randomPosition(
@@ -4024,10 +2371,10 @@ function levelPrecision(){
           size
         );
 
-        levelStartTime =
+        levelStartTime=
           performance.now();
 
-        targetTimeout =
+        moveTimer=
           setTimeout(
             function(){
 
@@ -4038,132 +2385,111 @@ function levelPrecision(){
             },
             Math.max(
               650,
-              1500-level*25
+              1500-
+              level*25
             )
           );
 
       },
       400
     );
-
 }
-
 
 function precisionSuccess(){
 
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
   levelLocked=true;
 
   clearTimeout(
-    targetTimeout
+    moveTimer
   );
 
   attempts++;
   successfulHits++;
 
-  const reaction =
-    performance.now() -
+  const reaction=
+    performance.now()-
     levelStartTime;
 
-  const points =
+  const points=
     Math.max(
       180,
       Math.round(
-        1400 -
+        1400-
         reaction
       )
     );
 
-  score +=
-    points +
+  score+=
+    points+
     streak*15;
 
   streak++;
 
-  maxStreak =
+  maxStreak=
     Math.max(
       maxStreak,
       streak
     );
 
-  burstFromElement(
+  burstElement(
     $("target"),
     "#a855ff",
     50
   );
 
-  $("target").style.display =
+  $("target").style.display=
     "none";
 
   setFeedback(
-    "+" +
-    points +
+    "+"+
+    points+
     " • PRECISION",
     "good"
   );
 
-  screenFlash("good");
-
-  sound(1300,.08);
+  sound(1300);
 
   updateStats();
 
   nextLevel();
-
 }
 
 
-/* =========================================================
+/* =========================
    TARGET ROUTER
-========================================================= */
+========================= */
 
 function targetClicked(){
 
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
-  const type =
-    getLevelType(level);
+  const type=
+    levelType(level);
 
-  if(type==="reaction"){
+  if(type==="reaction")
+    reactionSuccess();
 
-    levelReactionSuccess();
-
-  }
-
-  else if(type==="moving"){
-
+  else if(type==="moving")
     movingSuccess();
 
-  }
-
-  else if(type==="precision"){
-
+  else if(type==="precision")
     precisionSuccess();
-
-  }
-
 }
 
 
-/* =========================================================
+/* =========================
    FAILURE
-========================================================= */
+========================= */
 
 function failLevel(reason){
 
-  if(levelLocked){
-    return;
-  }
+  if(levelLocked)return;
 
   levelLocked=true;
 
   clearTimers();
-
   clearMiniTargets();
 
   attempts++;
@@ -4172,7 +2498,7 @@ function failLevel(reason){
 
   streak=0;
 
-  $("target").style.display =
+  $("target").style.display=
     "none";
 
   $("centerButton").classList.add(
@@ -4188,31 +2514,26 @@ function failLevel(reason){
     reason
   );
 
-  shakeArena();
-
-  screenFlash("bad");
-
-  sound(
-    120,
-    .14,
-    "sawtooth"
+  $("arena").classList.add(
+    "shake"
   );
+
+  sound(120);
 
   updateStats();
 
   if(lives<=0){
 
-    timer =
+    timer=
       setTimeout(
         gameOver,
         900
       );
 
     return;
-
   }
 
-  timer =
+  timer=
     setTimeout(
       function(){
 
@@ -4223,31 +2544,29 @@ function failLevel(reason){
       },
       900
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    NEXT LEVEL
-========================================================= */
+========================= */
 
 function nextLevel(){
 
   if(level>=TOTAL_LEVELS){
 
-    timer =
+    timer=
       setTimeout(
         finishGame,
         900
       );
 
     return;
-
   }
 
   level++;
 
-  timer =
+  timer=
     setTimeout(
       function(){
 
@@ -4258,57 +2577,59 @@ function nextLevel(){
       },
       850
     );
-
 }
 
 
-/* =========================================================
+/* =========================
    FINISH
-========================================================= */
+========================= */
 
 function finishGame(){
 
   clearTimers();
-
   clearMiniTargets();
 
-  $("speedGame").classList.add(
-    "hidden"
-  );
+  $("speedGame")
+    .classList
+    .add("hidden");
 
-  $("finish").classList.remove(
-    "hidden"
-  );
+  $("finish")
+    .classList
+    .remove("hidden");
 
-  const accuracy =
+  const accuracy=
     attempts>0
-      ? Math.round(
-          successfulHits /
-          attempts *
-          100
-        )
-      : 0;
+      ?Math.round(
+        successfulHits/
+        attempts*
+        100
+      )
+      :0;
 
-  $("finishScore").textContent =
+  $("finishScore")
+    .textContent=
     score.toLocaleString();
 
-  $("finishLevels").textContent =
+  $("finishLevels")
+    .textContent=
     TOTAL_LEVELS;
 
-  $("finishAccuracy").textContent =
+  $("finishAccuracy")
+    .textContent=
     accuracy+"%";
 
-  $("finishStreak").textContent =
+  $("finishStreak")
+    .textContent=
     "x"+maxStreak;
 
-  const oldBest =
+  const oldBest=
     Number(
       localStorage.getItem(
         "brainRushSpeedBest"
-      ) || 0
+      )||0
     );
 
-  const best =
+  const best=
     Math.max(
       oldBest,
       score
@@ -4319,159 +2640,152 @@ function finishGame(){
     best
   );
 
-  $("finishBest").textContent =
+  $("finishBest")
+    .textContent=
     score>=oldBest
-      ? "🏆 NEW PERSONAL BEST • " +
+      ?"🏆 NEW PERSONAL BEST • "+
         best.toLocaleString()
-      : "PERSONAL BEST • " +
+      :"PERSONAL BEST • "+
         best.toLocaleString();
 
-  createParticleBurst(
-    window.innerWidth/2,
-    window.innerHeight/2,
+  burst(
+    innerWidth/2,
+    innerHeight/2,
     "#ff3fd1",
-    150
+    120
   );
-
-  createParticleBurst(
-    window.innerWidth/2,
-    window.innerHeight/2,
-    "#24e8ff",
-    100
-  );
-
 }
 
 
-/* =========================================================
+/* =========================
    GAME OVER
-========================================================= */
+========================= */
 
 function gameOver(){
 
   clearTimers();
-
   clearMiniTargets();
 
-  $("speedGame").classList.add(
-    "hidden"
-  );
+  $("speedGame")
+    .classList
+    .add("hidden");
 
-  $("finish").classList.remove(
-    "hidden"
-  );
+  $("finish")
+    .classList
+    .remove("hidden");
 
-  const accuracy =
+  const accuracy=
     attempts>0
-      ? Math.round(
-          successfulHits /
-          attempts *
-          100
-        )
-      : 0;
+      ?Math.round(
+        successfulHits/
+        attempts*
+        100
+      )
+      :0;
 
-  $("finishScore").textContent =
+  $("finishScore")
+    .textContent=
     score.toLocaleString();
 
-  $("finishLevels").textContent =
+  $("finishLevels")
+    .textContent=
     Math.max(
       0,
       level-1
     );
 
-  $("finishAccuracy").textContent =
+  $("finishAccuracy")
+    .textContent=
     accuracy+"%";
 
-  $("finishStreak").textContent =
+  $("finishStreak")
+    .textContent=
     "x"+maxStreak;
 
-  $("finishBest").textContent =
-    "YOU RAN OUT OF LIVES • TRY AGAIN";
+  const best=
+    Number(
+      localStorage.getItem(
+        "brainRushSpeedBest"
+      )||0
+    );
 
+  $("finishBest")
+    .textContent=
+    "PERSONAL BEST • "+
+    best.toLocaleString();
 }
 
 
-/* =========================================================
+/* =========================
    NAVIGATION
-========================================================= */
+========================= */
 
 function goHome(){
 
   clearTimers();
-
   clearMiniTargets();
 
-  $("finish").classList.add(
-    "hidden"
-  );
+  $("finish")
+    .classList
+    .add("hidden");
 
-  $("speedGame").classList.add(
-    "hidden"
-  );
+  $("speedGame")
+    .classList
+    .add("hidden");
 
-  $("home").classList.remove(
-    "hidden"
-  );
+  $("home")
+    .classList
+    .remove("hidden");
 
   updateStats();
-
 }
-
 
 function comingSoon(mode){
 
   alert(
-    mode +
-    " is coming next.\n\n" +
+    mode+
+    " is coming next.\n\n"+
     "Speed is being built first."
   );
-
 }
 
 
-/* =========================================================
+/* =========================
    KEYBOARD
-========================================================= */
+========================= */
 
 document.addEventListener(
   "keydown",
   function(event){
 
     if(
-      event.code==="Space" ||
-      event.code==="Enter"
+      event.code!=="Space" &&
+      event.code!=="Enter"
     ){
-
-      event.preventDefault();
-
-      const type =
-        getLevelType(level);
-
-      if(type==="dontjump"){
-
-        centerClicked();
-
-      }
-
-      else if(
-        type==="reaction" ||
-        type==="moving" ||
-        type==="precision"
-      ){
-
-        targetClicked();
-
-      }
-
+      return;
     }
 
+    event.preventDefault();
+
+    const type=
+      levelType(level);
+
+    if(type==="dontjump")
+      centerClicked();
+
+    else if(
+      type==="reaction"||
+      type==="moving"||
+      type==="precision"
+    )
+      targetClicked();
   }
 );
 
 
-/* =========================================================
+/* =========================
    INITIALISE
-========================================================= */
+========================= */
 
 updateStats();
 

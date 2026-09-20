@@ -2,922 +2,843 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Brain Rush</title>
 
 <style>
+
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
   margin:0;
-  width:100%;
-  height:100%;
-  overflow:hidden;
-  background:#03050d;
-  color:#eef5ff;
-  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  padding:0;
+  min-height:100%;
+  background:#03040d;
+  color:white;
+  font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+  overflow-x:hidden;
 }
 
 button{
   font:inherit;
 }
 
-body{
-  background:
-    radial-gradient(
-      circle at 50% 15%,
-      rgba(0,210,255,.12),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at 15% 80%,
-      rgba(112,65,255,.10),
-      transparent 28%
-    ),
-    #03050d;
-}
-
-.app{
-  height:100dvh;
-  max-width:560px;
-  margin:auto;
-  padding:16px;
+#app{
+  min-height:100vh;
   position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 50% 15%,rgba(45,80,180,.28),transparent 35%),
+    radial-gradient(circle at 20% 80%,rgba(180,0,255,.10),transparent 35%),
+    radial-gradient(circle at 85% 75%,rgba(0,255,220,.08),transparent 35%),
+    #03040d;
 }
 
-.screen{
-  height:100%;
-  display:none;
-  flex-direction:column;
-}
+/* =========================
+   GRID BACKGROUND
+========================= */
 
-.screen.active{
-  display:flex;
+#app::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.22;
+  background-image:
+    linear-gradient(rgba(70,120,255,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(70,120,255,.12) 1px,transparent 1px);
+  background-size:42px 42px;
+  transform:perspective(600px) rotateX(60deg) scale(1.8);
+  transform-origin:center bottom;
+  top:35%;
 }
-
 
 /* =========================
    HOME
 ========================= */
 
+.screen{
+  position:relative;
+  z-index:2;
+  width:100%;
+  min-height:100vh;
+  display:none;
+  padding:42px 22px 55px;
+}
+
+.screen.active{
+  display:block;
+}
+
 .home{
-  justify-content:center;
-  gap:18px;
+  max-width:760px;
+  margin:0 auto;
+  text-align:center;
 }
 
 .logo{
-  text-align:center;
-  margin-bottom:6px;
-}
-
-.brain{
-  font-size:58px;
-  line-height:1;
+  margin-top:5px;
+  font-size:clamp(42px,11vw,78px);
+  font-weight:1000;
+  font-style:italic;
+  letter-spacing:-3px;
+  line-height:.9;
+  background:linear-gradient(
+    90deg,
+    #e9ffff 0%,
+    #ffffff 28%,
+    #48efff 55%,
+    #ff38d7 82%,
+    #ffffff 100%
+  );
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
   filter:
-    drop-shadow(0 0 18px rgba(35,230,255,.65));
-  animation:float 2.8s ease-in-out infinite;
+    drop-shadow(0 0 10px rgba(60,230,255,.65))
+    drop-shadow(0 0 28px rgba(255,30,210,.35));
 }
 
-h1{
-  margin:5px 0 0;
-  font-size:38px;
-  letter-spacing:5px;
-  line-height:1;
-  text-shadow:
-    0 0 22px rgba(35,230,255,.55);
+.tagline{
+  margin-top:15px;
+  font-size:12px;
+  letter-spacing:6px;
+  color:#d9d9e9;
 }
 
-.tag{
-  margin-top:9px;
-  color:#8190b4;
-  font-size:11px;
-  letter-spacing:3px;
+.choose{
+  margin-top:62px;
+  margin-bottom:26px;
+  font-size:20px;
+  letter-spacing:4px;
+  font-weight:700;
 }
 
 .mode-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:16px;
 }
 
-.mode{
+.mode-card{
   position:relative;
+  min-height:190px;
+  padding:28px 26px;
+  border-radius:28px;
   text-align:left;
-  padding:18px;
-  border-radius:20px;
-  border:1px solid rgba(100,130,190,.22);
+  border:1px solid rgba(110,130,255,.13);
   background:
     linear-gradient(
       145deg,
-      rgba(15,24,48,.92),
-      rgba(6,10,23,.92)
+      rgba(15,22,60,.75),
+      rgba(6,8,25,.78)
     );
-  color:#eaf3ff;
   box-shadow:
-    inset 0 0 25px rgba(50,80,150,.05),
-    0 10px 30px rgba(0,0,0,.2);
-  transition:
-    transform .14s ease,
-    box-shadow .14s ease,
-    border-color .14s ease;
+    inset 0 0 35px rgba(60,80,255,.035),
+    0 12px 40px rgba(0,0,0,.25);
+  transition:.22s ease;
+  cursor:pointer;
+  overflow:hidden;
 }
 
-.mode:active{
-  transform:scale(.97);
-}
-
-.mode.active{
-  border-color:#22e7ff;
-  box-shadow:
-    0 0 22px rgba(34,231,255,.16),
-    inset 0 0 25px rgba(34,231,255,.06);
-}
-
-.mode.locked{
-  opacity:.38;
-}
-
-.mode-icon{
-  font-size:25px;
-}
-
-.mode-name{
-  font-weight:800;
-  letter-spacing:1.2px;
-  margin-top:9px;
-}
-
-.mode-sub{
-  font-size:10px;
-  color:#7f8eae;
-  margin-top:4px;
-}
-
-.badge{
+.mode-card::after{
+  content:"";
   position:absolute;
-  right:10px;
-  top:10px;
-  font-size:9px;
-  color:#6e7c9b;
+  inset:-2px;
+  border-radius:30px;
+  opacity:0;
+  background:linear-gradient(
+    120deg,
+    transparent,
+    rgba(50,240,255,.25),
+    transparent
+  );
+  transition:.25s;
 }
 
-.start{
-  border:0;
-  border-radius:18px;
-  padding:17px 20px;
-
-  background:
-    linear-gradient(
-      90deg,
-      #17dfff,
-      #6b63ff
-    );
-
-  color:#03101b;
-  font-weight:950;
-  letter-spacing:2px;
-
-  box-shadow:
-    0 0 30px rgba(36,220,255,.22);
-
-  font-size:15px;
+.mode-card:hover{
+  transform:translateY(-3px);
 }
 
-.start:active{
+.mode-card:active{
   transform:scale(.98);
 }
 
-.home-note{
-  text-align:center;
-  color:#647293;
-  font-size:10px;
+.mode-card.active{
+  border:1px solid #35eaff;
+  box-shadow:
+    0 0 10px rgba(30,240,255,.4),
+    0 0 28px rgba(30,240,255,.16),
+    inset 0 0 30px rgba(30,240,255,.06);
+}
+
+.mode-card.active::after{
+  opacity:1;
+}
+
+.mode-card.locked{
+  opacity:.36;
+  cursor:not-allowed;
+}
+
+.mode-icon{
+  font-size:42px;
+  margin-bottom:25px;
+  filter:drop-shadow(0 0 10px currentColor);
+}
+
+.mode-name{
+  font-size:21px;
+  font-weight:900;
   letter-spacing:1px;
 }
 
+.mode-desc{
+  margin-top:10px;
+  color:#8d91a9;
+  font-size:14px;
+  line-height:1.4;
+}
+
+.mode-status{
+  position:absolute;
+  top:24px;
+  right:22px;
+  font-size:10px;
+  font-weight:bold;
+  letter-spacing:1px;
+}
+
+.speed{
+  color:#2defff;
+}
+
+.memory{
+  color:#b847ff;
+}
+
+.observation{
+  color:#3cff9d;
+}
+
+.precision{
+  color:#ffdf42;
+}
+
+.pattern{
+  color:#d65aff;
+}
+
+.trap{
+  color:#ff477d;
+}
+
+.start-button{
+  width:100%;
+  margin-top:20px;
+  min-height:62px;
+  border:0;
+  border-radius:22px;
+  cursor:pointer;
+  font-weight:900;
+  letter-spacing:4px;
+  color:#081021;
+  background:linear-gradient(
+    100deg,
+    #55f4ff,
+    #b8f9ff 40%,
+    #9b54ff 100%
+  );
+  box-shadow:
+    0 0 15px rgba(70,240,255,.45),
+    0 0 35px rgba(130,70,255,.22);
+}
+
+.start-button:active{
+  transform:scale(.985);
+}
+
+.home-foot{
+  margin-top:22px;
+  color:#9b9db1;
+  font-size:12px;
+  letter-spacing:2px;
+}
 
 /* =========================
    GAME
 ========================= */
 
-.game{
-  gap:10px;
+#gameScreen{
+  padding:18px 16px 30px;
 }
 
-.topbar{
+.game-shell{
+  width:100%;
+  max-width:900px;
+  margin:0 auto;
+}
+
+.game-top{
   display:grid;
   grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
+  gap:10px;
+  margin-bottom:13px;
 }
 
 .stat{
-  padding:9px 7px;
-  border:1px solid rgba(100,130,190,.2);
-  border-radius:14px;
-  background:rgba(8,13,29,.78);
+  padding:12px 10px;
+  border-radius:15px;
   text-align:center;
+  border:1px solid rgba(70,240,255,.14);
+  background:rgba(8,12,32,.8);
 }
 
-.stat small{
-  display:block;
-  color:#647394;
-  font-size:8px;
-  letter-spacing:1.4px;
+.stat-label{
+  font-size:9px;
+  letter-spacing:2px;
+  color:#777b99;
 }
 
-.stat strong{
-  font-size:17px;
-}
-
-.stat.combo strong{
-  color:#27e6ff;
-  text-shadow:
-    0 0 12px rgba(39,230,255,.55);
-}
-
-.level-line{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 3px;
-}
-
-.level-title{
+.stat-value{
+  margin-top:4px;
+  font-size:20px;
   font-weight:900;
+}
+
+#scoreValue{
+  color:#54f4ff;
+}
+
+#streakValue{
+  color:#ff4edc;
+}
+
+#bestValue{
+  color:#ffe15a;
+}
+
+.level-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 4px;
+  margin-bottom:10px;
+}
+
+.level-number{
+  color:#8c91a9;
   font-size:12px;
-  letter-spacing:1.3px;
+  letter-spacing:2px;
 }
 
-.level-count{
-  color:#7381a1;
-  font-size:10px;
+.lives{
+  display:flex;
+  gap:5px;
 }
 
-.progress{
-  height:4px;
-  border-radius:5px;
-  background:#0d1427;
-  overflow:hidden;
+.life{
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:#ff397d;
+  box-shadow:0 0 10px rgba(255,50,130,.75);
 }
 
-.progress>i{
-  display:block;
-  height:100%;
-  width:0;
+.life.off{
+  background:#27293a;
+  box-shadow:none;
+}
 
+.instruction{
+  position:relative;
+  z-index:20;
+  min-height:92px;
+  padding:16px 18px;
+  border-radius:20px;
+  border:1px solid rgba(75,239,255,.35);
   background:
     linear-gradient(
-      90deg,
-      #21e6ff,
-      #7569ff
+      135deg,
+      rgba(13,24,55,.94),
+      rgba(9,10,32,.94)
     );
-
+  text-align:center;
   box-shadow:
-    0 0 10px #21e6ff;
-
-  transition:
-    width .25s ease;
+    0 0 22px rgba(30,230,255,.08);
 }
 
+.instruction-small{
+  color:#6eefff;
+  font-size:10px;
+  letter-spacing:3px;
+  font-weight:800;
+}
 
-/* =========================
-   ARENA
-========================= */
+.instruction-main{
+  margin-top:7px;
+  font-size:clamp(17px,4vw,25px);
+  font-weight:900;
+  letter-spacing:1px;
+}
 
-#arena{
+.instruction-state{
+  margin-top:6px;
+  min-height:17px;
+  color:#8f94ad;
+  font-size:11px;
+  letter-spacing:2px;
+}
+
+.arena{
   position:relative;
-  flex:1;
-  min-height:0;
-
-  margin-top:2px;
-
-  border:1px solid rgba(75,130,255,.35);
-  border-radius:25px;
-
+  height:min(64vh,560px);
+  min-height:400px;
+  margin-top:14px;
   overflow:hidden;
-
+  border-radius:28px;
+  border:1px solid rgba(85,100,255,.2);
   background:
-    radial-gradient(
-      circle at 50% 50%,
-      rgba(25,50,130,.16),
-      transparent 62%
-    ),
-    rgba(2,5,18,.86);
-
+    radial-gradient(circle at 50% 50%,rgba(20,30,75,.3),transparent 60%),
+    rgba(4,6,20,.88);
   box-shadow:
-    inset 0 0 70px rgba(30,70,150,.10),
-    0 0 30px rgba(50,70,255,.08);
+    inset 0 0 80px rgba(20,30,100,.08),
+    0 15px 50px rgba(0,0,0,.3);
 }
 
-#arena:before{
+.arena::before{
   content:"";
   position:absolute;
   inset:0;
-
-  background:
-    linear-gradient(
-      rgba(50,100,255,.04) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(50,100,255,.04) 1px,
-      transparent 1px
-    );
-
-  background-size:34px 34px;
-
   pointer-events:none;
+  background-image:
+    linear-gradient(rgba(70,120,255,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(70,120,255,.06) 1px,transparent 1px);
+  background-size:40px 40px;
 }
 
-
-/*
-  Protected instruction zone.
-  Targets are never allowed to spawn here.
-*/
-
-.safe-zone{
+.arena.reading::after{
+  content:"READ";
   position:absolute;
-  left:0;
-  right:0;
-  top:0;
-  height:105px;
-
-  pointer-events:none;
-
-  z-index:5;
-}
-
-
-/* =========================
-   INSTRUCTIONS
-========================= */
-
-#message{
-  position:absolute;
-
-  top:12px;
-  left:12px;
-
-  width:calc(100% - 24px);
-
-  min-height:38px;
-
+  inset:0;
   display:flex;
   align-items:center;
   justify-content:center;
-
-  padding:8px 12px;
-
-  border-radius:13px;
-
-  text-align:center;
-
-  color:#c7d3ee;
-
-  font-size:10px;
-  letter-spacing:1.25px;
-  line-height:1.25;
-
-  background:
-    rgba(3,5,16,.84);
-
-  border:
-    1px solid rgba(36,232,255,.13);
-
-  backdrop-filter:blur(8px);
-
-  z-index:50;
-
+  font-size:48px;
+  font-weight:1000;
+  letter-spacing:8px;
+  color:rgba(90,240,255,.15);
   pointer-events:none;
 }
-
-
-/* =========================
-   TARGETS
-========================= */
 
 .target{
   position:absolute;
-
-  border:0;
+  width:70px;
+  height:70px;
   border-radius:50%;
-
   cursor:pointer;
-
-  z-index:20;
-
-  transform:
-    translate(-50%,-50%)
-    scale(1);
-
+  transform:translate(-50%,-50%);
+  background:
+    radial-gradient(
+      circle,
+      #fff 0 8%,
+      #65f7ff 10% 23%,
+      #00cfff 25% 42%,
+      rgba(0,207,255,.22) 44% 65%,
+      transparent 68%
+    );
   box-shadow:
-    0 0 12px currentColor,
-    0 0 30px currentColor,
-    inset 0 0 10px rgba(255,255,255,.45);
-
-  transition:
-    transform .08s ease,
-    filter .08s ease;
+    0 0 12px #52f4ff,
+    0 0 35px rgba(30,235,255,.75),
+    0 0 70px rgba(30,150,255,.3);
+  animation:targetPulse .8s infinite alternate;
+  z-index:10;
 }
 
-.target:active{
-  transform:
-    translate(-50%,-50%)
-    scale(.88);
+@keyframes targetPulse{
+  from{transform:translate(-50%,-50%) scale(.94)}
+  to{transform:translate(-50%,-50%) scale(1.08)}
 }
 
-.blue{
-  background:#27dfff;
-  color:#27dfff;
+.target.small{
+  width:48px;
+  height:48px;
 }
 
-.yellow{
-  background:#ffe45c;
-  color:#ffe45c;
+.target.danger{
+  background:
+    radial-gradient(
+      circle,
+      #fff 0 7%,
+      #ff5c9c 10% 25%,
+      #ff145e 28% 45%,
+      rgba(255,20,94,.18) 48% 65%,
+      transparent 68%
+    );
+  box-shadow:
+    0 0 15px #ff377b,
+    0 0 40px rgba(255,30,100,.7);
 }
 
-.green{
-  background:#52f59b;
-  color:#52f59b;
+.target.moving{
+  animation:none;
 }
 
-.red{
-  background:#ff5575;
-  color:#ff5575;
-}
-
-.purple{
-  background:#a875ff;
-  color:#a875ff;
-}
-
-.target:after{
-  content:"";
-
+.sequence-dot{
   position:absolute;
-  inset:23%;
-
+  width:48px;
+  height:48px;
   border-radius:50%;
-
-  background:
-    rgba(255,255,255,.28);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:900;
+  font-size:18px;
+  background:#111a42;
+  border:2px solid #54f4ff;
+  color:#fff;
+  box-shadow:0 0 20px rgba(50,230,255,.35);
 }
 
-.pulse{
-  animation:
-    pulse .65s ease-out infinite;
-}
-
-
-/* =========================
-   FEEDBACK
-========================= */
-
-.flash{
+.feedback{
   position:absolute;
-  inset:0;
-
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  z-index:30;
   pointer-events:none;
-
-  z-index:100;
-
-  background:
-    rgba(255,255,255,.13);
-
-  animation:
-    flash .18s ease-out forwards;
+  font-size:34px;
+  font-weight:1000;
+  letter-spacing:3px;
+  opacity:0;
 }
 
-.float-text{
-  position:absolute;
+.feedback.show{
+  animation:feedback .55s ease-out;
+}
 
-  z-index:120;
+.feedback.good{
+  color:#5dffbd;
+  text-shadow:0 0 25px rgba(80,255,190,.8);
+}
 
-  pointer-events:none;
+.feedback.bad{
+  color:#ff4f88;
+  text-shadow:0 0 25px rgba(255,50,110,.8);
+}
 
-  font-size:16px;
-  font-weight:950;
-  letter-spacing:1px;
-
-  color:#dffaff;
-
-  text-shadow:
-    0 0 15px currentColor;
-
-  animation:
-    floatText .55s ease-out forwards;
+@keyframes feedback{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.7);
+  }
+  25%{
+    opacity:1;
+  }
+  100%{
+    opacity:0;
+    transform:translate(-50%,-80%) scale(1.1);
+  }
 }
 
 .particle{
   position:absolute;
-
-  width:6px;
-  height:6px;
-
+  width:5px;
+  height:5px;
   border-radius:50%;
-
-  z-index:110;
-
+  background:#62f5ff;
   pointer-events:none;
-
-  box-shadow:
-    0 0 10px currentColor;
-
-  animation:
-    particle .55s ease-out forwards;
+  animation:particle .65s ease-out forwards;
 }
 
+@keyframes particle{
+  to{
+    transform:translate(var(--x),var(--y)) scale(0);
+    opacity:0;
+  }
+}
 
-/* =========================
-   BUTTONS
-========================= */
-
-.footer-actions{
+.game-bottom{
+  margin-top:13px;
   display:flex;
-  gap:8px;
+  gap:10px;
 }
 
-.secondary{
+.game-button{
   flex:1;
-
-  border:
-    1px solid rgba(100,130,190,.22);
-
-  background:#080d1d;
-
-  color:#93a1bf;
-
-  border-radius:13px;
-
-  padding:10px;
-
-  font-size:10px;
-  letter-spacing:1px;
+  min-height:48px;
+  border-radius:15px;
+  border:1px solid rgba(100,110,255,.25);
+  background:rgba(12,15,40,.9);
+  color:#bbbfd3;
+  cursor:pointer;
 }
 
+.game-button:active{
+  transform:scale(.98);
+}
 
 /* =========================
-   END SCREEN
+   OVERLAY
 ========================= */
 
 .overlay{
-  position:absolute;
+  position:fixed;
   inset:0;
-
-  z-index:200;
-
+  z-index:100;
   display:none;
-
   align-items:center;
   justify-content:center;
-
-  background:
-    rgba(1,3,10,.72);
-
-  backdrop-filter:blur(8px);
-
   padding:24px;
+  background:rgba(1,2,10,.82);
+  backdrop-filter:blur(10px);
 }
 
 .overlay.show{
   display:flex;
 }
 
-.panel{
+.overlay-box{
+  width:min(480px,100%);
+  padding:34px 24px;
   text-align:center;
-  width:100%;
-
-  padding:28px;
-
-  border-radius:25px;
-
-  border:
-    1px solid rgba(39,230,255,.24);
-
+  border-radius:28px;
+  border:1px solid rgba(75,240,255,.28);
   background:
     linear-gradient(
       145deg,
-      rgba(12,19,42,.97),
-      rgba(4,8,19,.97)
+      rgba(11,20,48,.98),
+      rgba(5,6,22,.98)
     );
-
   box-shadow:
-    0 0 50px rgba(20,190,255,.12);
+    0 0 60px rgba(20,220,255,.12);
 }
 
-.panel h2{
-  margin:0;
+.overlay-title{
+  font-size:38px;
+  font-weight:1000;
+  letter-spacing:2px;
+}
 
-  font-size:29px;
+.overlay-sub{
+  margin-top:10px;
+  color:#9296ad;
+  line-height:1.6;
+}
 
+.overlay-score{
+  margin:24px 0;
+  font-size:44px;
+  font-weight:1000;
+  color:#55efff;
+}
+
+.overlay-button{
+  width:100%;
+  min-height:54px;
+  border:0;
+  border-radius:18px;
+  cursor:pointer;
+  font-weight:900;
   letter-spacing:3px;
+  background:linear-gradient(100deg,#52efff,#a653ff);
+  color:#07101f;
 }
 
-.panel p{
-  color:#8390ad;
+/* =========================
+   COUNTDOWN
+========================= */
 
-  font-size:12px;
-
-  line-height:1.5;
+.countdown{
+  position:fixed;
+  inset:0;
+  z-index:90;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  background:rgba(2,3,12,.5);
 }
 
-.big-score{
-  font-size:45px;
+.countdown.show{
+  display:flex;
+}
 
-  font-weight:950;
-
-  margin:12px 0;
-
+.countdown-number{
+  font-size:clamp(90px,28vw,220px);
+  font-weight:1000;
+  font-style:italic;
+  color:#fff;
   text-shadow:
-    0 0 20px rgba(39,230,255,.4);
+    0 0 20px #4defff,
+    0 0 70px rgba(40,220,255,.8);
+  animation:countPop .75s ease-out;
 }
 
+@keyframes countPop{
+  0%{
+    opacity:0;
+    transform:scale(1.5);
+  }
+  30%{
+    opacity:1;
+  }
+  100%{
+    opacity:0;
+    transform:scale(.9);
+  }
+}
 
 /* =========================
-   ANIMATIONS
+   RESPONSIVE
 ========================= */
 
-@keyframes pulse{
+@media(max-width:600px){
 
-  50%{
-    transform:
-      translate(-50%,-50%)
-      scale(1.08);
-
-    filter:
-      brightness(1.25);
+  .screen{
+    padding:28px 16px 40px;
   }
 
-}
-
-@keyframes flash{
-
-  to{
-    opacity:0;
+  .choose{
+    margin-top:46px;
+    font-size:17px;
   }
 
-}
-
-@keyframes floatText{
-
-  to{
-    opacity:0;
-
-    transform:
-      translateY(-35px)
-      scale(1.08);
-  }
-
-}
-
-@keyframes particle{
-
-  to{
-    opacity:0;
-
-    transform:
-      translate(
-        var(--dx),
-        var(--dy)
-      )
-      scale(.2);
-  }
-
-}
-
-@keyframes float{
-
-  50%{
-    transform:
-      translateY(-5px);
-  }
-
-}
-
-
-/* =========================
-   SMALL SCREENS
-========================= */
-
-@media(max-height:680px){
-
-  .app{
-    padding:10px;
-  }
-
-  .brain{
-    font-size:42px;
-  }
-
-  h1{
-    font-size:31px;
-  }
-
-  .mode{
-    padding:13px;
-  }
-
-  .home{
+  .mode-grid{
     gap:11px;
   }
 
-  .mode-sub{
-    display:none;
+  .mode-card{
+    min-height:160px;
+    padding:20px 18px;
+    border-radius:23px;
+  }
+
+  .mode-icon{
+    font-size:32px;
+    margin-bottom:20px;
+  }
+
+  .mode-name{
+    font-size:17px;
+  }
+
+  .mode-desc{
+    font-size:11px;
+  }
+
+  .arena{
+    min-height:430px;
+    height:60vh;
+  }
+
+  .target{
+    width:62px;
+    height:62px;
   }
 
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="app">
+<div id="app">
 
 <!-- =========================
      HOME
 ========================= -->
 
-<section
-  id="home"
-  class="screen home active"
->
+<section id="homeScreen" class="screen active">
 
-  <div class="logo">
+  <div class="home">
 
-    <div class="brain">
-      🧠
+    <div class="logo">
+      BRAIN RUSH
     </div>
 
-    <h1>
-      BRAIN RUSH
-    </h1>
-
-    <div class="tag">
+    <div class="tagline">
       THINK FAST. SEE FASTER.
     </div>
 
-  </div>
+    <div class="choose">
+      CHOOSE YOUR BATTLE
+    </div>
 
+    <div class="mode-grid">
 
-  <div class="mode-grid">
+      <button class="mode-card active speed" id="speedMode">
+        <div class="mode-status">30 LEVELS</div>
+        <div class="mode-icon">ϟ</div>
+        <div class="mode-name">SPEED</div>
+        <div class="mode-desc">
+          Reaction · timing · pressure
+        </div>
+      </button>
 
-    <button
-      class="mode active"
-      id="speedMode"
-      type="button"
-    >
+      <button class="mode-card locked memory">
+        <div class="mode-status">LOCKED</div>
+        <div class="mode-icon">▥</div>
+        <div class="mode-name">MEMORY</div>
+        <div class="mode-desc">
+          Remember · adapt · repeat
+        </div>
+      </button>
 
-      <div class="mode-icon">
-        ⚡
-      </div>
+      <button class="mode-card locked observation">
+        <div class="mode-status">LOCKED</div>
+        <div class="mode-icon">◉</div>
+        <div class="mode-name">OBSERVATION</div>
+        <div class="mode-desc">
+          Notice · compare · detect
+        </div>
+      </button>
 
-      <div class="mode-name">
-        SPEED
-      </div>
+      <button class="mode-card locked precision">
+        <div class="mode-status">LOCKED</div>
+        <div class="mode-icon">◎</div>
+        <div class="mode-name">PRECISION</div>
+        <div class="mode-desc">
+          Control · accuracy · focus
+        </div>
+      </button>
 
-      <div class="mode-sub">
-        Reaction & reflex
-      </div>
+      <button class="mode-card locked pattern">
+        <div class="mode-status">LOCKED</div>
+        <div class="mode-icon">▦</div>
+        <div class="mode-name">PATTERN</div>
+        <div class="mode-desc">
+          Sequence · logic · predict
+        </div>
+      </button>
 
+      <button class="mode-card locked trap">
+        <div class="mode-status">LOCKED</div>
+        <div class="mode-icon">△</div>
+        <div class="mode-name">TRAP</div>
+        <div class="mode-desc">
+          Decoys · danger · instinct
+        </div>
+      </button>
+
+    </div>
+
+    <button id="startBtn" class="start-button">
+      ⚡ &nbsp; START SPEED RUN
     </button>
 
+    <div class="home-foot">
+      30 LEVELS · 3 LIVES · BUILD YOUR STREAK
+    </div>
 
-    <button
-      class="mode locked"
-      type="button"
-    >
-
-      <div class="mode-icon">
-        🧩
-      </div>
-
-      <div class="mode-name">
-        MEMORY
-      </div>
-
-      <div class="mode-sub">
-        Coming soon
-      </div>
-
-      <span class="badge">
-        LOCKED
-      </span>
-
-    </button>
-
-
-    <button
-      class="mode locked"
-      type="button"
-    >
-
-      <div class="mode-icon">
-        👁️
-      </div>
-
-      <div class="mode-name">
-        OBSERVATION
-      </div>
-
-      <div class="mode-sub">
-        Coming soon
-      </div>
-
-      <span class="badge">
-        LOCKED
-      </span>
-
-    </button>
-
-
-    <button
-      class="mode locked"
-      type="button"
-    >
-
-      <div class="mode-icon">
-        🎯
-      </div>
-
-      <div class="mode-name">
-        PRECISION
-      </div>
-
-      <div class="mode-sub">
-        Coming soon
-      </div>
-
-      <span class="badge">
-        LOCKED
-      </span>
-
-    </button>
-
-
-    <button
-      class="mode locked"
-      type="button"
-    >
-
-      <div class="mode-icon">
-        🔷
-      </div>
-
-      <div class="mode-name">
-        PATTERN
-      </div>
-
-      <div class="mode-sub">
-        Coming soon
-      </div>
-
-      <span class="badge">
-        LOCKED
-      </span>
-
-    </button>
-
-
-    <button
-      class="mode locked"
-      type="button"
-    >
-
-      <div class="mode-icon">
-        ☠️
-      </div>
-
-      <div class="mode-name">
-        TRAP
-      </div>
-
-      <div class="mode-sub">
-        Coming soon
-      </div>
-
-      <span class="badge">
-        LOCKED
-      </span>
-
-    </button>
-
-  </div>
-
-
-  <button
-    id="startBtn"
-    class="start"
-    type="button"
-  >
-    START SPEED RUN
-  </button>
-
-
-  <div class="home-note">
-    30 levels • 3 lives • build your streak
   </div>
 
 </section>
@@ -927,209 +848,260 @@ h1{
      GAME
 ========================= -->
 
-<section
-  id="game"
-  class="screen game"
->
+<section id="gameScreen" class="screen">
 
-  <div class="topbar">
+  <div class="game-shell">
 
-    <div class="stat">
+    <div class="game-top">
 
-      <small>
-        SCORE
-      </small>
+      <div class="stat">
+        <div class="stat-label">SCORE</div>
+        <div id="scoreValue" class="stat-value">0</div>
+      </div>
 
-      <strong id="score">
-        0
-      </strong>
+      <div class="stat">
+        <div class="stat-label">STREAK</div>
+        <div id="streakValue" class="stat-value">0</div>
+      </div>
 
-    </div>
-
-
-    <div class="stat combo">
-
-      <small>
-        COMBO
-      </small>
-
-      <strong id="combo">
-        x0
-      </strong>
-
-    </div>
-
-
-    <div class="stat">
-
-      <small>
-        LIVES
-      </small>
-
-      <strong id="lives">
-        ♥♥♥
-      </strong>
-
-    </div>
-
-  </div>
-
-
-  <div class="level-line">
-
-    <div
-      class="level-title"
-      id="levelTitle"
-    >
-      GET READY
-    </div>
-
-    <div
-      class="level-count"
-      id="levelCount"
-    >
-      1 / 30
-    </div>
-
-  </div>
-
-
-  <div class="progress">
-
-    <i id="progress"></i>
-
-  </div>
-
-
-  <div id="arena">
-
-    <div class="safe-zone"></div>
-
-    <div id="message">
-      GET READY
-    </div>
-
-
-    <div
-      id="overlay"
-      class="overlay"
-    >
-
-      <div class="panel">
-
-        <h2 id="panelTitle">
-          RUN COMPLETE
-        </h2>
-
-        <div
-          class="big-score"
-          id="finalScore"
-        >
-          0
-        </div>
-
-        <p id="panelText">
-          Nice run.
-        </p>
-
-        <button
-          id="againBtn"
-          class="start"
-          type="button"
-        >
-          PLAY AGAIN
-        </button>
-
+      <div class="stat">
+        <div class="stat-label">BEST</div>
+        <div id="bestValue" class="stat-value">0</div>
       </div>
 
     </div>
 
-  </div>
+    <div class="level-row">
 
+      <div id="levelNumber" class="level-number">
+        LEVEL 1 / 30
+      </div>
 
-  <div class="footer-actions">
+      <div id="lives" class="lives">
+        <div class="life"></div>
+        <div class="life"></div>
+        <div class="life"></div>
+      </div>
 
-    <button
-      id="homeBtn"
-      class="secondary"
-      type="button"
-    >
-      EXIT RUN
-    </button>
+    </div>
+
+    <div class="instruction">
+
+      <div class="instruction-small">
+        SPEED CHALLENGE
+      </div>
+
+      <div id="instructionMain" class="instruction-main">
+        GET READY
+      </div>
+
+      <div id="instructionState" class="instruction-state">
+        READ THE RULE
+      </div>
+
+    </div>
+
+    <div id="arena" class="arena">
+
+      <div id="feedback" class="feedback"></div>
+
+    </div>
+
+    <div class="game-bottom">
+
+      <button id="quitBtn" class="game-button">
+        QUIT RUN
+      </button>
+
+    </div>
 
   </div>
 
 </section>
+
+
+<!-- =========================
+     COUNTDOWN
+========================= -->
+
+<div id="countdown" class="countdown">
+  <div id="countdownNumber" class="countdown-number">
+    3
+  </div>
+</div>
+
+
+<!-- =========================
+     RESULT OVERLAY
+========================= -->
+
+<div id="overlay" class="overlay">
+
+  <div class="overlay-box">
+
+    <div id="overlayTitle" class="overlay-title">
+      RUN COMPLETE
+    </div>
+
+    <div id="overlaySub" class="overlay-sub">
+      You survived the rush.
+    </div>
+
+    <div id="overlayScore" class="overlay-score">
+      0
+    </div>
+
+    <button id="againBtn" class="overlay-button">
+      RUN AGAIN
+    </button>
+
+  </div>
 
 </div>
 
 
 <script>
 
-/* =====================================================
+/* =========================================================
    BRAIN RUSH
    SPEED MODE
-===================================================== */
+========================================================= */
+
+const $ = id =>
+  document.getElementById(id);
 
 
 /* =========================
-   BASIC HELPERS
+   GAME STATE
 ========================= */
 
-const $ =
-  id => document.getElementById(id);
+const TOTAL_LEVELS = 30;
 
+let level = 1;
+let score = 0;
+let streak = 0;
+let lives = 3;
 
-const colours =
-  [
-    "blue",
-    "yellow",
-    "green",
-    "red"
-  ];
+let levelStarted = 0;
 
+let timer = null;
+let animation = null;
 
-const TOTAL =
-  30;
-
-
-let level =
-  1;
-
-let score =
-  0;
-
-let combo =
-  0;
-
-let lives =
-  3;
+let challengeActive = false;
+let starting = false;
 
 let best =
-  Number(
-    localStorage.getItem(
-      "brainRushBest"
-    ) || 0
-  );
+  Number(localStorage.getItem("brainRushBest") || 0);
 
 
-let timer =
-  null;
+/* =========================
+   LEVEL TYPES
+========================= */
 
-let sequenceTimer =
-  null;
+function levelType(n){
 
-let levelStarted =
-  0;
+  if(n <= 3) return "reaction";
 
-let sequenceStep =
-  0;
+  if(n <= 6) return "rapid";
 
-let currentTargets =
-  [];
+  if(n <= 9) return "avoid";
 
-let audioCtx =
-  null;
+  if(n <= 13) return "moving";
+
+  if(n <= 17) return "sequence";
+
+  if(n <= 21) return "precision";
+
+  if(n <= 24) return "reaction";
+
+  if(n <= 26) return "rapid";
+
+  if(n <= 28) return "moving";
+
+  return "precision";
+}
+
+
+/* =========================
+   LEVEL NAMES
+========================= */
+
+function levelName(n){
+
+  const names = {
+
+    1:"FIRST REFLEX",
+    2:"WAKE UP",
+    3:"QUICK HIT",
+
+    4:"RAPID FIRE",
+    5:"DOUBLE TAP",
+    6:"NO HESITATION",
+
+    7:"DON'T JUMP",
+    8:"STAY CALM",
+    9:"TRAP AWARE",
+
+    10:"MOVING TARGET",
+    11:"CHASE IT",
+    12:"SLIPPING AWAY",
+    13:"TRACKER",
+
+    14:"COLOUR MEMORY",
+    15:"SEQUENCE ASSAULT",
+    16:"REMEMBER",
+    17:"NO MISTAKES",
+
+    18:"PRECISION",
+    19:"TINY TARGET",
+    20:"LASER FOCUS",
+    21:"PINPOINT",
+
+    22:"REFLEX TEST",
+    23:"REACTION RUSH",
+    24:"ZERO DELAY",
+
+    25:"RAPID FIRE II",
+    26:"PRESSURE",
+
+    27:"MOVING CHAOS",
+    28:"TARGET STORM",
+
+    29:"FINAL REFLEX",
+    30:"BRAIN RUSH"
+
+  };
+
+  return names[n] || "SPEED CHALLENGE";
+}
+
+
+/* =========================
+   INSTRUCTIONS
+========================= */
+
+function instructionFor(type){
+
+  if(type === "reaction")
+    return "TAP THE GLOWING TARGET";
+
+  if(type === "rapid")
+    return "TAP EVERY TARGET";
+
+  if(type === "avoid")
+    return "TAP THE BLUE — AVOID RED";
+
+  if(type === "moving")
+    return "TAP THE MOVING TARGET";
+
+  if(type === "sequence")
+    return "TAP THE TARGETS IN ORDER";
+
+  if(type === "precision")
+    return "HIT THE TARGET WHEN IT APPEARS";
+
+  return "TAP THE TARGET";
+}
 
 
 /* =========================
@@ -1138,313 +1110,164 @@ let audioCtx =
 
 function updateHUD(){
 
-  $("score").textContent =
-    Math.round(score).toLocaleString();
+  $("scoreValue").textContent =
+    score;
 
+  $("streakValue").textContent =
+    streak;
 
-  $("combo").textContent =
-    "x" + combo;
+  $("bestValue").textContent =
+    best;
 
+  $("levelNumber").textContent =
+    "LEVEL " + level + " / " + TOTAL_LEVELS;
 
-  $("lives").textContent =
-    "♥".repeat(lives) +
-    "♡".repeat(3 - lives);
+  const lifeEls =
+    document.querySelectorAll(".life");
 
-
-  $("levelCount").textContent =
-    level +
-    " / " +
-    TOTAL;
-
-
-  $("progress").style.width =
-    (
-      (level - 1) /
-      TOTAL *
-      100
-    ) + "%";
-
-}
-
-
-function setMessage(text){
-
-  $("message").textContent =
-    text;
-
+  lifeEls.forEach(
+    (el,index)=>{
+      el.classList.toggle(
+        "off",
+        index >= lives
+      );
+    }
+  );
 }
 
 
 /* =========================
-   TIMER CONTROL
+   CLEAR
 ========================= */
 
 function clearTimers(){
 
-  clearTimeout(timer);
+  if(timer){
+    clearTimeout(timer);
+    timer = null;
+  }
 
-  clearTimeout(sequenceTimer);
-
-  timer =
-    null;
-
-  sequenceTimer =
-    null;
+  if(animation){
+    cancelAnimationFrame(animation);
+    animation = null;
+  }
 
 }
-
-
-/* =========================
-   TARGET CLEANUP
-========================= */
 
 function clearTargets(){
 
   document
-    .querySelectorAll(".target")
+    .querySelectorAll(
+      ".target,.sequence-dot"
+    )
     .forEach(
-      element =>
-        element.remove()
+      el => el.remove()
     );
-
-  currentTargets =
-    [];
 
 }
 
 
 /* =========================
-   SOUND
+   ARENA POSITION
 ========================= */
 
-function sound(
-  frequency = 500,
-  duration = .045,
-  type = "sine"
-){
-
-  try{
-
-    audioCtx ||=
-      new (
-        window.AudioContext ||
-        window.webkitAudioContext
-      )();
-
-
-    const oscillator =
-      audioCtx.createOscillator();
-
-
-    const gain =
-      audioCtx.createGain();
-
-
-    oscillator.type =
-      type;
-
-
-    oscillator.frequency.value =
-      frequency;
-
-
-    gain.gain.setValueAtTime(
-      .045,
-      audioCtx.currentTime
-    );
-
-
-    gain.gain.exponentialRampToValueAtTime(
-      .001,
-      audioCtx.currentTime +
-      duration
-    );
-
-
-    oscillator.connect(gain);
-
-    gain.connect(
-      audioCtx.destination
-    );
-
-
-    oscillator.start();
-
-
-    oscillator.stop(
-      audioCtx.currentTime +
-      duration
-    );
-
-  }
-
-  catch(error){
-
-    /* Audio is optional. */
-
-  }
-
-}
-
-
-/* =========================
-   PARTICLE EFFECT
-========================= */
-
-function burst(
-  x,
-  y,
-  colour
-){
+function randomPosition(){
 
   const arena =
     $("arena");
 
+  const rect =
+    arena.getBoundingClientRect();
 
-  for(
-    let i = 0;
-    i < 12;
-    i++
-  ){
+  const padding = 55;
 
-    const particle =
-      document.createElement("i");
+  return {
+
+    x:
+      padding +
+      Math.random() *
+      Math.max(
+        20,
+        rect.width - padding * 2
+      ),
+
+    y:
+      padding +
+      Math.random() *
+      Math.max(
+        20,
+        rect.height - padding * 2
+      )
+
+  };
+
+}
 
 
-    particle.className =
-      "particle " +
-      colour;
+/* =========================
+   PARTICLES
+========================= */
 
+function particles(x,y){
 
-    particle.style.left =
+  for(let i=0;i<12;i++){
+
+    const p =
+      document.createElement("div");
+
+    p.className =
+      "particle";
+
+    p.style.left =
       x + "px";
 
-
-    particle.style.top =
+    p.style.top =
       y + "px";
 
-
-    const angle =
-      Math.random() *
-      Math.PI *
-      2;
-
-
-    const distance =
-      25 +
-      Math.random() *
-      55;
-
-
-    particle.style.setProperty(
-      "--dx",
-      Math.cos(angle) *
-      distance +
-      "px"
+    p.style.setProperty(
+      "--x",
+      ((Math.random()-.5)*150)+"px"
     );
 
-
-    particle.style.setProperty(
-      "--dy",
-      Math.sin(angle) *
-      distance +
-      "px"
+    p.style.setProperty(
+      "--y",
+      ((Math.random()-.5)*150)+"px"
     );
 
-
-    arena.appendChild(
-      particle
-    );
-
+    $("arena").appendChild(p);
 
     setTimeout(
-      () =>
-        particle.remove(),
-      600
+      ()=>p.remove(),
+      700
     );
 
   }
 
-
-  const text =
-    document.createElement("div");
+}
 
 
-  text.className =
-    "float-text";
+/* =========================
+   FEEDBACK
+========================= */
 
+function feedback(text,good=true){
 
-  const points =
-    pointsForHit();
+  const el =
+    $("feedback");
 
+  el.textContent =
+    text;
 
-  text.textContent =
-    combo >= 8
-      ? "PERFECT +" + points
-      : "+" + points;
-
-
-  text.style.left =
-    x + "px";
-
-
-  text.style.top =
-    y + "px";
-
-
-  arena.appendChild(
-    text
-  );
-
+  el.className =
+    "feedback show " +
+    (good ? "good" : "bad");
 
   setTimeout(
-    () =>
-      text.remove(),
+    ()=>{
+      el.className =
+        "feedback";
+    },
     600
-  );
-
-}
-
-
-/* =========================
-   SCREEN FLASH
-========================= */
-
-function flash(){
-
-  const element =
-    document.createElement("div");
-
-
-  element.className =
-    "flash";
-
-
-  $("arena")
-    .appendChild(
-      element
-    );
-
-
-  setTimeout(
-    () =>
-      element.remove(),
-    190
-  );
-
-}
-
-
-/* =========================
-   SCORING
-========================= */
-
-function pointsForHit(){
-
-  return Math.round(
-    80 +
-    combo * 12 +
-    level * 4
   );
 
 }
@@ -1454,161 +1277,761 @@ function pointsForHit(){
    SUCCESS
 ========================= */
 
-function hitSuccess(
-  button
-){
+function success(points=100){
 
-  if(
-    !button.isConnected
-  ){
-
+  if(!challengeActive)
     return;
 
-  }
+  challengeActive =
+    false;
 
+  clearTimers();
 
-  const rect =
-    button.getBoundingClientRect();
+  streak++;
 
+  const multiplier =
+    1 + Math.min(streak * .1,2);
 
-  const arenaRect =
-    $("arena")
-      .getBoundingClientRect();
+  const gained =
+    Math.round(points * multiplier);
 
+  score += gained;
 
-  const x =
-    rect.left -
-    arenaRect.left +
-    rect.width / 2;
+  if(score > best){
 
+    best = score;
 
-  const y =
-    rect.top -
-    arenaRect.top +
-    rect.height / 2;
-
-
-  combo++;
-
-
-  score +=
-    pointsForHit();
-
-
-  burst(
-    x,
-    y,
-    button.classList.contains("yellow")
-      ? "yellow"
-      : button.classList.contains("red")
-        ? "red"
-        : button.classList.contains("green")
-          ? "green"
-          : "blue"
-  );
-
-
-  sound(
-    520 +
-    Math.min(combo,12) *
-    38,
-    .055,
-    "triangle"
-  );
-
-
-  flash();
-
-
-  if(
-    combo === 3 ||
-    combo === 5 ||
-    combo === 8 ||
-    combo === 12
-  ){
-
-    sound(
-      850,
-      .09,
-      "square"
+    localStorage.setItem(
+      "brainRushBest",
+      best
     );
 
   }
+
+  feedback(
+    "+" + gained,
+    true
+  );
+
+  updateHUD();
+
+  if(level >= TOTAL_LEVELS){
+
+    timer =
+      setTimeout(
+        finishRun,
+        650
+      );
+
+    return;
+  }
+
+  level++;
+
+  timer =
+    setTimeout(
+      startLevel,
+      750
+    );
 
 }
 
 
 /* =========================
-   FAIL
+   FAILURE
 ========================= */
 
-function failLevel(
-  reason
-){
+function fail(reason){
 
-  if(
-    !timer &&
-    !sequenceTimer &&
-    levelStarted === 0
-  ){
-
+  if(!challengeActive)
     return;
 
-  }
-
+  challengeActive =
+    false;
 
   clearTimers();
 
-  clearTargets();
-
-
-  levelStarted =
-    0;
-
-
-  combo =
-    0;
-
-
   lives--;
 
+  streak = 0;
+
+  feedback(
+    reason || "MISS",
+    false
+  );
 
   updateHUD();
 
+  if(lives <= 0){
 
-  sound(
-    130,
-    .16,
-    "sawtooth"
-  );
-
-
-  flash();
-
-
-  if(
-    lives <= 0
-  ){
-
-    finish(false);
+    timer =
+      setTimeout(
+        gameOver,
+        650
+      );
 
     return;
-
   }
-
-
-  setMessage(
-    reason +
-    "  •  LIFE LOST"
-  );
-
 
   timer =
     setTimeout(
-      () =>
-        startLevel(),
-      430
+      startLevel,
+      900
     );
+
+}
+
+
+/* =========================
+   CREATE TARGET
+========================= */
+
+function createTarget(options={}){
+
+  const target =
+    document.createElement("div");
+
+  target.className =
+    "target";
+
+  if(options.small)
+    target.classList.add("small");
+
+  if(options.danger)
+    target.classList.add("danger");
+
+  const pos =
+    randomPosition();
+
+  target.style.left =
+    pos.x + "px";
+
+  target.style.top =
+    pos.y + "px";
+
+  $("arena").appendChild(target);
+
+  target.addEventListener(
+    "pointerdown",
+    e=>{
+
+      e.preventDefault();
+
+      if(!challengeActive)
+        return;
+
+      particles(
+        pos.x,
+        pos.y
+      );
+
+      if(options.danger){
+
+        fail("WRONG TARGET");
+
+      }else{
+
+        success(
+          options.points || 100
+        );
+
+      }
+
+    }
+  );
+
+  return target;
+}
+
+
+/* =========================
+   REACTION
+========================= */
+
+function reaction(){
+
+  challengeActive =
+    true;
+
+  $("instructionState")
+    .textContent =
+    "GO!";
+
+  const target =
+    createTarget({
+      points:
+        110 + level * 5,
+      small:
+        level >= 18
+    });
+
+  const difficulty =
+    Math.max(
+      900,
+      2300 - level * 42
+    );
+
+  timer =
+    setTimeout(
+      ()=>{
+        if(challengeActive)
+          fail("TOO SLOW");
+      },
+      difficulty
+    );
+
+}
+
+
+/* =========================
+   RAPID FIRE
+========================= */
+
+function rapid(){
+
+  challengeActive =
+    true;
+
+  $("instructionState")
+    .textContent =
+    "GO!";
+
+  let remaining =
+    Math.min(
+      2 + Math.floor((level-4)/2),
+      5
+    );
+
+  const total =
+    remaining;
+
+  function next(){
+
+    if(!challengeActive)
+      return;
+
+    if(remaining <= 0){
+
+      success(
+        130 + total * 25
+      );
+
+      return;
+    }
+
+    const target =
+      createTarget({
+        points:90
+      });
+
+    const timeout =
+      Math.max(
+        750,
+        1500 - level * 25
+      );
+
+    timer =
+      setTimeout(
+        ()=>{
+          if(challengeActive)
+            fail("TOO SLOW");
+        },
+        timeout
+      );
+
+    target.addEventListener(
+      "pointerdown",
+      ()=>{
+        if(challengeActive){
+          remaining--;
+          clearTimeout(timer);
+
+          if(remaining > 0){
+            setTimeout(
+              ()=>{
+                clearTargets();
+                next();
+              },
+              80
+            );
+          }
+        }
+      },
+      {once:true}
+    );
+
+  }
+
+  next();
+
+}
+
+
+/* =========================
+   AVOID
+========================= */
+
+function avoid(){
+
+  challengeActive =
+    true;
+
+  $("instructionState")
+    .textContent =
+    "BLUE = GOOD · RED = BAD";
+
+  const good =
+    createTarget({
+      points:
+        130 + level * 4,
+      small:
+        level >= 20
+    });
+
+  const danger =
+    createTarget({
+      danger:true
+    });
+
+  timer =
+    setTimeout(
+      ()=>{
+        if(challengeActive)
+          success(
+            140 + level * 4
+          );
+      },
+      Math.max(
+        1300,
+        2200 - level * 30
+      )
+    );
+
+}
+
+
+/* =========================
+   MOVING
+========================= */
+
+function moving(){
+
+  challengeActive =
+    true;
+
+  $("instructionState")
+    .textContent =
+    "TRACK IT";
+
+  const target =
+    createTarget({
+      points:
+        150 + level * 5,
+      small:
+        level >= 20
+    });
+
+  target.classList.add(
+    "moving"
+  );
+
+  let start =
+    performance.now();
+
+  let duration =
+    Math.max(
+      1200,
+      2500 - level * 45
+    );
+
+  function animate(now){
+
+    if(!challengeActive)
+      return;
+
+    const elapsed =
+      now - start;
+
+    const progress =
+      Math.min(
+        elapsed / duration,
+        1
+      );
+
+    const arena =
+      $("arena");
+
+    const rect =
+      arena.getBoundingClientRect();
+
+    const radius =
+      Math.min(
+        rect.width,
+        rect.height
+      ) * .32;
+
+    const angle =
+      progress *
+      Math.PI *
+      (2 + level*.05);
+
+    const x =
+      rect.width/2 +
+      Math.cos(angle) *
+      radius;
+
+    const y =
+      rect.height/2 +
+      Math.sin(angle*1.15) *
+      radius;
+
+    target.style.left =
+      x + "px";
+
+    target.style.top =
+      y + "px";
+
+    animation =
+      requestAnimationFrame(
+        animate
+      );
+
+  }
+
+  animation =
+    requestAnimationFrame(
+      animate
+    );
+
+  timer =
+    setTimeout(
+      ()=>{
+        if(challengeActive)
+          fail("MISSED IT");
+      },
+      duration + 700
+    );
+
+}
+
+
+/* =========================
+   SEQUENCE
+========================= */
+
+function sequence(){
+
+  challengeActive =
+    false;
+
+  $("instructionState")
+    .textContent =
+    "MEMORISE THE ORDER";
+
+  const count =
+    Math.min(
+      2 + Math.floor((level-14)/2),
+      5
+    );
+
+  const dots = [];
+
+  for(let i=0;i<count;i++){
+
+    const pos =
+      randomPosition();
+
+    const dot =
+      document.createElement("div");
+
+    dot.className =
+      "sequence-dot";
+
+    dot.textContent =
+      i + 1;
+
+    dot.style.left =
+      pos.x + "px";
+
+    dot.style.top =
+      pos.y + "px";
+
+    $("arena").appendChild(dot);
+
+    dots.push(dot);
+
+  }
+
+  timer =
+    setTimeout(
+      ()=>{
+        clearTargets();
+
+        challengeActive =
+          true;
+
+        $("instructionState")
+          .textContent =
+          "NOW TAP 1 → 2 → 3";
+
+        let expected =
+          1;
+
+        dots.forEach(
+          (dot,index)=>{
+
+            dot.style.left =
+              dot.dataset.x;
+
+          }
+        );
+
+        dots.forEach(
+          dot=>{
+
+            dot.style.display =
+              "flex";
+
+            dot.addEventListener(
+              "pointerdown",
+              e=>{
+
+                e.preventDefault();
+
+                if(!challengeActive)
+                  return;
+
+                const number =
+                  Number(
+                    dot.textContent
+                  );
+
+                if(number !== expected){
+
+                  fail("WRONG ORDER");
+                  return;
+
+                }
+
+                particles(
+                  parseFloat(dot.style.left),
+                  parseFloat(dot.style.top)
+                );
+
+                dot.remove();
+
+                expected++;
+
+                if(expected > count){
+
+                  success(
+                    180 + level * 6
+                  );
+
+                }
+
+              }
+            );
+
+          }
+        );
+
+      },
+      1100
+    );
+
+}
+
+
+/* =========================
+   PRECISION
+========================= */
+
+function precision(){
+
+  challengeActive =
+    true;
+
+  $("instructionState")
+    .textContent =
+    "HIT THE CORE";
+
+  const target =
+    createTarget({
+      points:
+        170 + level * 7,
+      small:true
+    });
+
+  const timeout =
+    Math.max(
+      900,
+      1900 - level * 30
+    );
+
+  timer =
+    setTimeout(
+      ()=>{
+        if(challengeActive)
+          fail("TOO SLOW");
+      },
+      timeout
+    );
+
+}
+
+
+/* =========================
+   READING PHASE
+========================= */
+
+function startLevel(){
+
+  clearTimers();
+  clearTargets();
+
+  challengeActive =
+    false;
+
+  $("arena")
+    .classList
+    .add("reading");
+
+  $("levelNumber")
+    .textContent =
+    "LEVEL " +
+    level +
+    " / " +
+    TOTAL_LEVELS;
+
+  const type =
+    levelType(level);
+
+  $("instructionMain")
+    .textContent =
+    instructionFor(type);
+
+  $("instructionState")
+    .textContent =
+    "READ THE RULE";
+
+  updateHUD();
+
+  /*
+   * IMPORTANT:
+   *
+   * No target.
+   * No challenge timer.
+   * No life can be lost.
+   *
+   * The player gets the full
+   * 2 seconds to read.
+   */
+
+  timer =
+    setTimeout(
+      ()=>{
+
+        $("arena")
+          .classList
+          .remove("reading");
+
+        $("instructionState")
+          .textContent =
+          "GO!";
+
+        /*
+         * Challenge timer begins
+         * only after reading phase.
+         */
+
+        levelStarted =
+          performance.now();
+
+        if(type === "reaction")
+          reaction();
+
+        else if(type === "rapid")
+          rapid();
+
+        else if(type === "avoid")
+          avoid();
+
+        else if(type === "moving")
+          moving();
+
+        else if(type === "sequence")
+          sequence();
+
+        else
+          precision();
+
+      },
+      2000
+    );
+
+}
+
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+function countdown(done){
+
+  const overlay =
+    $("countdown");
+
+  const number =
+    $("countdownNumber");
+
+  overlay.classList.add("show");
+
+  let n = 3;
+
+  function tick(){
+
+    if(n === 0){
+
+      number.textContent =
+        "GO!";
+
+      number.style.color =
+        "#5dfffa";
+
+      setTimeout(
+        ()=>{
+          overlay.classList.remove("show");
+          number.style.color = "";
+          done();
+        },
+        450
+      );
+
+      return;
+    }
+
+    number.textContent =
+      n;
+
+    number.style.animation =
+      "none";
+
+    void number.offsetWidth;
+
+    number.style.animation =
+      "countPop .75s ease-out";
+
+    n--;
+
+    setTimeout(
+      tick,
+      750
+    );
+
+  }
+
+  tick();
 
 }
 
@@ -1619,1525 +2042,74 @@ function failLevel(
 
 function startRun(){
 
-  clearTimers();
+  if(starting)
+    return;
 
-  clearTargets();
+  starting =
+    true;
 
+  $("overlay")
+    .classList
+    .remove("show");
 
-  level =
-    1;
-
-
-  score =
-    0;
-
-
-  combo =
-    0;
-
-
-  lives =
-    3;
-
-
-  $("home")
+  $("homeScreen")
     .classList
     .remove("active");
 
-
-  $("game")
+  $("gameScreen")
     .classList
     .add("active");
 
+  clearTimers();
+  clearTargets();
+
+  level = 1;
+  score = 0;
+  streak = 0;
+  lives = 3;
 
   updateHUD();
 
+  $("instructionMain")
+    .textContent =
+    "GET READY";
+
+  $("instructionState")
+    .textContent =
+    "PREPARE YOUR BRAIN";
 
   countdown(
-    () =>
-      startLevel()
-  );
-
-}
-
-
-/* =========================
-   COUNTDOWN
-========================= */
-
-function countdown(
-  done
-){
-
-  clearTargets();
-
-
-  let number =
-    3;
-
-
-  setMessage(
-    number
-  );
-
-
-  const tick =
-    () => {
-
-      if(
-        number === 0
-      ){
-
-        setMessage(
-          "GO!"
-        );
-
-
-        sound(
-          700,
-          .08,
-          "square"
-        );
-
-
-        setTimeout(
-          done,
-          120
-        );
-
-
-        return;
-
-      }
-
-
-      setMessage(
-        number
-      );
-
-
-      sound(
-        300 +
-        number * 90,
-        .07,
-        "square"
-      );
-
-
-      number--;
-
-
-      setTimeout(
-        tick,
-        300
-      );
-
-    };
-
-
-  tick();
-
-}
-
-
-/* =========================
-   LEVEL TYPE
-========================= */
-
-function levelType(
-  currentLevel
-){
-
-  if(
-    currentLevel <= 2
-  ){
-
-    return "reaction";
-
-  }
-
-
-  if(
-    currentLevel <= 5
-  ){
-
-    return "rapid";
-
-  }
-
-
-  if(
-    currentLevel <= 8
-  ){
-
-    return "avoid";
-
-  }
-
-
-  if(
-    currentLevel <= 12
-  ){
-
-    return "moving";
-
-  }
-
-
-  if(
-    currentLevel <= 17
-  ){
-
-    return "sequence";
-
-  }
-
-
-  if(
-    currentLevel <= 22
-  ){
-
-    return "precision";
-
-  }
-
-
-  if(
-    currentLevel <= 26
-  ){
-
-    return "rapid";
-
-  }
-
-
-  return "sequence";
-
-}
-
-
-/* =========================
-   LEVEL NAME
-========================= */
-
-function levelName(
-  currentLevel
-){
-
-  const type =
-    levelType(
-      currentLevel
-    );
-
-
-  return {
-
-    reaction:
-      "REACTION",
-
-    rapid:
-      "RAPID FIRE",
-
-    avoid:
-      "DON'T TAP",
-
-    moving:
-      "MOVING TARGET",
-
-    sequence:
-      "COLOUR SEQUENCE",
-
-    precision:
-      "PRECISION"
-
-  }[type];
-
-}
-
-
-/* =========================
-   START LEVEL
-========================= */
-
-function startLevel(){
-
-  clearTimers();
-
-  clearTargets();
-
-
-  $("levelTitle")
-    .textContent =
-    levelName(level);
-
-updateHUD();
-
-/*
- * READING PHASE
- * Give the player 2 full seconds
- * to read the instruction.
- *
- * IMPORTANT:
- * - No target appears yet
- * - Challenge timer has not started
- * - No life can be lost
- */
-
-timer =
-    setTimeout(
-        () => {
-
-            /*
-             * The actual challenge starts
-             * only after the reading period.
-             */
-            levelStarted =
-                performance.now();
-
-            const type =
-                levelType(level);
-
-            if(
-                type === "reaction"
-            ){
-
-                reaction();
-
-            }
-
-            else if(
-                type === "rapid"
-            ){
-
-                rapid();
-
-            }
-
-            else if(
-                type === "avoid"
-            ){
-
-                avoid();
-
-            }
-
-            else if(
-                type === "moving"
-            ){
-
-                moving();
-
-            }
-
-            else if(
-                type === "sequence"
-            ){
-
-                sequence();
-
-            }
-
-            else{
-
-                precision();
-
-            }
-
-        },
-        2000
-    );
-
-}
-
-/* =========================
-   ARENA SIZE
-========================= */
-
-function arenaSize(){
-
-  return $("arena")
-    .getBoundingClientRect();
-
-}
-
-
-/* =========================
-   COLLISION CHECK
-========================= */
-
-function positionClear(
-  x,
-  y,
-  size
-){
-
-  const targets =
-    [
-      ...document
-        .querySelectorAll(
-          ".target"
-        )
-    ];
-
-
-  for(
-    const target of targets
-  ){
-
-    const targetRect =
-      target.getBoundingClientRect();
-
-
-    const arenaRect =
-      $("arena")
-        .getBoundingClientRect();
-
-
-    const targetX =
-      targetRect.left -
-      arenaRect.left +
-      targetRect.width / 2;
-
-
-    const targetY =
-      targetRect.top -
-      arenaRect.top +
-      targetRect.height / 2;
-
-
-    const distance =
-      Math.hypot(
-        x - targetX,
-        y - targetY
-      );
-
-
-    if(
-      distance <
-      size / 2 +
-      targetRect.width / 2 +
-      12
-    ){
-
-      return false;
-
-    }
-
-  }
-
-
-  return true;
-
-}
-
-
-/* =========================
-   SAFE RANDOM POSITION
-========================= */
-
-function randomPosition(
-  size = 60
-){
-
-  const arena =
-    arenaSize();
-
-
-  const margin =
-    Math.max(
-      34,
-      size / 2 + 10
-    );
-
-
-  /*
-    The instruction area occupies
-    the top portion of the arena.
-
-    Targets begin below it.
-  */
-
-  const safeTop =
-    Math.max(
-      104,
-      Math.min(
-        arena.height * .22,
-        145
-      )
-    );
-
-
-  const minimumY =
-    Math.min(
-      safeTop,
-      arena.height -
-      margin -
-      10
-    );
-
-
-  /*
-    Try many positions so targets
-    don't overlap each other.
-  */
-
-  for(
-    let attempt = 0;
-    attempt < 90;
-    attempt++
-  ){
-
-    const x =
-      margin +
-      Math.random() *
-      Math.max(
-        1,
-        arena.width -
-        margin * 2
-      );
-
-
-    const y =
-      minimumY +
-      Math.random() *
-      Math.max(
-        1,
-        arena.height -
-        margin -
-        minimumY
-      );
-
-
-    if(
-      positionClear(
-        x,
-        y,
-        size
-      )
-    ){
-
-      return {
-        x,
-        y
-      };
-
-    }
-
-  }
-
-
-  /*
-    Fallback position.
-  */
-
-  return {
-
-    x:
-      arena.width / 2,
-
-    y:
-      Math.max(
-        minimumY,
-        arena.height / 2
-      )
-
-  };
-
-}
-
-
-/* =========================
-   CREATE TARGET
-========================= */
-
-function makeTarget({
-
-  colour = "blue",
-
-  size = 60,
-
-  correct = true,
-
-  onClick = null,
-
-  pulse = false
-
-} = {}){
-
-
-  const button =
-    document.createElement(
-      "button"
-    );
-
-
-  button.type =
-    "button";
-
-
-  button.className =
-    "target " +
-    colour;
-
-
-  button.style.width =
-    size + "px";
-
-
-  button.style.height =
-    size + "px";
-
-
-  const position =
-    randomPosition(
-      size
-    );
-
-
-  button.style.left =
-    position.x + "px";
-
-
-  button.style.top =
-    position.y + "px";
-
-
-  if(
-    pulse
-  ){
-
-    button.classList.add(
-      "pulse"
-    );
-
-  }
-
-
-  button.onclick =
-    event => {
-
-      event.stopPropagation();
-
-
-      if(
-        onClick
-      ){
-
-        onClick(
-          button,
-          correct
-        );
-
-      }
-
-    };
-
-
-  $("arena")
-    .appendChild(
-      button
-    );
-
-
-  currentTargets.push(
-    button
-  );
-
-
-  return button;
-
-}
-
-
-/* =========================
-   NEXT LEVEL
-========================= */
-
-function nextLevel(){
-
-  clearTimers();
-
-  clearTargets();
-
-
-  levelStarted =
-    0;
-
-
-  if(
-    level >= TOTAL
-  ){
-
-    finish(true);
-
-    return;
-
-  }
-
-
-  level++;
-
-
-  updateHUD();
-
-
-  /*
-    Very short transition.
-    The game keeps momentum.
-  */
-
-  timer =
-    setTimeout(
-      () =>
-        startLevel(),
-      220
-    );
-
-}
-
-
-/* =========================
-   REGISTER CORRECT HIT
-========================= */
-
-function registerCorrect(
-  button
-){
-
-  if(
-    !button.isConnected
-  ){
-
-    return;
-
-  }
-
-
-  hitSuccess(
-    button
-  );
-
-
-  clearTimers();
-
-
-  /*
-    Faster players receive
-    an additional time bonus.
-  */
-
-  const elapsed =
-    performance.now() -
-    levelStarted;
-
-
-  const bonus =
-    Math.max(
-      0,
-      Math.round(
-        180 -
-        elapsed / 8
-      )
-    );
-
-
-  score +=
-    bonus;
-
-
-  if(
-    combo >= 5
-  ){
-
-    score +=
-      50;
-
-  }
-
-
-  nextLevel();
-
-}
-
-
-/* =====================================================
-   LEVEL TYPE 1 — REACTION
-===================================================== */
-
-function reaction(){
-
-  setMessage(
-    "TAP THE GLOWING TARGET"
-  );
-
-
-  /*
-    Reaction delay gets shorter.
-  */
-
-  const delay =
-    Math.max(
-      120,
-      550 -
-      level * 12
-    );
-
-
-  timer =
-    setTimeout(
-      () => {
-
-        const size =
-          Math.max(
-            42,
-            76 -
-            level
-          );
-
-
-        const colour =
-          colours[
-            Math.floor(
-              Math.random() *
-              colours.length
-            )
-          ];
-
-
-        makeTarget({
-
-          size,
-
-          colour,
-
-          pulse:true,
-
-          onClick:
-            button =>
-              registerCorrect(
-                button
-              )
-
-        });
-
-
-        timer =
-          setTimeout(
-            () =>
-              failLevel(
-                "TOO SLOW!"
-              ),
-
-            Math.max(
-              700,
-              1550 -
-              level * 22
-            )
-
-          );
-
-      },
-
-      delay
-    );
-
-}
-
-
-/* =====================================================
-   LEVEL TYPE 2 — RAPID FIRE
-===================================================== */
-
-function rapid(){
-
-  const total =
-    level < 7
-      ? 3
-      : level < 20
-        ? 4
-        : 5;
-
-
-  let hits =
-    0;
-
-
-  setMessage(
-    "RAPID FIRE  •  " +
-    total +
-    " TARGETS"
-  );
-
-
-  const spawn =
-    () => {
-
-      if(
-        hits >= total
-      ){
-
-        clearTimers();
-
-        nextLevel();
-
-        return;
-
-      }
-
-
-      const size =
-        Math.max(
-          36,
-          62 -
-          level * .65
-        );
-
-
-      makeTarget({
-
-        size,
-
-        colour:
-          colours[
-            (hits + level) %
-            4
-          ],
-
-        onClick:
-          button => {
-
-            hitSuccess(
-              button
-            );
-
-
-            hits++;
-
-
-            clearTimeout(
-              timer
-            );
-
-
-            if(
-              hits >= total
-            ){
-
-              nextLevel();
-
-            }
-
-            else{
-
-              spawn();
-
-            }
-
-          }
-
-      });
-
-
-      timer =
-        setTimeout(
-          () =>
-            failLevel(
-              "KEEP MOVING!"
-            ),
-
-          Math.max(
-            520,
-            1050 -
-            level * 15
-          )
-
-        );
-
-    };
-
-
-  spawn();
-
-}
-
-
-/* =====================================================
-   LEVEL TYPE 3 — DON'T TAP
-===================================================== */
-
-function avoid(){
-
-  const bad =
-    level % 2
-      ? "red"
-      : "yellow";
-
-
-  setMessage(
-    "TAP ANYTHING EXCEPT " +
-    bad.toUpperCase()
-  );
-
-
-  const total =
-    3 +
-    Math.floor(
-      level / 3
-    );
-
-
-  let hits =
-    0;
-
-
-  for(
-    let i = 0;
-    i < total;
-    i++
-  ){
-
-    const colour =
-      Math.random() < .32
-        ? bad
-        : colours.filter(
-            item =>
-              item !== bad
-          )[
-            Math.floor(
-              Math.random() * 3
-            )
-          ];
-
-
-    makeTarget({
-
-      size:
-        Math.max(
-          38,
-          64 -
-          level * .5
-        ),
-
-      colour,
-
-      onClick:
-        button => {
-
-          if(
-            colour === bad
-          ){
-
-            failLevel(
-              "TRAP!"
-            );
-
-            return;
-
-          }
-
-
-          hitSuccess(
-            button
-          );
-
-
-          hits++;
-
-
-          if(
-            hits >= total
-          ){
-
-            nextLevel();
-
-          }
-
-        }
-
-    });
-
-  }
-
-
-  timer =
-    setTimeout(
-      () =>
-        failLevel(
-          "TOO SLOW!"
-        ),
-
-      Math.max(
-        1200,
-        2300 -
-        level * 28
-      )
-
-    );
-
-}
-
-
-/* =====================================================
-   LEVEL TYPE 4 — MOVING TARGET
-===================================================== */
-
-function moving(){
-
-  setMessage(
-    "HIT IT BEFORE IT MOVES"
-  );
-
-
-  const size =
-    Math.max(
-      40,
-      70 -
-      level * .9
-    );
-
-
-  const target =
-    makeTarget({
-
-      size,
-
-      colour:"blue",
-
-      pulse:true,
-
-      onClick:
-        button =>
-          registerCorrect(
-            button
-          )
-
-    });
-
-
-  let moves =
-    0;
-
-
-  const move =
-    () => {
-
-      if(
-        !target.isConnected
-      ){
-
-        return;
-
-      }
-
-
-      moves++;
-
-
-      const position =
-        randomPosition(
-          size
-        );
-
-
-      target.style.left =
-        position.x + "px";
-
-
-      target.style.top =
-        position.y + "px";
-
-
-      if(
-        moves < 3
-      ){
-
-        timer =
-          setTimeout(
-            move,
-
-            Math.max(
-              260,
-              520 -
-              level * 6
-            )
-
-          );
-
-      }
-
-    };
-
-
-  timer =
-    setTimeout(
-      move,
-
-      Math.max(
-        320,
-        700 -
-        level * 7
-      )
-
-    );
-
-
-  sequenceTimer =
-    setTimeout(
-      () =>
-        failLevel(
-          "TOO SLOW!"
-        ),
-
-      Math.max(
-        1000,
-        1700 -
-        level * 20
-      )
-
-    );
-
-}
-
-
-/* =====================================================
-   RANDOM SEQUENCE
-===================================================== */
-
-function getSequence(){
-
-  const pool =
-    [
-      ...colours
-    ];
-
-
-  const sequence =
-    [];
-
-
-  const length =
-    4;
-
-
-  while(
-    sequence.length <
-    length
-  ){
-
-    const index =
-      Math.floor(
-        Math.random() *
-        pool.length
-      );
-
-
-    sequence.push(
-      pool.splice(
-        index,
-        1
-      )[0]
-    );
-
-  }
-
-
-  return sequence;
-
-}
-
-
-/* =====================================================
-   LEVEL TYPE 5 — COLOUR SEQUENCE
-===================================================== */
-
-function sequence(){
-
-  sequenceStep =
-    0;
-
-
-  const sequence =
-    getSequence();
-
-
-  /*
-    Short memory phase.
-  */
-
-  setMessage(
-    "MEMORISE: " +
-    sequence
-      .map(
-        colour =>
-          colour.toUpperCase()
-      )
-      .join(" → ")
-  );
-
-
-  timer =
-    setTimeout(
-      () =>
-        sequenceRound(
-          sequence
-        ),
-
-      650
-    );
-
-}
-
-
-function sequenceRound(
-  sequence
-){
-
-  clearTargets();
-
-
-  const correct =
-    sequence[
-      sequenceStep
-    ];
-
-
-  const size =
-    Math.max(
-      38,
-      62 -
-      level * .65
-    );
-
-
-  /*
-    Instruction stays protected.
-  */
-
-  setMessage(
-    "NOW: " +
-    correct.toUpperCase() +
-    "  •  " +
-    (sequenceStep + 1) +
-    "/" +
-    sequence.length
-  );
-
-
-  colours.forEach(
-    colour => {
-
-      makeTarget({
-
-        colour,
-
-        size,
-
-        correct:
-          colour === correct,
-
-        onClick:
-          (
-            button,
-            isCorrect
-          ) => {
-
-            clearTimeout(
-              sequenceTimer
-            );
-
-
-            if(
-              !isCorrect
-            ){
-
-              failLevel(
-                "WRONG COLOUR!"
-              );
-
-              return;
-
-            }
-
-
-            hitSuccess(
-              button
-            );
-
-
-            sequenceStep++;
-
-
-            if(
-              sequenceStep >=
-              sequence.length
-            ){
-
-              nextLevel();
-
-              return;
-
-            }
-
-
-            /*
-              Immediate next step.
-              No unnecessary pause.
-            */
-
-            sequenceRound(
-              sequence
-            );
-
-          }
-
-      });
-
+    ()=>{
+      starting = false;
+      startLevel();
     }
   );
 
-
-  sequenceTimer =
-    setTimeout(
-      () =>
-        failLevel(
-          "TOO SLOW!"
-        ),
-
-      Math.max(
-        650,
-        1350 -
-        level * 18 -
-        sequenceStep * 80
-      )
-
-    );
-
 }
 
 
-/* =====================================================
-   LEVEL TYPE 6 — PRECISION
-===================================================== */
+/* =========================
+   GAME OVER
+========================= */
 
-function precision(){
-
-  setMessage(
-    level % 2
-      ? "HIT THE SMALL TARGET"
-      : "WAIT FOR THE PERFECT MOMENT"
-  );
-
-
-  const size =
-    Math.max(
-      28,
-      52 -
-      level * .7
-    );
-
-
-  const delay =
-    level % 2
-      ? 0
-      : Math.max(
-          250,
-          850 -
-          level * 18
-        );
-
-
-  timer =
-    setTimeout(
-      () => {
-
-        makeTarget({
-
-          size,
-
-          colour:"purple",
-
-          pulse:true,
-
-          onClick:
-            button =>
-              registerCorrect(
-                button
-              )
-
-        });
-
-
-        timer =
-          setTimeout(
-            () =>
-              failLevel(
-                "MISSED THE WINDOW!"
-              ),
-
-            Math.max(
-              650,
-              1200 -
-              level * 15
-            )
-
-          );
-
-      },
-
-      delay
-    );
-
-}
-
-
-/* =====================================================
-   FINISH
-===================================================== */
-
-function finish(
-  won
-){
+function gameOver(){
 
   clearTimers();
-
   clearTargets();
 
-
-  best =
-    Math.max(
-      best,
-      score
-    );
-
-
-  localStorage.setItem(
-    "brainRushBest",
-    best
-  );
-
-
-  $("panelTitle")
+  $("overlayTitle")
     .textContent =
-      won
-        ? "RUN COMPLETE"
-        : "GAME OVER";
+    "RUN OVER";
 
-
-  $("finalScore")
+  $("overlaySub")
     .textContent =
-      Math.round(
-        score
-      ).toLocaleString();
+    "You reached level " +
+    level +
+    ". Build your streak and try again.";
 
-
-  $("panelText")
+  $("overlayScore")
     .textContent =
-      won
-        ? "30 levels cleared. Best: " +
-          Math.round(best).toLocaleString()
-        : "Out of lives. Best: " +
-          Math.round(best).toLocaleString();
-
+    score;
 
   $("overlay")
     .classList
@@ -3146,53 +2118,106 @@ function finish(
 }
 
 
-/* =====================================================
-   BUTTONS
-===================================================== */
+/* =========================
+   FINISH
+========================= */
 
-$("startBtn").onclick =
-  startRun;
-$("speedMode").onclick = startRun;
+function finishRun(){
 
-$("againBtn").onclick =
-  () => {
+  clearTimers();
+  clearTargets();
 
-    $("overlay")
-      .classList
-      .remove("show");
+  $("overlayTitle")
+    .textContent =
+    "BRAIN RUSH COMPLETE";
 
+  $("overlaySub")
+    .textContent =
+    "30 levels survived. Your brain is officially warmed up.";
 
-    startRun();
+  $("overlayScore")
+    .textContent =
+    score;
 
-  };
+  $("overlay")
+    .classList
+    .add("show");
 
-
-$("homeBtn").onclick =
-  () => {
-
-    clearTimers();
-
-    clearTargets();
-
-
-    $("overlay")
-      .classList
-      .remove("show");
+}
 
 
-    $("game")
-      .classList
-      .remove("active");
+/* =========================
+   HOME / BUTTONS
+========================= */
+
+$("speedMode")
+  .addEventListener(
+    "click",
+    startRun
+  );
+
+$("startBtn")
+  .addEventListener(
+    "click",
+    startRun
+  );
+
+$("againBtn")
+  .addEventListener(
+    "click",
+    startRun
+  );
+
+$("quitBtn")
+  .addEventListener(
+    "click",
+    ()=>{
+      clearTimers();
+      clearTargets();
+
+      challengeActive =
+        false;
+
+      starting =
+        false;
+
+      $("gameScreen")
+        .classList
+        .remove("active");
+
+      $("homeScreen")
+        .classList
+        .add("active");
+
+    }
+  );
 
 
-    $("home")
-      .classList
-      .add("active");
+/* =========================
+   PREVENT DOUBLE TAP
+========================= */
 
-  };
+document.addEventListener(
+  "visibilitychange",
+  ()=>{
+    if(document.hidden){
+      clearTimers();
+      clearTargets();
+      challengeActive = false;
+    }
+  }
+);
 
+
+/* =========================
+   INITIAL HUD
+========================= */
+
+updateHUD();
 
 </script>
+
+</div>
 
 </body>
 </html>

@@ -1866,70 +1866,88 @@ function startLevel(){
   clearTargets();
 
 
-  levelStarted =
-    performance.now();
-
-
   $("levelTitle")
     .textContent =
-      levelName(level);
+    levelName(level);
 
+updateHUD();
 
-  updateHUD();
+/*
+ * READING PHASE
+ * Give the player 2 full seconds
+ * to read the instruction.
+ *
+ * IMPORTANT:
+ * - No target appears yet
+ * - Challenge timer has not started
+ * - No life can be lost
+ */
 
+timer =
+    setTimeout(
+        () => {
 
-  const type =
-    levelType(level);
+            /*
+             * The actual challenge starts
+             * only after the reading period.
+             */
+            levelStarted =
+                performance.now();
 
+            const type =
+                levelType(level);
 
-  if(
-    type === "reaction"
-  ){
+            if(
+                type === "reaction"
+            ){
 
-    reaction();
+                reaction();
 
-  }
+            }
 
-  else if(
-    type === "rapid"
-  ){
+            else if(
+                type === "rapid"
+            ){
 
-    rapid();
+                rapid();
 
-  }
+            }
 
-  else if(
-    type === "avoid"
-  ){
+            else if(
+                type === "avoid"
+            ){
 
-    avoid();
+                avoid();
 
-  }
+            }
 
-  else if(
-    type === "moving"
-  ){
+            else if(
+                type === "moving"
+            ){
 
-    moving();
+                moving();
 
-  }
+            }
 
-  else if(
-    type === "sequence"
-  ){
+            else if(
+                type === "sequence"
+            ){
 
-    sequence();
+                sequence();
 
-  }
+            }
 
-  else{
+            else{
 
-    precision();
+                precision();
 
-  }
+            }
+
+        },
+        2000
+    );
 
 }
-
 
 /* =========================
    ARENA SIZE

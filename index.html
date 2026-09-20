@@ -3737,7 +3737,12 @@ function levelSequence(){
   );
 
   setMessage(
-    "BLUE FIRST"
+    const sequence = getSequence();
+
+setMessage(
+  sequence[0].toUpperCase() +
+  " FIRST"
+);
   );
 
   timer =

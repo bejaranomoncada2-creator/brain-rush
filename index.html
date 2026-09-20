@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Brain Rush</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0b1020;
+  color:white;
+}
+
+.game{
+  max-width:520px;
+  margin:auto;
+  min-height:100vh;
+  padding:24px 18px;
+}
+
+.header{
+  text-align:center;
+  padding:25px 10px 20px;
+}
+
+.logo{
+  font-size:38px;
+  font-weight:900;
+  letter-spacing:-2px;
+}
+
+.tagline{
+  color:#aab3c5;
+  margin-top:8px;
+}
+
+.card{
+  background:#151c31;
+  border:1px solid #26304a;
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:16px;
+}
+
+h2{
+  margin-top:0;
+}
+
+.button{
+  width:100%;
+  border:0;
+  border-radius:14px;
+  padding:16px;
+  margin-top:10px;
+  font-size:17px;
+  font-weight:700;
+  cursor:pointer;
+  background:#ffffff;
+  color:#111827;
+}
+
+.button:active{
+  transform:scale(.98);
+}
+
+.category-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.category{
+  min-height:110px;
+  border-radius:18px;
+  border:1px solid #2b3654;
+  background:#11182b;
+  color:white;
+  padding:16px;
+  text-align:left;
+  cursor:pointer;
+}
+
+.category strong{
+  display:block;
+  font-size:18px;
+  margin-bottom:8px;
+}
+
+.category span{
+  color:#9ca8bf;
+  font-size:13px;
+}
+
+.hidden{
+  display:none;
+}
+
+.back{
+  background:transparent;
+  color:#9ca8bf;
+  border:1px solid #303b59;
+}
+
+#gameArea{
+  text-align:center;
+}
+
+.level{
+  color:#9ca8bf;
+  font-size:14px;
+}
+
+.challenge{
+  min-height:260px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+}
+
+.target{
+  width:90px;
+  height:90px;
+  border-radius:50%;
+  background:white;
+  border:0;
+  cursor:pointer;
+}
+
+.message{
+  font-size:22px;
+  font-weight:800;
+  margin:15px 0;
+}
+
+.score{
+  color:#aab3c5;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="game">
+
+  <div class="header">
+    <div class="logo">BRAIN RUSH</div>
+    <div class="tagline">
+      Think fast. See faster.
+    </div>
+  </div>
+
+
+  <!-- HOME -->
+
+  <div id="home">
+
+    <div class="card">
+
+      <h2>Choose your challenge</h2>
+
+      <p style="color:#9ca8bf;">
+        Six different ways to test your brain.
+      </p>
+
+      <div class="category-grid">
+
+        <button class="category" onclick="startCategory('Speed')">
+          <strong>⚡ Speed</strong>
+          <span>React before time runs out.</span>
+        </button>
+
+        <button class="category" onclick="startCategory('Memory')">
+          <strong>🧠 Memory</strong>
+          <span>Remember what you saw.</span>
+        </button>
+
+        <button class="category" onclick="startCategory('Observation')">
+          <strong>👁 Observation</strong>
+          <span>Spot what changed.</span>
+        </button>
+
+        <button class="category" onclick="startCategory('Precision')">
+          <strong>🎯 Precision</strong>
+          <span>Hit the exact target.</span>
+        </button>
+
+        <button class="category" onclick="startCategory('Pattern')">
+          <strong>🔢 Pattern</strong>
+          <span>Work out what comes next.</span>
+        </button>
+
+        <button class="category" onclick="startCategory('Trap')">
+          <strong>🪤 Trap</strong>
+          <span>Don't fall for the obvious.</span>
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- GAME -->
+
+  <div id="gameArea" class="hidden">
+
+    <div class="card">
+
+      <div class="level" id="levelText">
+        Level 1
+      </div>
+
+      <h2 id="categoryTitle">
+        Speed
+      </h2>
+
+      <div class="challenge" id="challenge">
+
+        <div class="message" id="message">
+          Get ready...
+        </div>
+
+        <button
+          class="target"
+          id="target"
+          onclick="hitTarget()">
+        </button>
+
+      </div>
+
+      <div class="score">
+        Score: <strong id="score">0</strong>
+      </div>
+
+    </div>
+
+    <button class="button back" onclick="goHome()">
+      ← Back to categories
+    </button>
+
+  </div>
+
+</div>
+
+
+<script>
+
+let currentCategory = "";
+let score = 0;
+let level = 1;
+let canTap = false;
+
+
+function startCategory(category){
+
+  currentCategory = category;
+  score = 0;
+  level = 1;
+
+  document.getElementById("home").classList.add("hidden");
+
+  document.getElementById("gameArea").classList.remove("hidden");
+
+  document.getElementById("categoryTitle").textContent =
+    category;
+
+  document.getElementById("score").textContent =
+    score;
+
+  startLevel();
+
+}
+
+
+function startLevel(){
+
+  canTap = false;
+
+  document.getElementById("levelText").textContent =
+    "Level " + level;
+
+  document.getElementById("message").textContent =
+    "Get ready...";
+
+  document.getElementById("target").style.visibility =
+    "hidden";
+
+  setTimeout(function(){
+
+    document.getElementById("message").textContent =
+      "TAP!";
+
+    document.getElementById("target").style.visibility =
+      "visible";
+
+    canTap = true;
+
+  },800);
+
+}
+
+
+function hitTarget(){
+
+  if(!canTap){
+    return;
+  }
+
+  canTap = false;
+
+  score += 100;
+
+  document.getElementById("score").textContent =
+    score;
+
+  document.getElementById("message").textContent =
+    "Nice!";
+
+  document.getElementById("target").style.visibility =
+    "hidden";
+
+  setTimeout(function(){
+
+    level++;
+
+    startLevel();
+
+  },700);
+
+}
+
+
+function goHome(){
+
+  document.getElementById("gameArea").classList.add("hidden");
+
+  document.getElementById("home").classList.remove("hidden");
+
+}
+
+</script>
+
+</body>
+</html>

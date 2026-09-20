@@ -1,397 +1,937 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport"
-      content="width=device-width, initial-scale=1.0,
-      maximum-scale=1.0,user-scalable=no">
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 <title>Brain Rush</title>
 
 <style>
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800;900&display=swap');
+
+:root{
+  --cyan:#24e8ff;
+  --blue:#4d7cff;
+  --purple:#a855ff;
+  --pink:#ff3fd1;
+  --yellow:#ffd84d;
+  --green:#35f29a;
+  --red:#ff426d;
+  --bg:#03050f;
+  --panel:rgba(8,13,32,.82);
+  --line:rgba(74,145,255,.35);
+  --text:#f4f7ff;
+  --muted:#8190b5;
+}
 
 *{
   box-sizing:border-box;
   -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
   margin:0;
-  padding:0;
+  width:100%;
   min-height:100%;
-  background:#080b16;
-  color:#fff;
-  font-family:Arial,Helvetica,sans-serif;
+  background:#03050f;
+  color:var(--text);
+  font-family:Orbitron,Arial,sans-serif;
+  overflow:hidden;
 }
 
 body{
   min-height:100vh;
-  overflow-x:hidden;
 }
 
 button{
   font-family:inherit;
 }
 
-.game{
-  width:100%;
-  max-width:520px;
-  min-height:100vh;
-  margin:auto;
-  padding:18px 16px 30px;
+.hidden{
+  display:none !important;
 }
 
-.header{
-  text-align:center;
-  padding:18px 8px 16px;
+/* =========================
+   BACKGROUND
+========================= */
+
+#background{
+  position:fixed;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(42,72,180,.22),transparent 35%),
+    radial-gradient(circle at 20% 80%,rgba(168,55,255,.12),transparent 30%),
+    radial-gradient(circle at 85% 15%,rgba(0,220,255,.10),transparent 28%),
+    #03050f;
+}
+
+#background::before{
+  content:"";
+  position:absolute;
+  inset:-50%;
+  background:
+    linear-gradient(rgba(49,88,190,.06) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(49,88,190,.06) 1px,transparent 1px);
+  background-size:45px 45px;
+  transform:perspective(500px) rotateX(60deg);
+  transform-origin:center;
+  animation:gridMove 12s linear infinite;
+}
+
+@keyframes gridMove{
+  from{transform:perspective(500px) rotateX(60deg) translateY(0);}
+  to{transform:perspective(500px) rotateX(60deg) translateY(45px);}
+}
+
+.orb{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(70px);
+  opacity:.25;
+  animation:floatOrb 9s ease-in-out infinite alternate;
+}
+
+.orb.one{
+  width:300px;
+  height:300px;
+  background:#4630ff;
+  top:-100px;
+  left:-100px;
+}
+
+.orb.two{
+  width:260px;
+  height:260px;
+  background:#ff20c8;
+  right:-100px;
+  bottom:-100px;
+  animation-delay:-4s;
+}
+
+@keyframes floatOrb{
+  to{
+    transform:translate(70px,50px) scale(1.2);
+  }
+}
+
+#particles{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:2;
+}
+
+/* =========================
+   APP
+========================= */
+
+#app{
+  position:relative;
+  z-index:5;
+  width:100%;
+  height:100vh;
+  max-width:650px;
+  margin:auto;
+}
+
+.screen{
+  width:100%;
+  height:100vh;
+  padding:20px;
+  overflow:hidden;
+}
+
+/* =========================
+   HOME
+========================= */
+
+.home-screen{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding-top:30px;
+  padding-bottom:25px;
 }
 
 .logo{
-  font-size:36px;
+  text-align:center;
+  margin-bottom:22px;
+}
+
+.logo-brain{
+  font-size:54px;
+  line-height:1;
+  margin-bottom:5px;
+  filter:
+    drop-shadow(0 0 8px var(--cyan))
+    drop-shadow(0 0 25px var(--purple));
+}
+
+.logo h1{
+  margin:0;
+  font-size:clamp(38px,11vw,66px);
   font-weight:900;
-  letter-spacing:-2px;
+  letter-spacing:-3px;
+  font-style:italic;
+  line-height:.95;
+  color:#fff;
+  text-shadow:
+    0 0 8px #fff,
+    0 0 20px var(--cyan),
+    0 0 45px var(--purple);
+}
+
+.logo h1 span{
+  color:var(--pink);
+  text-shadow:
+    0 0 8px #fff,
+    0 0 20px var(--pink),
+    0 0 45px var(--purple);
 }
 
 .tagline{
-  margin-top:5px;
-  color:#8f9ab3;
-  font-size:14px;
+  margin-top:10px;
+  font-size:10px;
+  letter-spacing:4px;
+  color:#9eadd0;
 }
 
-.card{
-  background:#12182a;
-  border:1px solid #28324c;
-  border-radius:22px;
-  padding:20px;
-  box-shadow:0 12px 35px rgba(0,0,0,.25);
+.mode-title{
+  text-align:center;
+  color:#fff;
+  font-size:13px;
+  letter-spacing:3px;
+  margin:8px 0 13px;
 }
 
-.hidden{
-  display:none!important;
-}
-
-h2{
-  margin:0 0 8px;
-  font-size:24px;
-}
-
-.subtle{
-  color:#8f9ab3;
-  font-size:14px;
-  line-height:1.5;
-}
-
-.category-grid{
+.mode-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:11px;
-  margin-top:18px;
+  gap:10px;
 }
 
-.category{
-  min-height:105px;
-  border:1px solid #303b5b;
-  border-radius:18px;
-  background:#10172a;
-  color:white;
-  text-align:left;
+.mode-card{
+  position:relative;
+  min-height:92px;
   padding:15px;
+  border-radius:18px;
+  border:1px solid rgba(92,133,255,.35);
+  background:
+    linear-gradient(145deg,rgba(19,28,65,.92),rgba(5,9,25,.92));
+  color:#fff;
+  text-align:left;
   cursor:pointer;
-  transition:.15s;
+  overflow:hidden;
+  transition:.2s ease;
 }
 
-.category:active{
+.mode-card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(
+    120deg,
+    transparent 25%,
+    rgba(255,255,255,.08),
+    transparent 75%
+  );
+  transform:translateX(-120%);
+}
+
+.mode-card:hover::before,
+.mode-card:active::before{
+  animation:sweep .6s ease;
+}
+
+@keyframes sweep{
+  to{transform:translateX(120%);}
+}
+
+.mode-card.active{
+  border-color:var(--cyan);
+  box-shadow:
+    0 0 10px rgba(36,232,255,.35),
+    inset 0 0 25px rgba(36,232,255,.06);
+}
+
+.mode-card.active:active{
   transform:scale(.97);
 }
 
-.category strong{
-  display:block;
-  font-size:17px;
+.mode-icon{
+  font-size:24px;
   margin-bottom:7px;
 }
 
-.category span{
-  color:#8f9ab3;
+.mode-name{
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:1px;
+}
+
+.mode-description{
+  margin-top:5px;
+  font-family:Arial,sans-serif;
+  font-size:9px;
+  color:#7f8cac;
+  line-height:1.4;
+}
+
+.mode-card.locked{
+  opacity:.45;
+  cursor:default;
+}
+
+.home-footer{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:24px;
+  margin-top:18px;
+  color:#667596;
+  font-size:9px;
+  letter-spacing:1px;
+}
+
+.home-footer span{
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+/* =========================
+   GAME HEADER
+========================= */
+
+.game-screen{
+  display:flex;
+  flex-direction:column;
+  padding-top:15px;
+}
+
+.game-top{
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:10px;
+}
+
+.stat-box{
+  min-width:0;
+}
+
+.stat-box.right{
+  text-align:right;
+}
+
+.stat-label{
+  color:#6d7fa8;
+  font-size:8px;
+  letter-spacing:1.5px;
+  margin-bottom:4px;
+}
+
+.stat-value{
+  font-size:15px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.game-title{
+  text-align:center;
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:1px;
+  color:#fff;
+  text-shadow:
+    0 0 8px var(--cyan),
+    0 0 18px rgba(36,232,255,.6);
+}
+
+.progress-wrap{
+  margin-top:13px;
+  height:7px;
+  border-radius:20px;
+  background:#0b1430;
+  border:1px solid rgba(60,109,220,.35);
+  overflow:hidden;
+}
+
+#progress{
+  height:100%;
+  width:0%;
+  border-radius:20px;
+  background:linear-gradient(90deg,var(--cyan),var(--blue),var(--purple));
+  box-shadow:
+    0 0 8px var(--cyan),
+    0 0 18px var(--purple);
+  transition:width .35s ease;
+}
+
+.level-heading{
+  text-align:center;
+  margin-top:15px;
+}
+
+.level-number{
+  font-size:10px;
+  color:var(--cyan);
+  letter-spacing:2px;
+}
+
+.challenge-title{
+  margin-top:6px;
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
+  text-shadow:
+    0 0 8px rgba(255,255,255,.7),
+    0 0 18px var(--purple);
+}
+
+.instruction{
+  margin:7px auto 0;
+  max-width:450px;
+  min-height:28px;
+  color:#8594b7;
+  font-family:Arial,sans-serif;
   font-size:12px;
   line-height:1.4;
 }
 
-.category.locked{
-  opacity:.45;
-}
+/* =========================
+   ARENA
+========================= */
 
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  margin-bottom:14px;
-}
-
-.stat{
-  background:#0d1323;
-  border:1px solid #27314a;
-  border-radius:12px;
-  padding:8px 11px;
-  text-align:center;
-  min-width:70px;
-}
-
-.stat-label{
-  color:#7e8aa5;
-  font-size:10px;
-  text-transform:uppercase;
-  letter-spacing:.6px;
-}
-
-.stat-value{
-  font-size:16px;
-  font-weight:800;
-  margin-top:2px;
-}
-
-.progress-wrap{
-  height:7px;
-  background:#252e45;
-  border-radius:20px;
-  overflow:hidden;
-  margin:14px 0 18px;
-}
-
-.progress{
-  height:100%;
-  width:0%;
-  background:#fff;
-  border-radius:20px;
-  transition:width .3s ease;
-}
-
-.level-title{
-  text-align:center;
-  font-size:13px;
-  color:#8f9ab3;
-  margin-bottom:5px;
-}
-
-.challenge-title{
-  text-align:center;
-  font-size:24px;
-  font-weight:900;
-  margin-bottom:5px;
-}
-
-.instruction{
-  text-align:center;
-  color:#8f9ab3;
-  min-height:40px;
-  font-size:14px;
-  line-height:1.45;
-}
-
-.arena{
+#arena{
   position:relative;
-  height:390px;
-  margin-top:10px;
-  border-radius:20px;
-  background:#0b1120;
-  border:1px solid #27314a;
+  flex:1;
+  min-height:0;
+  margin-top:12px;
+  border-radius:26px;
+  border:1px solid rgba(75,130,255,.35);
+  background:
+    radial-gradient(circle at center,rgba(20,40,100,.18),transparent 55%),
+    rgba(2,5,18,.72);
+  box-shadow:
+    inset 0 0 60px rgba(20,50,130,.12),
+    0 0 35px rgba(50,70,255,.08);
   overflow:hidden;
-  touch-action:manipulation;
 }
 
-.message{
+#arena::before{
+  content:"";
   position:absolute;
   inset:0;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  font-size:27px;
-  font-weight:900;
+  background:
+    linear-gradient(rgba(50,100,255,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(50,100,255,.045) 1px,transparent 1px);
+  background-size:35px 35px;
   pointer-events:none;
-  padding:25px;
-  z-index:5;
 }
+
+.arena-glow{
+  position:absolute;
+  width:300px;
+  height:300px;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(40,100,255,.08),transparent 65%);
+  pointer-events:none;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+#message{
+  position:absolute;
+  left:50%;
+  top:12%;
+  transform:translateX(-50%);
+  width:90%;
+  text-align:center;
+  color:#c7d4f5;
+  font-size:12px;
+  letter-spacing:1px;
+  z-index:15;
+}
+
+#feedback{
+  position:absolute;
+  left:50%;
+  bottom:7%;
+  transform:translateX(-50%);
+  width:90%;
+  text-align:center;
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:1px;
+  z-index:30;
+  pointer-events:none;
+}
+
+.feedback.good{
+  color:var(--green);
+  text-shadow:0 0 12px var(--green);
+  animation:feedbackPop .35s ease;
+}
+
+.feedback.bad{
+  color:var(--red);
+  text-shadow:0 0 12px var(--red);
+  animation:feedbackPop .35s ease;
+}
+
+@keyframes feedbackPop{
+  0%{transform:translateX(-50%) scale(.7);opacity:0;}
+  100%{transform:translateX(-50%) scale(1);opacity:1;}
+}
+
+/* =========================
+   TARGETS
+========================= */
 
 .target{
   position:absolute;
   width:70px;
   height:70px;
-  border:0;
+  padding:0;
   border-radius:50%;
-  background:#fff;
-  box-shadow:0 0 30px rgba(255,255,255,.25);
+  border:0;
   cursor:pointer;
-  z-index:10;
   transform:translate(-50%,-50%);
+  z-index:20;
   display:none;
+  touch-action:manipulation;
 }
 
-.target:active{
-  transform:translate(-50%,-50%) scale(.9);
+.target::before{
+  content:"";
+  position:absolute;
+  inset:-8px;
+  border-radius:50%;
+  border:2px solid currentColor;
+  opacity:.35;
+  animation:targetPulse 1s ease-in-out infinite;
+}
+
+.target::after{
+  content:"";
+  position:absolute;
+  inset:20%;
+  border-radius:50%;
+  background:rgba(255,255,255,.9);
+  box-shadow:0 0 12px #fff;
 }
 
 .target.blue{
-  background:#63a4ff;
-  box-shadow:0 0 28px rgba(99,164,255,.45);
+  color:var(--cyan);
+  background:
+    radial-gradient(circle,#dfffff 0 8%,var(--cyan) 20%,#1675ff 58%,#091d75 100%);
+  box-shadow:
+    0 0 10px var(--cyan),
+    0 0 25px var(--cyan),
+    0 0 55px rgba(36,232,255,.8);
 }
 
 .target.yellow{
-  background:#ffd85a;
-  box-shadow:0 0 28px rgba(255,216,90,.4);
+  color:var(--yellow);
+  background:
+    radial-gradient(circle,#fff 0 8%,var(--yellow) 20%,#ff9d00 58%,#713800 100%);
+  box-shadow:
+    0 0 10px var(--yellow),
+    0 0 25px var(--yellow),
+    0 0 55px rgba(255,216,77,.75);
 }
 
 .target.green{
-  background:#69e89b;
-  box-shadow:0 0 28px rgba(105,232,155,.45);
+  color:var(--green);
+  background:
+    radial-gradient(circle,#effff7 0 8%,var(--green) 20%,#00a86b 58%,#064b36 100%);
+  box-shadow:
+    0 0 10px var(--green),
+    0 0 25px var(--green),
+    0 0 55px rgba(53,242,154,.75);
 }
 
 .target.red{
-  background:#ff6677;
-  box-shadow:0 0 28px rgba(255,102,119,.45);
+  color:var(--red);
+  background:
+    radial-gradient(circle,#fff 0 8%,var(--red) 20%,#b5003c 58%,#510018 100%);
+  box-shadow:
+    0 0 10px var(--red),
+    0 0 25px var(--red),
+    0 0 55px rgba(255,66,109,.75);
 }
 
-.tap-zone{
+.target.purple{
+  color:var(--purple);
+  background:
+    radial-gradient(circle,#fff 0 8%,var(--purple) 20%,#6930e8 58%,#27055e 100%);
+  box-shadow:
+    0 0 10px var(--purple),
+    0 0 25px var(--purple),
+    0 0 55px rgba(168,85,255,.75);
+}
+
+@keyframes targetPulse{
+  0%,100%{
+    transform:scale(.9);
+    opacity:.25;
+  }
+  50%{
+    transform:scale(1.15);
+    opacity:.65;
+  }
+}
+
+.target.pop{
+  animation:targetPop .28s cubic-bezier(.2,1.5,.4,1);
+}
+
+@keyframes targetPop{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.1);
+  }
+  100%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+}
+
+.target:active{
+  transform:translate(-50%,-50%) scale(.85);
+}
+
+/* =========================
+   DECOY TARGETS
+========================= */
+
+.mini-target{
   position:absolute;
-  inset:0;
-  z-index:3;
+  z-index:21;
 }
 
-.center-button{
+.mini-target::after{
+  inset:30%;
+}
+
+/* =========================
+   CENTER BUTTON
+========================= */
+
+#centerButton{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:150px;
+  height:150px;
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  border:2px solid var(--red);
+  background:radial-gradient(circle,#35101c,#09030a);
+  color:#ff8ba2;
+  font-size:15px;
+  font-weight:900;
+  letter-spacing:2px;
+  cursor:pointer;
+  z-index:20;
+  box-shadow:
+    0 0 15px rgba(255,66,109,.5),
+    0 0 50px rgba(255,66,109,.2),
+    inset 0 0 30px rgba(255,66,109,.1);
+}
+
+#centerButton.ready{
+  border-color:var(--green);
+  background:radial-gradient(circle,#0c563b,#03120d);
+  color:#b9ffe0;
+  box-shadow:
+    0 0 18px var(--green),
+    0 0 60px rgba(53,242,154,.5),
+    inset 0 0 30px rgba(53,242,154,.15);
+  animation:readyPulse .45s infinite alternate;
+}
+
+@keyframes readyPulse{
+  from{transform:translate(-50%,-50%) scale(1);}
+  to{transform:translate(-50%,-50%) scale(1.06);}
+}
+
+/* =========================
+   COUNTDOWN
+========================= */
+
+#countdown{
   position:absolute;
   left:50%;
   top:50%;
   transform:translate(-50%,-50%);
-  width:145px;
-  height:145px;
-  border-radius:50%;
-  border:0;
-  background:#26324f;
-  color:white;
-  font-size:18px;
+  z-index:50;
+  font-size:90px;
   font-weight:900;
-  cursor:pointer;
-  z-index:10;
-}
-
-.center-button.ready{
-  background:#69e89b;
-  color:#08130d;
-  box-shadow:0 0 40px rgba(105,232,155,.35);
-}
-
-.feedback{
-  position:absolute;
-  top:14px;
-  left:0;
-  right:0;
-  text-align:center;
-  font-weight:900;
-  font-size:17px;
-  z-index:20;
+  color:#fff;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 25px var(--cyan),
+    0 0 60px var(--purple);
   pointer-events:none;
 }
 
-.feedback.good{
-  color:#69e89b;
+.countdown-pop{
+  animation:countdownPop .7s cubic-bezier(.2,1.5,.4,1);
 }
 
-.feedback.bad{
-  color:#ff6677;
+@keyframes countdownPop{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(2);
+  }
+  45%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1);
+  }
+  100%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.7);
+  }
 }
 
-.sequence{
+/* =========================
+   FOOTER
+========================= */
+
+.game-footer{
+  height:38px;
   display:flex;
-  gap:10px;
-  justify-content:center;
   align-items:center;
-  flex-wrap:wrap;
+  justify-content:center;
+  color:#536486;
+  font-size:8px;
+  letter-spacing:1px;
 }
 
-.sequence-dot{
-  width:52px;
-  height:52px;
-  border-radius:13px;
-  background:#202a42;
-  border:2px solid #34415f;
+/* =========================
+   FINISH SCREEN
+========================= */
+
+.finish-screen{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 
-.sequence-dot.active{
-  background:#63a4ff;
+.finish-icon{
+  font-size:70px;
+  filter:
+    drop-shadow(0 0 10px var(--yellow))
+    drop-shadow(0 0 30px var(--purple));
+  animation:trophyFloat 2s ease-in-out infinite;
 }
 
-.sequence-dot.done{
-  background:#69e89b;
-  border-color:#69e89b;
+@keyframes trophyFloat{
+  50%{transform:translateY(-10px) rotate(3deg);}
+}
+
+.finish-title{
+  margin-top:15px;
+  font-size:clamp(32px,9vw,52px);
+  font-weight:900;
+  font-style:italic;
+  line-height:1;
+  color:#fff;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 25px var(--purple),
+    0 0 50px var(--pink);
+}
+
+.finish-card{
+  width:100%;
+  max-width:430px;
+  margin-top:25px;
+  padding:24px;
+  border-radius:24px;
+  border:1px solid rgba(168,85,255,.5);
+  background:
+    linear-gradient(145deg,rgba(17,22,60,.9),rgba(6,8,25,.92));
+  box-shadow:
+    0 0 30px rgba(168,85,255,.12),
+    inset 0 0 30px rgba(60,70,255,.08);
+}
+
+.final-label{
+  color:#7283aa;
+  font-size:9px;
+  letter-spacing:2px;
+}
+
+.final-score{
+  margin-top:8px;
+  font-size:44px;
+  font-weight:900;
+  color:var(--yellow);
+  text-shadow:
+    0 0 10px var(--yellow),
+    0 0 30px rgba(255,216,77,.5);
+}
+
+.best{
+  margin-top:8px;
+  font-size:10px;
+  color:var(--cyan);
+}
+
+.finish-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:20px;
+}
+
+.finish-stat{
+  padding:12px 5px;
+  border-radius:14px;
+  background:rgba(3,7,20,.6);
+  border:1px solid rgba(75,110,220,.25);
+}
+
+.finish-stat strong{
+  display:block;
+  font-size:15px;
+}
+
+.finish-stat span{
+  display:block;
+  margin-top:4px;
+  color:#68799f;
+  font-family:Arial,sans-serif;
+  font-size:8px;
 }
 
 .action-button{
   width:100%;
+  margin-top:18px;
+  padding:16px;
   border:0;
   border-radius:15px;
-  padding:15px;
-  margin-top:13px;
-  font-size:16px;
-  font-weight:800;
-  background:#fff;
-  color:#101522;
   cursor:pointer;
-}
-
-.secondary{
-  background:transparent;
-  color:#a1abc0;
-  border:1px solid #303b56;
-}
-
-.finish{
-  text-align:center;
-  padding:25px 5px;
-}
-
-.finish-score{
-  font-size:52px;
+  color:#fff;
+  font-size:13px;
   font-weight:900;
-  margin:12px 0;
+  letter-spacing:1px;
+  background:linear-gradient(90deg,#176eff,#a13cff,#ff29cf);
+  box-shadow:
+    0 0 12px rgba(71,113,255,.5),
+    0 0 30px rgba(168,60,255,.25);
+  transition:.2s ease;
 }
 
-.finish-best{
-  color:#8f9ab3;
+.action-button:active{
+  transform:scale(.97);
 }
 
-@keyframes pop{
-  0%{transform:scale(.5);opacity:0}
-  70%{transform:scale(1.08);opacity:1}
-  100%{transform:scale(1);opacity:1}
+.secondary-button{
+  width:100%;
+  margin-top:10px;
+  padding:13px;
+  border-radius:15px;
+  cursor:pointer;
+  color:#8fa1ca;
+  background:rgba(5,9,25,.7);
+  border:1px solid rgba(82,116,220,.35);
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:1px;
 }
 
-.pop{
-  animation:pop .22s ease-out;
+/* =========================
+   EFFECTS
+========================= */
+
+.shake{
+  animation:shake .28s ease;
 }
 
 @keyframes shake{
-  0%,100%{transform:translateX(0)}
-  25%{transform:translateX(-7px)}
-  75%{transform:translateX(7px)}
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-8px);}
+  40%{transform:translateX(8px);}
+  60%{transform:translateX(-6px);}
+  80%{transform:translateX(6px);}
 }
 
-.shake{
-  animation:shake .25s ease;
+.flash-good{
+  animation:flashGood .35s ease;
 }
 
-@media(max-width:380px){
+@keyframes flashGood{
+  0%{box-shadow:inset 0 0 0 rgba(53,242,154,0);}
+  50%{box-shadow:inset 0 0 100px rgba(53,242,154,.15);}
+  100%{box-shadow:inset 0 0 0 rgba(53,242,154,0);}
+}
 
-  .arena{
-    height:350px;
+.flash-bad{
+  animation:flashBad .35s ease;
+}
+
+@keyframes flashBad{
+  0%{box-shadow:inset 0 0 0 rgba(255,66,109,0);}
+  50%{box-shadow:inset 0 0 100px rgba(255,66,109,.18);}
+  100%{box-shadow:inset 0 0 0 rgba(255,66,109,0);}
+}
+
+/* =========================
+   SMALL SCREENS
+========================= */
+
+@media(max-height:700px){
+
+  .home-screen{
+    justify-content:flex-start;
+    padding-top:15px;
   }
 
   .logo{
-    font-size:32px;
+    margin-bottom:12px;
   }
 
-  .stat{
-    min-width:62px;
+  .logo-brain{
+    font-size:38px;
+  }
+
+  .logo h1{
+    font-size:42px;
+  }
+
+  .mode-card{
+    min-height:76px;
+    padding:11px;
+  }
+
+  .mode-icon{
+    font-size:19px;
+  }
+
+  .game-screen{
+    padding-top:10px;
+  }
+
+  .challenge-title{
+    font-size:19px;
   }
 
 }
@@ -401,216 +941,618 @@ h2{
 
 <body>
 
-<div class="game">
+<div id="background">
+  <div class="orb one"></div>
+  <div class="orb two"></div>
+</div>
 
-  <div class="header">
-    <div class="logo">BRAIN RUSH</div>
-    <div class="tagline">Think fast. See faster.</div>
-  </div>
+<canvas id="particles"></canvas>
 
+<div id="app">
 
-  <!-- HOME -->
+  <!-- =========================
+       HOME
+  ========================= -->
 
-  <div id="home">
+  <section id="home" class="screen home-screen">
 
-    <div class="card">
+    <div class="logo">
 
-      <h2>Choose your challenge</h2>
+      <div class="logo-brain">🧠</div>
 
-      <div class="subtle">
-        Six different ways to test your brain.
+      <h1>
+        BRAIN <span>RUSH</span>
+      </h1>
+
+      <div class="tagline">
+        THINK FAST. SEE FASTER.
       </div>
 
-      <div class="category-grid">
+    </div>
 
-        <button class="category"
-                onclick="startSpeed()">
-          <strong>⚡ Speed</strong>
-          <span>5 levels of increasingly difficult reactions.</span>
-        </button>
+    <div class="mode-title">
+      CHOOSE YOUR BATTLE
+    </div>
 
-        <button class="category locked"
-                onclick="comingSoon()">
-          <strong>🧠 Memory</strong>
-          <span>Coming next.</span>
-        </button>
+    <div class="mode-grid">
 
-        <button class="category locked"
-                onclick="comingSoon()">
-          <strong>👁 Observation</strong>
-          <span>Coming next.</span>
-        </button>
+      <button class="mode-card active"
+              onclick="startSpeed()">
 
-        <button class="category locked"
-                onclick="comingSoon()">
-          <strong>🎯 Precision</strong>
-          <span>Coming next.</span>
-        </button>
+        <div class="mode-icon">⚡</div>
 
-        <button class="category locked"
-                onclick="comingSoon()">
-          <strong>🔢 Pattern</strong>
-          <span>Coming next.</span>
-        </button>
+        <div class="mode-name">
+          SPEED
+        </div>
 
-        <button class="category locked"
-                onclick="comingSoon()">
-          <strong>🪤 Trap</strong>
-          <span>Coming next.</span>
-        </button>
+        <div class="mode-description">
+          Reaction, timing & pressure
+        </div>
+
+      </button>
+
+      <button class="mode-card locked"
+              onclick="comingSoon('MEMORY')">
+
+        <div class="mode-icon">🧠</div>
+
+        <div class="mode-name">
+          MEMORY
+        </div>
+
+        <div class="mode-description">
+          Coming soon
+        </div>
+
+      </button>
+
+      <button class="mode-card locked"
+              onclick="comingSoon('OBSERVATION')">
+
+        <div class="mode-icon">👁</div>
+
+        <div class="mode-name">
+          OBSERVATION
+        </div>
+
+        <div class="mode-description">
+          Coming soon
+        </div>
+
+      </button>
+
+      <button class="mode-card locked"
+              onclick="comingSoon('PRECISION')">
+
+        <div class="mode-icon">🎯</div>
+
+        <div class="mode-name">
+          PRECISION
+        </div>
+
+        <div class="mode-description">
+          Coming soon
+        </div>
+
+      </button>
+
+      <button class="mode-card locked"
+              onclick="comingSoon('PATTERN')">
+
+        <div class="mode-icon">🔷</div>
+
+        <div class="mode-name">
+          PATTERN
+        </div>
+
+        <div class="mode-description">
+          Coming soon
+        </div>
+
+      </button>
+
+      <button class="mode-card locked"
+              onclick="comingSoon('TRAP')">
+
+        <div class="mode-icon">☠</div>
+
+        <div class="mode-name">
+          TRAP
+        </div>
+
+        <div class="mode-description">
+          Coming soon
+        </div>
+
+      </button>
+
+    </div>
+
+    <div class="home-footer">
+
+      <span>⚙ SETTINGS</span>
+      <span>🏆 PERSONAL BEST</span>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       SPEED GAME
+  ========================= -->
+
+  <section id="speedGame"
+           class="screen game-screen hidden">
+
+    <div class="game-top">
+
+      <div class="stat-box">
+
+        <div class="stat-label">
+          LEVEL
+        </div>
+
+        <div id="levelStat"
+             class="stat-value">
+          1/30
+        </div>
+
+      </div>
+
+      <div class="game-title">
+        ⚡ SPEED
+      </div>
+
+      <div class="stat-box right">
+
+        <div class="stat-label">
+          SCORE
+        </div>
+
+        <div id="scoreStat"
+             class="stat-value">
+          0
+        </div>
 
       </div>
 
     </div>
 
-  </div>
+    <div class="game-top"
+         style="margin-top:8px;">
 
+      <div class="stat-box">
 
-  <!-- SPEED GAME -->
+        <div class="stat-label">
+          LIVES
+        </div>
 
-  <div id="speedGame" class="hidden">
+        <div id="livesStat"
+             class="stat-value">
+          ❤️❤️❤️
+        </div>
 
-    <div class="topbar">
-
-      <div class="stat">
-        <div class="stat-label">Level</div>
-        <div class="stat-value" id="levelStat">1/5</div>
       </div>
 
-      <div class="stat">
-        <div class="stat-label">Score</div>
-        <div class="stat-value" id="scoreStat">0</div>
+      <div class="stat-box"
+           style="text-align:center;">
+
+        <div class="stat-label">
+          STREAK
+        </div>
+
+        <div id="streakStat"
+             class="stat-value">
+          0
+        </div>
+
       </div>
 
-      <div class="stat">
-        <div class="stat-label">Lives</div>
-        <div class="stat-value" id="livesStat">❤️❤️❤️</div>
-      </div>
+      <div class="stat-box right">
 
-      <div class="stat">
-        <div class="stat-label">Streak</div>
-        <div class="stat-value" id="streakStat">0</div>
+        <div class="stat-label">
+          BEST
+        </div>
+
+        <div id="bestStat"
+             class="stat-value">
+          0
+        </div>
+
       </div>
 
     </div>
 
     <div class="progress-wrap">
-      <div class="progress" id="progress"></div>
+
+      <div id="progress"></div>
+
     </div>
 
-    <div class="card">
+    <div class="level-heading">
 
-      <div class="level-title" id="levelLabel">
+      <div id="levelLabel"
+           class="level-number">
         SPEED — LEVEL 1
       </div>
 
-      <div class="challenge-title" id="challengeTitle">
-        Reaction
+      <div id="challengeTitle"
+           class="challenge-title">
+        REACTION
       </div>
 
-      <div class="instruction" id="instruction">
-        Wait for the target. Then hit it as quickly as possible.
-      </div>
-
-      <div class="arena" id="arena">
-
-        <div class="feedback" id="feedback"></div>
-
-        <div class="message" id="message">
-          Get ready...
-        </div>
-
-        <button class="target"
-                id="target"
-                onclick="targetClicked()">
-        </button>
-
-        <button class="center-button hidden"
-                id="centerButton"
-                onclick="centerClicked()">
-        </button>
-
+      <div id="instruction"
+           class="instruction">
+        Get ready.
       </div>
 
     </div>
 
-    <button class="action-button secondary"
-            onclick="exitSpeed()">
-      ← Exit Speed
-    </button>
+    <div id="arena">
 
-  </div>
+      <div class="arena-glow"></div>
 
+      <div id="message"></div>
 
-  <!-- FINISH -->
-
-  <div id="finish" class="hidden">
-
-    <div class="card finish">
-
-      <div class="subtle">
-        SPEED COMPLETE
+      <div id="countdown"
+           class="hidden">
       </div>
 
-      <h2>Nice work.</h2>
+      <button id="target"
+              class="target"
+              onclick="targetClicked()">
+      </button>
 
-      <div class="finish-score"
-           id="finishScore">
+      <button id="centerButton"
+              class="hidden"
+              onclick="centerClicked()">
+        WAIT
+      </button>
+
+      <div id="feedback"></div>
+
+    </div>
+
+    <div class="game-footer">
+      BRAIN RUSH • TRAIN YOUR REACTION
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       FINISH
+  ========================= -->
+
+  <section id="finish"
+           class="screen finish-screen hidden">
+
+    <div class="finish-icon">
+      🏆
+    </div>
+
+    <div class="finish-title">
+      GAME<br>
+      COMPLETE!
+    </div>
+
+    <div class="finish-card">
+
+      <div class="final-label">
+        FINAL SCORE
+      </div>
+
+      <div id="finishScore"
+           class="final-score">
         0
       </div>
 
-      <div class="finish-best"
-           id="finishBest">
-        Personal best: 0
+      <div id="finishBest"
+           class="best">
+        PERSONAL BEST: 0
+      </div>
+
+      <div class="finish-stats">
+
+        <div class="finish-stat">
+          <strong id="finishLevels">
+            0
+          </strong>
+          <span>LEVELS</span>
+        </div>
+
+        <div class="finish-stat">
+          <strong id="finishAccuracy">
+            0%
+          </strong>
+          <span>ACCURACY</span>
+        </div>
+
+        <div class="finish-stat">
+          <strong id="finishStreak">
+            x0
+          </strong>
+          <span>MAX STREAK</span>
+        </div>
+
       </div>
 
       <button class="action-button"
               onclick="startSpeed()">
-        Play Again
+        ↻ PLAY AGAIN
       </button>
 
-      <button class="action-button secondary"
+      <button class="secondary-button"
               onclick="goHome()">
-        Back to Categories
+        ← BACK TO MENU
       </button>
 
     </div>
 
-  </div>
+  </section>
 
 </div>
 
 
 <script>
 
-let level = 1;
-let score = 0;
-let lives = 3;
-let streak = 0;
-
-let levelStartTime = 0;
-let timer = null;
-let sequenceStep = 0;
-let rapidCount = 0;
-let targetTimeout = null;
-
-const TOTAL_LEVELS = 5;
-
+/* =========================================================
+   BASIC HELPERS
+========================================================= */
 
 function $(id){
   return document.getElementById(id);
 }
 
-
 function random(min,max){
-  return Math.floor(Math.random()*(max-min+1))+min;
+  return Math.floor(
+    Math.random() * (max - min + 1)
+  ) + min;
 }
 
+function clamp(value,min,max){
+  return Math.max(min,Math.min(max,value));
+}
 
 function setMessage(text){
   $("message").textContent = text;
 }
 
+function money(value){
+  return Math.round(value);
+}
+
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+const TOTAL_LEVELS = 30;
+
+let level = 1;
+let score = 0;
+let lives = 3;
+let streak = 0;
+let maxStreak = 0;
+
+let attempts = 0;
+let successfulHits = 0;
+
+let levelStartTime = 0;
+
+let timer = null;
+let targetTimeout = null;
+let sequenceTimer = null;
+
+let rapidCount = 0;
+let rapidTargetSize = 62;
+
+let sequenceStep = 0;
+
+let movingHits = 0;
+
+let levelLocked = false;
+
+
+/* =========================================================
+   PARTICLE SYSTEM
+========================================================= */
+
+const canvas = $("particles");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+
+function resizeCanvas(){
+
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+}
+
+resizeCanvas();
+
+window.addEventListener(
+  "resize",
+  resizeCanvas
+);
+
+
+function createParticleBurst(
+  x,
+  y,
+  colour,
+  amount = 30
+){
+
+  for(let i=0;i<amount;i++){
+
+    const angle =
+      Math.random() * Math.PI * 2;
+
+    const speed =
+      Math.random() * 5 + 1.5;
+
+    particles.push({
+
+      x:x,
+      y:y,
+
+      vx:Math.cos(angle) * speed,
+      vy:Math.sin(angle) * speed,
+
+      life:1,
+
+      size:Math.random() * 3 + 1,
+
+      colour:colour
+
+    });
+
+  }
+
+}
+
+
+function particleLoop(){
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  particles =
+    particles.filter(function(p){
+
+      p.x += p.vx;
+      p.y += p.vy;
+
+      p.vx *= .97;
+      p.vy *= .97;
+
+      p.life -= .025;
+
+      if(p.life <= 0){
+        return false;
+      }
+
+      ctx.globalAlpha =
+        Math.max(0,p.life);
+
+      ctx.fillStyle =
+        p.colour;
+
+      ctx.beginPath();
+
+      ctx.arc(
+        p.x,
+        p.y,
+        p.size,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+
+      return true;
+
+    });
+
+  ctx.globalAlpha=1;
+
+  requestAnimationFrame(particleLoop);
+
+}
+
+particleLoop();
+
+
+function burstFromElement(
+  element,
+  colour,
+  amount=35
+){
+
+  if(!element){
+    return;
+  }
+
+  const rect =
+    element.getBoundingClientRect();
+
+  createParticleBurst(
+    rect.left + rect.width/2,
+    rect.top + rect.height/2,
+    colour,
+    amount
+  );
+
+}
+
+
+/* =========================================================
+   SOUND
+========================================================= */
+
+let audioContext = null;
+
+function sound(
+  frequency,
+  duration=.08,
+  type="sine"
+){
+
+  try{
+
+    if(!audioContext){
+
+      audioContext =
+        new (window.AudioContext ||
+        window.webkitAudioContext)();
+
+    }
+
+    const oscillator =
+      audioContext.createOscillator();
+
+    const gain =
+      audioContext.createGain();
+
+    oscillator.type = type;
+
+    oscillator.frequency.value =
+      frequency;
+
+    gain.gain.setValueAtTime(
+      .08,
+      audioContext.currentTime
+    );
+
+    gain.gain.exponentialRampToValueAtTime(
+      .001,
+      audioContext.currentTime + duration
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+
+    oscillator.stop(
+      audioContext.currentTime + duration
+    );
+
+  }catch(e){}
+
+}
+
+
+/* =========================================================
+   UI
+========================================================= */
 
 function updateStats(){
 
@@ -618,13 +1560,26 @@ function updateStats(){
     level + "/" + TOTAL_LEVELS;
 
   $("scoreStat").textContent =
-    score;
+    score.toLocaleString();
 
   $("livesStat").textContent =
-    "❤️".repeat(lives) + "🖤".repeat(3-lives);
+    "❤️".repeat(lives) +
+    "🖤".repeat(3-lives);
 
   $("streakStat").textContent =
-    streak;
+    streak > 1
+      ? "x" + streak
+      : streak;
+
+  const best =
+    Number(
+      localStorage.getItem(
+        "brainRushSpeedBest"
+      ) || 0
+    );
+
+  $("bestStat").textContent =
+    best.toLocaleString();
 
   $("progress").style.width =
     ((level-1)/TOTAL_LEVELS*100) + "%";
@@ -632,81 +1587,268 @@ function updateStats(){
 }
 
 
+function setFeedback(
+  text,
+  type
+){
+
+  $("feedback").textContent =
+    text;
+
+  $("feedback").className =
+    "feedback " + type;
+
+}
+
+
+function screenFlash(type){
+
+  $("arena").classList.remove(
+    "flash-good",
+    "flash-bad"
+  );
+
+  void $("arena").offsetWidth;
+
+  $("arena").classList.add(
+    type === "good"
+      ? "flash-good"
+      : "flash-bad"
+  );
+
+}
+
+
+function shakeArena(){
+
+  $("arena").classList.remove(
+    "shake"
+  );
+
+  void $("arena").offsetWidth;
+
+  $("arena").classList.add(
+    "shake"
+  );
+
+}
+
+
+/* =========================================================
+   TIMER CLEANUP
+========================================================= */
+
 function clearTimers(){
 
   clearTimeout(timer);
   clearTimeout(targetTimeout);
+  clearTimeout(sequenceTimer);
+
+  timer = null;
+  targetTimeout = null;
+  sequenceTimer = null;
 
 }
 
+
+function clearMiniTargets(){
+
+  document
+    .querySelectorAll(".mini-target")
+    .forEach(function(el){
+      el.remove();
+    });
+
+}
+
+
+/* =========================================================
+   ARENA
+========================================================= */
 
 function resetArena(){
 
   clearTimers();
 
-  $("target").style.display = "none";
+  clearMiniTargets();
 
-  $("centerButton").classList.add("hidden");
+  $("target").style.display =
+    "none";
 
-  $("message").textContent = "";
+  $("centerButton").classList.add(
+    "hidden"
+  );
 
-  $("feedback").textContent = "";
+  $("message").textContent =
+    "";
 
-  $("feedback").className = "feedback";
+  $("feedback").textContent =
+    "";
 
-  $("arena").classList.remove("shake");
+  $("feedback").className =
+    "feedback";
+
+  $("countdown").classList.add(
+    "hidden"
+  );
+
+  $("arena").classList.remove(
+    "shake",
+    "flash-good",
+    "flash-bad"
+  );
 
 }
 
 
+/* =========================================================
+   POSITIONING
+========================================================= */
+
+function randomPosition(
+  element,
+  size=70
+){
+
+  const arena =
+    $("arena").getBoundingClientRect();
+
+  const margin =
+    Math.max(
+      35,
+      size/2 + 12
+    );
+
+  const maxX =
+    Math.max(
+      margin,
+      arena.width-margin
+    );
+
+  const maxY =
+    Math.max(
+      margin,
+      arena.height-margin
+    );
+
+  element.style.left =
+    random(
+      Math.ceil(margin),
+      Math.floor(maxX)
+    ) + "px";
+
+  element.style.top =
+    random(
+      Math.ceil(margin),
+      Math.floor(maxY)
+    ) + "px";
+
+}
+
+
+/* =========================================================
+   CREATE DYNAMIC TARGET
+========================================================= */
+
+function createMiniTarget(
+  colour,
+  correct,
+  size,
+  action
+){
+
+  const button =
+    document.createElement("button");
+
+  button.className =
+    "target mini-target " +
+    colour;
+
+  button.style.width =
+    size + "px";
+
+  button.style.height =
+    size + "px";
+
+  button.style.display =
+    "block";
+
+  randomPosition(
+    button,
+    size
+  );
+
+  button.onclick =
+    function(event){
+
+      event.stopPropagation();
+
+      action(correct,button);
+
+    };
+
+  $("arena").appendChild(
+    button
+  );
+
+  return button;
+
+}
+
+
+/* =========================================================
+   START GAME
+========================================================= */
+
 function startSpeed(){
 
+  clearTimers();
+
   level = 1;
+
   score = 0;
+
   lives = 3;
+
   streak = 0;
 
-  $("home").classList.add("hidden");
-  $("finish").classList.add("hidden");
-  $("speedGame").classList.remove("hidden");
+  maxStreak = 0;
+
+  attempts = 0;
+
+  successfulHits = 0;
+
+  levelLocked = false;
+
+  $("home").classList.add(
+    "hidden"
+  );
+
+  $("finish").classList.add(
+    "hidden"
+  );
+
+  $("speedGame").classList.remove(
+    "hidden"
+  );
 
   updateStats();
+
+  sound(440,.08);
 
   startLevel();
 
 }
 
 
-function startLevel(){
+/* =========================================================
+   LEVEL SETUP
+========================================================= */
 
-  resetArena();
-
-  updateStats();
-
-  if(level === 1){
-    levelOne();
-  }
-
-  else if(level === 2){
-    levelTwo();
-  }
-
-  else if(level === 3){
-    levelThree();
-  }
-
-  else if(level === 4){
-    levelFour();
-  }
-
-  else if(level === 5){
-    levelFive();
-  }
-
-}
-
-
-function setupLevel(title,instruction){
+function setupLevel(
+  title,
+  instruction
+){
 
   $("levelLabel").textContent =
     "SPEED — LEVEL " + level;
@@ -720,92 +1862,239 @@ function setupLevel(title,instruction){
 }
 
 
-function randomPosition(element){
+/* =========================================================
+   LEVEL TRANSITION
+========================================================= */
 
-  const arena =
-    $("arena").getBoundingClientRect();
+function startLevel(){
 
-  const margin = 55;
+  resetArena();
 
-  const x =
-    random(
-      margin,
-      Math.max(margin,arena.width-margin)
-    );
+  levelLocked = false;
 
-  const y =
-    random(
-      margin,
-      Math.max(margin,arena.height-margin)
-    );
+  updateStats();
 
-  element.style.left = x + "px";
-  element.style.top = y + "px";
+  const type =
+    getLevelType(level);
+
+  if(type === "reaction"){
+    levelReaction();
+  }
+
+  else if(type === "rapid"){
+    levelRapidFire();
+  }
+
+  else if(type === "dontjump"){
+    levelDontJump();
+  }
+
+  else if(type === "moving"){
+    levelMoving();
+  }
+
+  else if(type === "sequence"){
+    levelSequence();
+  }
+
+  else if(type === "precision"){
+    levelPrecision();
+  }
 
 }
 
 
-/* -------------------------
-   LEVEL 1
-   REACTION
-------------------------- */
+/* =========================================================
+   LEVEL TYPES
+========================================================= */
 
-function levelOne(){
+function getLevelType(n){
+
+  if(n === 1){
+    return "reaction";
+  }
+
+  if(n === 2){
+    return "rapid";
+  }
+
+  if(n === 3){
+    return "dontjump";
+  }
+
+  if(n === 4){
+    return "moving";
+  }
+
+  if(n === 5){
+    return "sequence";
+  }
+
+  if(n % 6 === 0){
+    return "precision";
+  }
+
+  if(n % 5 === 0){
+    return "sequence";
+  }
+
+  if(n % 4 === 0){
+    return "moving";
+  }
+
+  if(n % 3 === 0){
+    return "dontjump";
+  }
+
+  if(n % 2 === 0){
+    return "rapid";
+  }
+
+  return "reaction";
+
+}
+
+
+/* =========================================================
+   LEVEL 1+
+   REACTION
+========================================================= */
+
+function levelReaction(){
+
+  const difficulty =
+    Math.min(
+      1,
+      (level-1)/29
+    );
+
+  const minDelay =
+    Math.round(
+      850 - difficulty*300
+    );
+
+  const maxDelay =
+    Math.round(
+      1600 - difficulty*500
+    );
+
+  const size =
+    Math.max(
+      40,
+      Math.round(
+        70 - difficulty*25
+      )
+    );
 
   setupLevel(
-    "Reaction",
-    "Wait. When the white target appears, hit it as fast as you can."
+    "REACTION",
+    "Wait for the target. Hit it instantly."
   );
 
-  setMessage("Get ready...");
+  setMessage(
+    "GET READY..."
+  );
 
-  const delay = random(700,1500);
+  timer =
+    setTimeout(
+      function(){
 
-  timer = setTimeout(function(){
+        const target =
+          $("target");
 
-    const target = $("target");
+        target.className =
+          "target blue";
 
-    randomPosition(target);
+        target.style.width =
+          size + "px";
 
-    target.className = "target";
+        target.style.height =
+          size + "px";
 
-    target.style.display = "block";
+        target.style.display =
+          "block";
 
-    target.classList.add("pop");
+        randomPosition(
+          target,
+          size
+        );
 
-    levelStartTime = performance.now();
+        target.classList.add(
+          "pop"
+        );
 
-    setMessage("");
+        levelStartTime =
+          performance.now();
 
-  },delay);
+        sound(880,.07);
+
+        setMessage("");
+
+      },
+      random(
+        minDelay,
+        maxDelay
+      )
+    );
 
 }
 
 
 function levelOneSuccess(){
 
+  if(levelLocked){
+    return;
+  }
+
+  levelLocked=true;
+
+  attempts++;
+  successfulHits++;
+
   const reaction =
-    performance.now() - levelStartTime;
+    performance.now() -
+    levelStartTime;
 
   const points =
     Math.max(
-      100,
-      Math.round(650 - reaction)
+      80,
+      Math.round(
+        900 - reaction*1.25
+      )
     );
 
-  score += points;
+  score +=
+    points +
+    streak*10;
+
   streak++;
 
-  $("feedback").textContent =
-    "+" + points + "  " +
-    Math.round(reaction) + "ms";
+  maxStreak =
+    Math.max(
+      maxStreak,
+      streak
+    );
 
-  $("feedback").className =
-    "feedback good";
+  burstFromElement(
+    $("target"),
+    "#24e8ff",
+    40
+  );
 
-  setMessage("Perfect!");
+  $("target").style.display =
+    "none";
 
-  $("target").style.display = "none";
+  setFeedback(
+    "+" + points +
+    " • " +
+    Math.round(reaction) +
+    "ms",
+    "good"
+  );
+
+  screenFlash("good");
+
+  sound(1200,.09);
 
   updateStats();
 
@@ -814,80 +2103,189 @@ function levelOneSuccess(){
 }
 
 
-/* -------------------------
-   LEVEL 2
+/* =========================================================
    RAPID FIRE
-------------------------- */
+========================================================= */
 
-function levelTwo(){
+function levelRapidFire(){
+
+  rapidCount=0;
+
+  rapidTargetSize =
+    Math.max(
+      38,
+      64 - Math.floor(level/4)*4
+    );
 
   setupLevel(
-    "Rapid Fire",
-    "Three targets. Hit all three as quickly as possible."
+    "RAPID FIRE",
+    "Find BLUE. RED targets are traps."
   );
 
-  rapidCount = 0;
+  setMessage(
+    "FIND BLUE"
+  );
 
-  setMessage("3 targets. Go!");
-
-  timer = setTimeout(function(){
-
-    showRapidTarget();
-
-  },500);
+  timer =
+    setTimeout(
+      startRapidRound,
+      600
+    );
 
 }
 
 
-function showRapidTarget(){
+function startRapidRound(){
 
-  const target = $("target");
+  if(levelLocked){
+    return;
+  }
 
-  randomPosition(target);
+  clearMiniTargets();
 
-  target.className =
-    "target blue";
+  const size =
+    Math.max(
+      34,
+      rapidTargetSize -
+      rapidCount*4
+    );
 
-  target.style.display =
-    "block";
-
-  target.classList.add("pop");
+  const decoyCount =
+    Math.min(
+      4,
+      2 + Math.floor(level/10)
+    );
 
   if(rapidCount === 0){
-    levelStartTime = performance.now();
+
+    levelStartTime =
+      performance.now();
+
+  }
+
+  createMiniTarget(
+    "blue",
+    true,
+    size,
+    rapidTargetAction
+  );
+
+  for(
+    let i=0;
+    i<decoyCount;
+    i++
+  ){
+
+    createMiniTarget(
+      i%2 === 0
+        ? "red"
+        : "yellow",
+      false,
+      size,
+      rapidTargetAction
+    );
+
   }
 
 }
 
 
-function rapidSuccess(){
+function rapidTargetAction(
+  correct,
+  button
+){
+
+  if(levelLocked){
+    return;
+  }
+
+  attempts++;
+
+  if(!correct){
+
+    failLevel(
+      "DECOY!"
+    );
+
+    return;
+
+  }
+
+  rapidSuccess(
+    button
+  );
+
+}
+
+
+function rapidSuccess(button){
+
+  successfulHits++;
 
   rapidCount++;
 
-  $("target").style.display =
-    "none";
+  burstFromElement(
+    button,
+    "#24e8ff",
+    25
+  );
 
-  if(rapidCount >= 3){
+  sound(
+    700 + rapidCount*100,
+    .06
+  );
+
+  clearMiniTargets();
+
+  if(
+    rapidCount >=
+    3 + Math.floor(level/8)
+  ){
+
+    levelLocked=true;
 
     const elapsed =
-      performance.now() - levelStartTime;
+      performance.now() -
+      levelStartTime;
+
+    const targetCount =
+      3 + Math.floor(level/8);
 
     const points =
       Math.max(
-        150,
-        Math.round(900 - elapsed)
+        180,
+        Math.round(
+          1700 -
+          elapsed*1.1
+        )
       );
 
-    score += points;
+    score +=
+      points +
+      streak*15;
+
     streak++;
 
-    $("feedback").textContent =
-      "+" + points + "  Rapid Fire!";
+    maxStreak =
+      Math.max(
+        maxStreak,
+        streak
+      );
 
-    $("feedback").className =
-      "feedback good";
+    setFeedback(
+      "+" + points +
+      " • CLEAR!",
+      "good"
+    );
 
-    setMessage("3/3!");
+    setMessage(
+      targetCount +
+      "/" +
+      targetCount +
+      " TARGETS"
+    );
+
+    screenFlash("good");
 
     updateStats();
 
@@ -897,97 +2295,170 @@ function rapidSuccess(){
 
   }
 
-  timer = setTimeout(function(){
+  setFeedback(
+    rapidCount + " HIT",
+    "good"
+  );
 
-    showRapidTarget();
-
-  },180);
+  timer =
+    setTimeout(
+      startRapidRound,
+      100
+    );
 
 }
 
 
-/* -------------------------
-   LEVEL 3
+/* =========================================================
    DON'T JUMP
-------------------------- */
+========================================================= */
 
-function levelThree(){
+function levelDontJump(){
 
   setupLevel(
-    "Don't Jump",
-    "Do NOT tap while the button is dark. Tap only when it turns green."
+    "DON'T JUMP",
+    "Wait. TAP only when the circle turns GREEN."
   );
 
   const button =
     $("centerButton");
 
-  button.classList.remove("hidden");
-  button.classList.remove("ready");
+  button.classList.remove(
+    "hidden"
+  );
+
+  button.classList.remove(
+    "ready"
+  );
 
   button.textContent =
     "WAIT";
 
-  setMessage("");
+  setMessage(
+    "DON'T TAP"
+  );
+
+  const difficulty =
+    Math.min(
+      1,
+      (level-1)/29
+    );
 
   const wait =
-    random(900,1800);
+    random(
+      Math.round(
+        900-difficulty*250
+      ),
+      Math.round(
+        1800-difficulty*450
+      )
+    );
 
-  timer = setTimeout(function(){
+  timer =
+    setTimeout(
+      function(){
 
-    button.classList.add("ready");
+        button.classList.add(
+          "ready"
+        );
 
-    button.textContent =
-      "TAP!";
+        button.textContent =
+          "TAP!";
 
-    levelStartTime =
-      performance.now();
+        levelStartTime =
+          performance.now();
 
-  },wait);
+        setMessage(
+          "NOW!"
+        );
+
+        sound(1000,.08);
+
+      },
+      wait
+    );
 
 }
 
 
 function centerClicked(){
 
-  if(level !== 3){
+  if(levelLocked){
     return;
   }
+
+  attempts++;
 
   const button =
     $("centerButton");
 
-  if(!button.classList.contains("ready")){
+  if(
+    !button.classList.contains(
+      "ready"
+    )
+  ){
 
     failLevel(
-      "Too early!"
+      "TOO EARLY!"
     );
 
     return;
 
   }
 
+  levelLocked=true;
+
+  successfulHits++;
+
   const reaction =
-    performance.now() - levelStartTime;
+    performance.now() -
+    levelStartTime;
 
   const points =
     Math.max(
       120,
-      Math.round(700-reaction)
+      Math.round(
+        850-reaction*1.2
+      )
     );
 
-  score += points;
+  score +=
+    points +
+    streak*10;
+
   streak++;
 
-  button.classList.add("hidden");
+  maxStreak =
+    Math.max(
+      maxStreak,
+      streak
+    );
 
-  $("feedback").textContent =
-    "+" + points + "  " +
-    Math.round(reaction) + "ms";
+  burstFromElement(
+    button,
+    "#35f29a",
+    45
+  );
 
-  $("feedback").className =
-    "feedback good";
+  button.classList.add(
+    "hidden"
+  );
 
-  setMessage("Good discipline.");
+  setFeedback(
+    "+" + points +
+    " • " +
+    Math.round(reaction) +
+    "ms",
+    "good"
+  );
+
+  setMessage(
+    "GOOD DISCIPLINE"
+  );
+
+  screenFlash("good");
+
+  sound(1100,.1);
 
   updateStats();
 
@@ -996,90 +2467,166 @@ function centerClicked(){
 }
 
 
-/* -------------------------
-   LEVEL 4
+/* =========================================================
    MOVING TARGET
-------------------------- */
+========================================================= */
 
-function levelFour(){
+function levelMoving(){
+
+  movingHits=0;
 
   setupLevel(
-    "Moving Target",
-    "The target moves. Hit it before it disappears."
+    "MOVING TARGET",
+    "Track the target. It will move before you can relax."
   );
 
-  setMessage("Track it...");
+  setMessage(
+    "TRACK IT..."
+  );
 
-  timer = setTimeout(function(){
+  timer =
+    setTimeout(
+      function(){
 
-    const target =
-      $("target");
+        const target =
+          $("target");
 
-    target.className =
-      "target yellow";
+        const size =
+          Math.max(
+            40,
+            68 -
+            Math.floor(level/5)*4
+          );
 
-    target.style.display =
-      "block";
+        target.className =
+          "target yellow";
 
-    randomPosition(target);
+        target.style.width =
+          size+"px";
 
-    levelStartTime =
-      performance.now();
+        target.style.height =
+          size+"px";
 
-    moveTarget();
+        target.style.display =
+          "block";
 
-  },700);
+        randomPosition(
+          target,
+          size
+        );
+
+        levelStartTime =
+          performance.now();
+
+        moveTarget();
+
+      },
+      Math.max(
+        300,
+        650-level*8
+      )
+    );
 
 }
 
 
 function moveTarget(){
 
-  if(level !== 4){
+  if(
+    levelLocked ||
+    levelTypeIsNot("moving")
+  ){
     return;
   }
 
   const target =
     $("target");
 
-  randomPosition(target);
+  const size =
+    parseInt(
+      target.style.width
+    ) || 60;
+
+  randomPosition(
+    target,
+    size
+  );
 
   targetTimeout =
-    setTimeout(function(){
-
-      moveTarget();
-
-    },random(350,650));
+    setTimeout(
+      moveTarget,
+      random(
+        Math.max(
+          220,
+          500-level*8
+        ),
+        Math.max(
+          300,
+          700-level*10
+        )
+      )
+    );
 
 }
 
 
 function movingTargetSuccess(){
 
-  clearTimeout(targetTimeout);
+  if(levelLocked){
+    return;
+  }
+
+  levelLocked=true;
+
+  attempts++;
+  successfulHits++;
+
+  clearTimeout(
+    targetTimeout
+  );
 
   const elapsed =
-    performance.now()-levelStartTime;
+    performance.now() -
+    levelStartTime;
 
   const points =
     Math.max(
       150,
-      Math.round(900-elapsed)
+      Math.round(
+        1250-elapsed
+      )
     );
 
-  score += points;
+  score +=
+    points +
+    streak*12;
+
   streak++;
+
+  maxStreak =
+    Math.max(
+      maxStreak,
+      streak
+    );
+
+  burstFromElement(
+    $("target"),
+    "#ffd84d",
+    45
+  );
 
   $("target").style.display =
     "none";
 
-  $("feedback").textContent =
-    "+" + points + "  Hit!";
+  setFeedback(
+    "+" + points +
+    " • TRACKED",
+    "good"
+  );
 
-  $("feedback").className =
-    "feedback good";
+  screenFlash("good");
 
-  setMessage("Nice tracking.");
+  sound(950,.08);
 
   updateStats();
 
@@ -1088,222 +2635,506 @@ function movingTargetSuccess(){
 }
 
 
-/* -------------------------
-   LEVEL 5
-   DOUBLE STRIKE
-------------------------- */
+/* =========================================================
+   SEQUENCE ASSAULT
+========================================================= */
 
-function levelFive(){
+function levelSequence(){
+
+  sequenceStep=0;
 
   setupLevel(
-    "Double Strike",
-    "Hit BLUE first, then YELLOW. Both must be hit quickly."
+    "SEQUENCE ASSAULT",
+    "Hit the colours in the correct order."
   );
 
-  sequenceStep = 0;
+  setMessage(
+    "BLUE FIRST"
+  );
 
-  setMessage("BLUE → YELLOW");
-
-  timer = setTimeout(function(){
-
-    showSequenceTarget();
-
-  },700);
-
-}
-
-
-function showSequenceTarget(){
-
-  const target =
-    $("target");
-
-  randomPosition(target);
-
-  if(sequenceStep === 0){
-
-    target.className =
-      "target blue";
-
-  }
-
-  else{
-
-    target.className =
-      "target yellow";
-
-  }
-
-  target.style.display =
-    "block";
-
-  target.classList.add("pop");
-
-  if(sequenceStep === 0){
-
-    levelStartTime =
-      performance.now();
-
-  }
+  timer =
+    setTimeout(
+      startSequenceRound,
+      650
+    );
 
 }
 
 
-function doubleStrikeSuccess(){
+function startSequenceRound(){
 
-  if(sequenceStep === 0){
+  if(levelLocked){
+    return;
+  }
 
-    sequenceStep = 1;
+  clearMiniTargets();
 
-    $("target").style.display =
-      "none";
+  const sequence =
+    getSequence();
 
-    $("feedback").textContent =
-      "BLUE ✓";
+  const correctColour =
+    sequence[
+      sequenceStep %
+      sequence.length
+    ];
 
-    $("feedback").className =
-      "feedback good";
+  const size =
+    Math.max(
+      38,
+      60 -
+      sequenceStep*5 -
+      Math.floor(level/10)*4
+    );
 
-    setMessage("Now YELLOW!");
+  const colours =
+    ["blue","yellow","green","red"];
 
-    timer = setTimeout(function(){
+  colours.forEach(
+    function(colour){
 
-      showSequenceTarget();
+      createMiniTarget(
+        colour,
+        colour === correctColour,
+        size,
+        sequenceAction
+      );
 
-    },150);
+    }
+  );
+
+  const timeLimit =
+    Math.max(
+      650,
+      1450 -
+      level*20 -
+      sequenceStep*120
+    );
+
+  sequenceTimer =
+    setTimeout(
+      function(){
+
+        failLevel(
+          "TOO SLOW!"
+        );
+
+      },
+      timeLimit
+    );
+
+}
+
+
+function getSequence(){
+
+  if(level < 15){
+    return [
+      "blue",
+      "yellow",
+      "green",
+      "red"
+    ];
+  }
+
+  if(level < 25){
+    return [
+      "yellow",
+      "red",
+      "blue",
+      "green"
+    ];
+  }
+
+  return [
+    "green",
+    "blue",
+    "red",
+    "yellow"
+  ];
+
+}
+
+
+function sequenceAction(
+  correct,
+  button
+){
+
+  if(levelLocked){
+    return;
+  }
+
+  attempts++;
+
+  if(!correct){
+
+    failLevel(
+      "WRONG COLOUR!"
+    );
 
     return;
 
   }
 
-  const elapsed =
-    performance.now()-levelStartTime;
+  successfulHits++;
+
+  clearTimeout(
+    sequenceTimer
+  );
+
+  burstFromElement(
+    button,
+    "#a855ff",
+    25
+  );
+
+  sound(
+    600 + sequenceStep*130,
+    .06
+  );
+
+  clearMiniTargets();
+
+  sequenceStep++;
+
+  const sequence =
+    getSequence();
+
+  if(
+    sequenceStep >=
+    sequence.length
+  ){
+
+    levelLocked=true;
+
+    const elapsed =
+      performance.now() -
+      levelStartTime;
+
+    const points =
+      Math.max(
+        220,
+        Math.round(
+          1900-elapsed
+        )
+      );
+
+    score +=
+      points +
+      streak*20;
+
+    streak++;
+
+    maxStreak =
+      Math.max(
+        maxStreak,
+        streak
+      );
+
+    setFeedback(
+      "+" + points +
+      " • SEQUENCE CLEAR",
+      "good"
+    );
+
+    setMessage(
+      "PERFECT SEQUENCE"
+    );
+
+    screenFlash("good");
+
+    updateStats();
+
+    nextLevel();
+
+    return;
+
+  }
+
+  setFeedback(
+    sequenceStep +
+    "/" +
+    sequence.length,
+    "good"
+  );
+
+  setMessage(
+    "NEXT: " +
+    sequence[
+      sequenceStep
+    ].toUpperCase()
+  );
+
+  timer =
+    setTimeout(
+      startSequenceRound,
+      100
+    );
+
+}
+
+
+/* =========================================================
+   PRECISION
+========================================================= */
+
+function levelPrecision(){
+
+  setupLevel(
+    "PRECISION",
+    "Hit the tiny target before it vanishes."
+  );
+
+  setMessage(
+    "FOCUS..."
+  );
+
+  timer =
+    setTimeout(
+      function(){
+
+        const target =
+          $("target");
+
+        const size =
+          Math.max(
+            25,
+            52 -
+            Math.floor(level/3)*3
+          );
+
+        target.className =
+          "target purple";
+
+        target.style.width =
+          size+"px";
+
+        target.style.height =
+          size+"px";
+
+        target.style.display =
+          "block";
+
+        randomPosition(
+          target,
+          size
+        );
+
+        levelStartTime =
+          performance.now();
+
+        targetTimeout =
+          setTimeout(
+            function(){
+
+              failLevel(
+                "MISSED!"
+              );
+
+            },
+            Math.max(
+              600,
+              1500-level*25
+            )
+          );
+
+      },
+      400
+    );
+
+}
+
+
+function precisionSuccess(){
+
+  if(levelLocked){
+    return;
+  }
+
+  levelLocked=true;
+
+  clearTimeout(
+    targetTimeout
+  );
+
+  attempts++;
+  successfulHits++;
+
+  const reaction =
+    performance.now() -
+    levelStartTime;
 
   const points =
     Math.max(
-      250,
-      Math.round(1200-elapsed)
+      180,
+      Math.round(
+        1400-reaction
+      )
     );
 
-  score += points;
+  score +=
+    points +
+    streak*15;
+
   streak++;
+
+  maxStreak =
+    Math.max(
+      maxStreak,
+      streak
+    );
+
+  burstFromElement(
+    $("target"),
+    "#a855ff",
+    50
+  );
 
   $("target").style.display =
     "none";
 
-  $("feedback").textContent =
-    "+" + points + "  Double Strike!";
+  setFeedback(
+    "+" + points +
+    " • PRECISION",
+    "good"
+  );
 
-  $("feedback").className =
-    "feedback good";
+  screenFlash("good");
 
-  setMessage("LEVEL COMPLETE!");
+  sound(1300,.08);
 
   updateStats();
 
-  timer = setTimeout(function(){
-
-    finishGame();
-
-  },900);
+  nextLevel();
 
 }
 
 
-/* -------------------------
-   TARGET CLICK ROUTER
-------------------------- */
+/* =========================================================
+   TARGET ROUTER
+========================================================= */
 
 function targetClicked(){
 
-  if(level === 1){
+  if(levelLocked){
+    return;
+  }
 
+  const type =
+    getLevelType(level);
+
+  if(type === "reaction"){
     levelOneSuccess();
-
   }
 
-  else if(level === 2){
-
-    rapidSuccess();
-
-  }
-
-  else if(level === 4){
-
+  else if(type === "moving"){
     movingTargetSuccess();
-
   }
 
-  else if(level === 5){
-
-    doubleStrikeSuccess();
-
+  else if(type === "precision"){
+    precisionSuccess();
   }
 
 }
 
 
-/* -------------------------
-   FAIL
-------------------------- */
+/* =========================================================
+   FAILURE
+========================================================= */
 
 function failLevel(reason){
 
+  if(levelLocked){
+    return;
+  }
+
+  levelLocked=true;
+
   clearTimers();
 
+  clearMiniTargets();
+
+  attempts++;
+
   lives--;
-  streak = 0;
+
+  streak=0;
 
   $("target").style.display =
     "none";
 
-  $("centerButton").classList.add("hidden");
+  $("centerButton").classList.add(
+    "hidden"
+  );
 
-  $("feedback").textContent =
-    "−1 LIFE";
+  setFeedback(
+    "−1 LIFE",
+    "bad"
+  );
 
-  $("feedback").className =
-    "feedback bad";
+  setMessage(
+    reason
+  );
 
-  $("arena").classList.add("shake");
+  shakeArena();
 
-  setMessage(reason);
+  screenFlash("bad");
+
+  sound(120,.14,"sawtooth");
 
   updateStats();
 
   if(lives <= 0){
 
-    timer = setTimeout(function(){
-
-      gameOver();
-
-    },900);
+    timer =
+      setTimeout(
+        gameOver,
+        900
+      );
 
     return;
 
   }
 
-  timer = setTimeout(function(){
+  timer =
+    setTimeout(
+      function(){
 
-    startLevel();
+        levelLocked=false;
 
-  },900);
+        startLevel();
+
+      },
+      900
+    );
 
 }
 
 
-/* -------------------------
+/* =========================================================
+   LEVEL TYPE CHECK
+========================================================= */
+
+function levelTypeIsNot(type){
+
+  return getLevelType(level) !== type;
+
+}
+
+
+/* =========================================================
    NEXT LEVEL
-------------------------- */
+========================================================= */
 
 function nextLevel(){
 
   if(level >= TOTAL_LEVELS){
 
-    timer = setTimeout(
-      finishGame,
-      900
-    );
+    timer =
+      setTimeout(
+        finishGame,
+        900
+      );
 
     return;
 
@@ -1311,36 +3142,72 @@ function nextLevel(){
 
   level++;
 
-  timer = setTimeout(function(){
+  timer =
+    setTimeout(
+      function(){
 
-    startLevel();
+        levelLocked=false;
 
-  },900);
+        startLevel();
+
+      },
+      850
+    );
 
 }
 
 
-/* -------------------------
+/* =========================================================
    FINISH
-------------------------- */
+========================================================= */
 
 function finishGame(){
 
   clearTimers();
 
-  $("speedGame").classList.add("hidden");
-  $("finish").classList.remove("hidden");
+  clearMiniTargets();
+
+  $("speedGame").classList.add(
+    "hidden"
+  );
+
+  $("finish").classList.remove(
+    "hidden"
+  );
+
+  const accuracy =
+    attempts > 0
+      ? Math.round(
+          successfulHits /
+          attempts *
+          100
+        )
+      : 0;
 
   $("finishScore").textContent =
-    score;
+    score.toLocaleString();
+
+  $("finishLevels").textContent =
+    TOTAL_LEVELS;
+
+  $("finishAccuracy").textContent =
+    accuracy + "%";
+
+  $("finishStreak").textContent =
+    "x" + maxStreak;
 
   const oldBest =
     Number(
-      localStorage.getItem("brainRushSpeedBest") || 0
+      localStorage.getItem(
+        "brainRushSpeedBest"
+      ) || 0
     );
 
   const best =
-    Math.max(oldBest,score);
+    Math.max(
+      oldBest,
+      score
+    );
 
   localStorage.setItem(
     "brainRushSpeedBest",
@@ -1348,31 +3215,102 @@ function finishGame(){
   );
 
   $("finishBest").textContent =
-    "Personal best: " + best;
+    score >= oldBest
+      ? "🏆 NEW PERSONAL BEST • " +
+        best.toLocaleString()
+      : "PERSONAL BEST • " +
+        best.toLocaleString();
+
+  createParticleBurst(
+    window.innerWidth/2,
+    window.innerHeight/2,
+    "#ff3fd1",
+    180
+  );
+
+  createParticleBurst(
+    window.innerWidth/2,
+    window.innerHeight/2,
+    "#24e8ff",
+    100
+  );
+
+  sound(520,.12);
+  setTimeout(
+    function(){
+      sound(780,.12);
+    },
+    120
+  );
 
 }
 
+
+/* =========================================================
+   GAME OVER
+========================================================= */
 
 function gameOver(){
 
-  $("speedGame").classList.add("hidden");
-  $("finish").classList.remove("hidden");
+  clearTimers();
+
+  clearMiniTargets();
+
+  $("speedGame").classList.add(
+    "hidden"
+  );
+
+  $("finish").classList.remove(
+    "hidden"
+  );
 
   $("finishScore").textContent =
-    score;
+    score.toLocaleString();
+
+  $("finishLevels").textContent =
+    Math.max(
+      0,
+      level-1
+    );
+
+  const accuracy =
+    attempts > 0
+      ? Math.round(
+          successfulHits /
+          attempts *
+          100
+        )
+      : 0;
+
+  $("finishAccuracy").textContent =
+    accuracy + "%";
+
+  $("finishStreak").textContent =
+    "x" + maxStreak;
 
   $("finishBest").textContent =
-    "You ran out of lives. Try again.";
+    "YOU RAN OUT OF LIVES • TRY AGAIN";
 
 }
 
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
 
 function exitSpeed(){
 
   clearTimers();
 
-  $("speedGame").classList.add("hidden");
-  $("home").classList.remove("hidden");
+  clearMiniTargets();
+
+  $("speedGame").classList.add(
+    "hidden"
+  );
+
+  $("home").classList.remove(
+    "hidden"
+  );
 
 }
 
@@ -1381,20 +3319,109 @@ function goHome(){
 
   clearTimers();
 
-  $("finish").classList.add("hidden");
-  $("speedGame").classList.add("hidden");
-  $("home").classList.remove("hidden");
+  clearMiniTargets();
 
-}
+  $("finish").classList.add(
+    "hidden"
+  );
 
+  $("speedGame").classList.add(
+    "hidden"
+  );
 
-function comingSoon(){
-
-  alert(
-    "This category is coming next. Speed is being built first."
+  $("home").classList.remove(
+    "hidden"
   );
 
 }
+
+
+function comingSoon(mode){
+
+  setMessage("");
+
+  alert(
+    mode +
+    " is coming next.\n\n" +
+    "We're building Speed first."
+  );
+
+}
+
+
+/* =========================================================
+   KEYBOARD SUPPORT
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(
+      event.code === "Space" ||
+      event.code === "Enter"
+    ){
+
+      event.preventDefault();
+
+      const type =
+        getLevelType(level);
+
+      if(
+        type === "dontjump"
+      ){
+
+        centerClicked();
+
+      }
+
+      else if(
+        type === "reaction" ||
+        type === "moving" ||
+        type === "precision"
+      ){
+
+        targetClicked();
+
+      }
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   PREVENT DOUBLE TAP ZOOM
+========================================================= */
+
+let lastTouch = 0;
+
+document.addEventListener(
+  "touchend",
+  function(event){
+
+    const now =
+      Date.now();
+
+    if(now-lastTouch <= 300){
+
+      event.preventDefault();
+
+    }
+
+    lastTouch=now;
+
+  },
+  {passive:false}
+);
+
+
+/* =========================================================
+   INITIAL STATE
+========================================================= */
+
+updateStats();
 
 </script>
 

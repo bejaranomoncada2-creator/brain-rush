@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0,
+      maximum-scale=1.0,user-scalable=no">
 
 <title>Brain Rush</title>
 
@@ -10,140 +13,387 @@
 
 *{
   box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
+  background:#080b16;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
-  margin:0;
   min-height:100vh;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#0b1020;
-  color:white;
+  overflow-x:hidden;
+}
+
+button{
+  font-family:inherit;
 }
 
 .game{
+  width:100%;
   max-width:520px;
-  margin:auto;
   min-height:100vh;
-  padding:24px 18px;
+  margin:auto;
+  padding:18px 16px 30px;
 }
 
 .header{
   text-align:center;
-  padding:25px 10px 20px;
+  padding:18px 8px 16px;
 }
 
 .logo{
-  font-size:38px;
+  font-size:36px;
   font-weight:900;
   letter-spacing:-2px;
 }
 
 .tagline{
-  color:#aab3c5;
-  margin-top:8px;
+  margin-top:5px;
+  color:#8f9ab3;
+  font-size:14px;
 }
 
 .card{
-  background:#151c31;
-  border:1px solid #26304a;
-  border-radius:20px;
-  padding:22px;
-  margin-bottom:16px;
+  background:#12182a;
+  border:1px solid #28324c;
+  border-radius:22px;
+  padding:20px;
+  box-shadow:0 12px 35px rgba(0,0,0,.25);
+}
+
+.hidden{
+  display:none!important;
 }
 
 h2{
-  margin-top:0;
+  margin:0 0 8px;
+  font-size:24px;
 }
 
-.button{
-  width:100%;
-  border:0;
-  border-radius:14px;
-  padding:16px;
-  margin-top:10px;
-  font-size:17px;
-  font-weight:700;
-  cursor:pointer;
-  background:#ffffff;
-  color:#111827;
-}
-
-.button:active{
-  transform:scale(.98);
+.subtle{
+  color:#8f9ab3;
+  font-size:14px;
+  line-height:1.5;
 }
 
 .category-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:11px;
+  margin-top:18px;
 }
 
 .category{
-  min-height:110px;
+  min-height:105px;
+  border:1px solid #303b5b;
   border-radius:18px;
-  border:1px solid #2b3654;
-  background:#11182b;
+  background:#10172a;
   color:white;
-  padding:16px;
   text-align:left;
+  padding:15px;
   cursor:pointer;
+  transition:.15s;
+}
+
+.category:active{
+  transform:scale(.97);
 }
 
 .category strong{
   display:block;
-  font-size:18px;
-  margin-bottom:8px;
+  font-size:17px;
+  margin-bottom:7px;
 }
 
 .category span{
-  color:#9ca8bf;
-  font-size:13px;
+  color:#8f9ab3;
+  font-size:12px;
+  line-height:1.4;
 }
 
-.hidden{
-  display:none;
+.category.locked{
+  opacity:.45;
 }
 
-.back{
-  background:transparent;
-  color:#9ca8bf;
-  border:1px solid #303b59;
-}
-
-#gameArea{
-  text-align:center;
-}
-
-.level{
-  color:#9ca8bf;
-  font-size:14px;
-}
-
-.challenge{
-  min-height:260px;
+.topbar{
   display:flex;
+  justify-content:space-between;
   align-items:center;
-  justify-content:center;
-  flex-direction:column;
+  gap:8px;
+  margin-bottom:14px;
 }
 
-.target{
-  width:90px;
-  height:90px;
-  border-radius:50%;
-  background:white;
-  border:0;
-  cursor:pointer;
+.stat{
+  background:#0d1323;
+  border:1px solid #27314a;
+  border-radius:12px;
+  padding:8px 11px;
+  text-align:center;
+  min-width:70px;
+}
+
+.stat-label{
+  color:#7e8aa5;
+  font-size:10px;
+  text-transform:uppercase;
+  letter-spacing:.6px;
+}
+
+.stat-value{
+  font-size:16px;
+  font-weight:800;
+  margin-top:2px;
+}
+
+.progress-wrap{
+  height:7px;
+  background:#252e45;
+  border-radius:20px;
+  overflow:hidden;
+  margin:14px 0 18px;
+}
+
+.progress{
+  height:100%;
+  width:0%;
+  background:#fff;
+  border-radius:20px;
+  transition:width .3s ease;
+}
+
+.level-title{
+  text-align:center;
+  font-size:13px;
+  color:#8f9ab3;
+  margin-bottom:5px;
+}
+
+.challenge-title{
+  text-align:center;
+  font-size:24px;
+  font-weight:900;
+  margin-bottom:5px;
+}
+
+.instruction{
+  text-align:center;
+  color:#8f9ab3;
+  min-height:40px;
+  font-size:14px;
+  line-height:1.45;
+}
+
+.arena{
+  position:relative;
+  height:390px;
+  margin-top:10px;
+  border-radius:20px;
+  background:#0b1120;
+  border:1px solid #27314a;
+  overflow:hidden;
+  touch-action:manipulation;
 }
 
 .message{
-  font-size:22px;
-  font-weight:800;
-  margin:15px 0;
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:27px;
+  font-weight:900;
+  pointer-events:none;
+  padding:25px;
+  z-index:5;
 }
 
-.score{
-  color:#aab3c5;
+.target{
+  position:absolute;
+  width:70px;
+  height:70px;
+  border:0;
+  border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 30px rgba(255,255,255,.25);
+  cursor:pointer;
+  z-index:10;
+  transform:translate(-50%,-50%);
+  display:none;
+}
+
+.target:active{
+  transform:translate(-50%,-50%) scale(.9);
+}
+
+.target.blue{
+  background:#63a4ff;
+  box-shadow:0 0 28px rgba(99,164,255,.45);
+}
+
+.target.yellow{
+  background:#ffd85a;
+  box-shadow:0 0 28px rgba(255,216,90,.4);
+}
+
+.target.green{
+  background:#69e89b;
+  box-shadow:0 0 28px rgba(105,232,155,.45);
+}
+
+.target.red{
+  background:#ff6677;
+  box-shadow:0 0 28px rgba(255,102,119,.45);
+}
+
+.tap-zone{
+  position:absolute;
+  inset:0;
+  z-index:3;
+}
+
+.center-button{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:145px;
+  height:145px;
+  border-radius:50%;
+  border:0;
+  background:#26324f;
+  color:white;
+  font-size:18px;
+  font-weight:900;
+  cursor:pointer;
+  z-index:10;
+}
+
+.center-button.ready{
+  background:#69e89b;
+  color:#08130d;
+  box-shadow:0 0 40px rgba(105,232,155,.35);
+}
+
+.feedback{
+  position:absolute;
+  top:14px;
+  left:0;
+  right:0;
+  text-align:center;
+  font-weight:900;
+  font-size:17px;
+  z-index:20;
+  pointer-events:none;
+}
+
+.feedback.good{
+  color:#69e89b;
+}
+
+.feedback.bad{
+  color:#ff6677;
+}
+
+.sequence{
+  display:flex;
+  gap:10px;
+  justify-content:center;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.sequence-dot{
+  width:52px;
+  height:52px;
+  border-radius:13px;
+  background:#202a42;
+  border:2px solid #34415f;
+}
+
+.sequence-dot.active{
+  background:#63a4ff;
+}
+
+.sequence-dot.done{
+  background:#69e89b;
+  border-color:#69e89b;
+}
+
+.action-button{
+  width:100%;
+  border:0;
+  border-radius:15px;
+  padding:15px;
+  margin-top:13px;
+  font-size:16px;
+  font-weight:800;
+  background:#fff;
+  color:#101522;
+  cursor:pointer;
+}
+
+.secondary{
+  background:transparent;
+  color:#a1abc0;
+  border:1px solid #303b56;
+}
+
+.finish{
+  text-align:center;
+  padding:25px 5px;
+}
+
+.finish-score{
+  font-size:52px;
+  font-weight:900;
+  margin:12px 0;
+}
+
+.finish-best{
+  color:#8f9ab3;
+}
+
+@keyframes pop{
+  0%{transform:scale(.5);opacity:0}
+  70%{transform:scale(1.08);opacity:1}
+  100%{transform:scale(1);opacity:1}
+}
+
+.pop{
+  animation:pop .22s ease-out;
+}
+
+@keyframes shake{
+  0%,100%{transform:translateX(0)}
+  25%{transform:translateX(-7px)}
+  75%{transform:translateX(7px)}
+}
+
+.shake{
+  animation:shake .25s ease;
+}
+
+@media(max-width:380px){
+
+  .arena{
+    height:350px;
+  }
+
+  .logo{
+    font-size:32px;
+  }
+
+  .stat{
+    min-width:62px;
+  }
+
 }
 
 </style>
@@ -155,9 +405,7 @@ h2{
 
   <div class="header">
     <div class="logo">BRAIN RUSH</div>
-    <div class="tagline">
-      Think fast. See faster.
-    </div>
+    <div class="tagline">Think fast. See faster.</div>
   </div>
 
 
@@ -169,40 +417,46 @@ h2{
 
       <h2>Choose your challenge</h2>
 
-      <p style="color:#9ca8bf;">
+      <div class="subtle">
         Six different ways to test your brain.
-      </p>
+      </div>
 
       <div class="category-grid">
 
-        <button class="category" onclick="startCategory('Speed')">
+        <button class="category"
+                onclick="startSpeed()">
           <strong>⚡ Speed</strong>
-          <span>React before time runs out.</span>
+          <span>5 levels of increasingly difficult reactions.</span>
         </button>
 
-        <button class="category" onclick="startCategory('Memory')">
+        <button class="category locked"
+                onclick="comingSoon()">
           <strong>🧠 Memory</strong>
-          <span>Remember what you saw.</span>
+          <span>Coming next.</span>
         </button>
 
-        <button class="category" onclick="startCategory('Observation')">
+        <button class="category locked"
+                onclick="comingSoon()">
           <strong>👁 Observation</strong>
-          <span>Spot what changed.</span>
+          <span>Coming next.</span>
         </button>
 
-        <button class="category" onclick="startCategory('Precision')">
+        <button class="category locked"
+                onclick="comingSoon()">
           <strong>🎯 Precision</strong>
-          <span>Hit the exact target.</span>
+          <span>Coming next.</span>
         </button>
 
-        <button class="category" onclick="startCategory('Pattern')">
+        <button class="category locked"
+                onclick="comingSoon()">
           <strong>🔢 Pattern</strong>
-          <span>Work out what comes next.</span>
+          <span>Coming next.</span>
         </button>
 
-        <button class="category" onclick="startCategory('Trap')">
+        <button class="category locked"
+                onclick="comingSoon()">
           <strong>🪤 Trap</strong>
-          <span>Don't fall for the obvious.</span>
+          <span>Coming next.</span>
         </button>
 
       </div>
@@ -212,43 +466,115 @@ h2{
   </div>
 
 
-  <!-- GAME -->
+  <!-- SPEED GAME -->
 
-  <div id="gameArea" class="hidden">
+  <div id="speedGame" class="hidden">
+
+    <div class="topbar">
+
+      <div class="stat">
+        <div class="stat-label">Level</div>
+        <div class="stat-value" id="levelStat">1/5</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Score</div>
+        <div class="stat-value" id="scoreStat">0</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Lives</div>
+        <div class="stat-value" id="livesStat">❤️❤️❤️</div>
+      </div>
+
+      <div class="stat">
+        <div class="stat-label">Streak</div>
+        <div class="stat-value" id="streakStat">0</div>
+      </div>
+
+    </div>
+
+    <div class="progress-wrap">
+      <div class="progress" id="progress"></div>
+    </div>
 
     <div class="card">
 
-      <div class="level" id="levelText">
-        Level 1
+      <div class="level-title" id="levelLabel">
+        SPEED — LEVEL 1
       </div>
 
-      <h2 id="categoryTitle">
-        Speed
-      </h2>
+      <div class="challenge-title" id="challengeTitle">
+        Reaction
+      </div>
 
-      <div class="challenge" id="challenge">
+      <div class="instruction" id="instruction">
+        Wait for the target. Then hit it as quickly as possible.
+      </div>
+
+      <div class="arena" id="arena">
+
+        <div class="feedback" id="feedback"></div>
 
         <div class="message" id="message">
           Get ready...
         </div>
 
-        <button
-          class="target"
-          id="target"
-          onclick="hitTarget()">
+        <button class="target"
+                id="target"
+                onclick="targetClicked()">
+        </button>
+
+        <button class="center-button hidden"
+                id="centerButton"
+                onclick="centerClicked()">
         </button>
 
       </div>
 
-      <div class="score">
-        Score: <strong id="score">0</strong>
-      </div>
-
     </div>
 
-    <button class="button back" onclick="goHome()">
-      ← Back to categories
+    <button class="action-button secondary"
+            onclick="exitSpeed()">
+      ← Exit Speed
     </button>
+
+  </div>
+
+
+  <!-- FINISH -->
+
+  <div id="finish" class="hidden">
+
+    <div class="card finish">
+
+      <div class="subtle">
+        SPEED COMPLETE
+      </div>
+
+      <h2>Nice work.</h2>
+
+      <div class="finish-score"
+           id="finishScore">
+        0
+      </div>
+
+      <div class="finish-best"
+           id="finishBest">
+        Personal best: 0
+      </div>
+
+      <button class="action-button"
+              onclick="startSpeed()">
+        Play Again
+      </button>
+
+      <button class="action-button secondary"
+              onclick="goHome()">
+        Back to Categories
+      </button>
+
+    </div>
 
   </div>
 
@@ -257,27 +583,94 @@ h2{
 
 <script>
 
-let currentCategory = "";
-let score = 0;
 let level = 1;
-let canTap = false;
+let score = 0;
+let lives = 3;
+let streak = 0;
+
+let levelStartTime = 0;
+let timer = null;
+let sequenceStep = 0;
+let rapidCount = 0;
+let targetTimeout = null;
+
+const TOTAL_LEVELS = 5;
 
 
-function startCategory(category){
+function $(id){
+  return document.getElementById(id);
+}
 
-  currentCategory = category;
-  score = 0;
-  level = 1;
 
-  document.getElementById("home").classList.add("hidden");
+function random(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
 
-  document.getElementById("gameArea").classList.remove("hidden");
 
-  document.getElementById("categoryTitle").textContent =
-    category;
+function setMessage(text){
+  $("message").textContent = text;
+}
 
-  document.getElementById("score").textContent =
+
+function updateStats(){
+
+  $("levelStat").textContent =
+    level + "/" + TOTAL_LEVELS;
+
+  $("scoreStat").textContent =
     score;
+
+  $("livesStat").textContent =
+    "❤️".repeat(lives) + "🖤".repeat(3-lives);
+
+  $("streakStat").textContent =
+    streak;
+
+  $("progress").style.width =
+    ((level-1)/TOTAL_LEVELS*100) + "%";
+
+}
+
+
+function clearTimers(){
+
+  clearTimeout(timer);
+  clearTimeout(targetTimeout);
+
+}
+
+
+function resetArena(){
+
+  clearTimers();
+
+  $("target").style.display = "none";
+
+  $("centerButton").classList.add("hidden");
+
+  $("message").textContent = "";
+
+  $("feedback").textContent = "";
+
+  $("feedback").className = "feedback";
+
+  $("arena").classList.remove("shake");
+
+}
+
+
+function startSpeed(){
+
+  level = 1;
+  score = 0;
+  lives = 3;
+  streak = 0;
+
+  $("home").classList.add("hidden");
+  $("finish").classList.add("hidden");
+  $("speedGame").classList.remove("hidden");
+
+  updateStats();
 
   startLevel();
 
@@ -286,67 +679,720 @@ function startCategory(category){
 
 function startLevel(){
 
-  canTap = false;
+  resetArena();
 
-  document.getElementById("levelText").textContent =
-    "Level " + level;
+  updateStats();
 
-  document.getElementById("message").textContent =
-    "Get ready...";
+  if(level === 1){
+    levelOne();
+  }
 
-  document.getElementById("target").style.visibility =
-    "hidden";
+  else if(level === 2){
+    levelTwo();
+  }
 
-  setTimeout(function(){
+  else if(level === 3){
+    levelThree();
+  }
 
-    document.getElementById("message").textContent =
-      "TAP!";
+  else if(level === 4){
+    levelFour();
+  }
 
-    document.getElementById("target").style.visibility =
-      "visible";
-
-    canTap = true;
-
-  },800);
+  else if(level === 5){
+    levelFive();
+  }
 
 }
 
 
-function hitTarget(){
+function setupLevel(title,instruction){
 
-  if(!canTap){
+  $("levelLabel").textContent =
+    "SPEED — LEVEL " + level;
+
+  $("challengeTitle").textContent =
+    title;
+
+  $("instruction").textContent =
+    instruction;
+
+}
+
+
+function randomPosition(element){
+
+  const arena =
+    $("arena").getBoundingClientRect();
+
+  const margin = 55;
+
+  const x =
+    random(
+      margin,
+      Math.max(margin,arena.width-margin)
+    );
+
+  const y =
+    random(
+      margin,
+      Math.max(margin,arena.height-margin)
+    );
+
+  element.style.left = x + "px";
+  element.style.top = y + "px";
+
+}
+
+
+/* -------------------------
+   LEVEL 1
+   REACTION
+------------------------- */
+
+function levelOne(){
+
+  setupLevel(
+    "Reaction",
+    "Wait. When the white target appears, hit it as fast as you can."
+  );
+
+  setMessage("Get ready...");
+
+  const delay = random(700,1500);
+
+  timer = setTimeout(function(){
+
+    const target = $("target");
+
+    randomPosition(target);
+
+    target.className = "target";
+
+    target.style.display = "block";
+
+    target.classList.add("pop");
+
+    levelStartTime = performance.now();
+
+    setMessage("");
+
+  },delay);
+
+}
+
+
+function levelOneSuccess(){
+
+  const reaction =
+    performance.now() - levelStartTime;
+
+  const points =
+    Math.max(
+      100,
+      Math.round(650 - reaction)
+    );
+
+  score += points;
+  streak++;
+
+  $("feedback").textContent =
+    "+" + points + "  " +
+    Math.round(reaction) + "ms";
+
+  $("feedback").className =
+    "feedback good";
+
+  setMessage("Perfect!");
+
+  $("target").style.display = "none";
+
+  updateStats();
+
+  nextLevel();
+
+}
+
+
+/* -------------------------
+   LEVEL 2
+   RAPID FIRE
+------------------------- */
+
+function levelTwo(){
+
+  setupLevel(
+    "Rapid Fire",
+    "Three targets. Hit all three as quickly as possible."
+  );
+
+  rapidCount = 0;
+
+  setMessage("3 targets. Go!");
+
+  timer = setTimeout(function(){
+
+    showRapidTarget();
+
+  },500);
+
+}
+
+
+function showRapidTarget(){
+
+  const target = $("target");
+
+  randomPosition(target);
+
+  target.className =
+    "target blue";
+
+  target.style.display =
+    "block";
+
+  target.classList.add("pop");
+
+  if(rapidCount === 0){
+    levelStartTime = performance.now();
+  }
+
+}
+
+
+function rapidSuccess(){
+
+  rapidCount++;
+
+  $("target").style.display =
+    "none";
+
+  if(rapidCount >= 3){
+
+    const elapsed =
+      performance.now() - levelStartTime;
+
+    const points =
+      Math.max(
+        150,
+        Math.round(900 - elapsed)
+      );
+
+    score += points;
+    streak++;
+
+    $("feedback").textContent =
+      "+" + points + "  Rapid Fire!";
+
+    $("feedback").className =
+      "feedback good";
+
+    setMessage("3/3!");
+
+    updateStats();
+
+    nextLevel();
+
+    return;
+
+  }
+
+  timer = setTimeout(function(){
+
+    showRapidTarget();
+
+  },180);
+
+}
+
+
+/* -------------------------
+   LEVEL 3
+   DON'T JUMP
+------------------------- */
+
+function levelThree(){
+
+  setupLevel(
+    "Don't Jump",
+    "Do NOT tap while the button is dark. Tap only when it turns green."
+  );
+
+  const button =
+    $("centerButton");
+
+  button.classList.remove("hidden");
+  button.classList.remove("ready");
+
+  button.textContent =
+    "WAIT";
+
+  setMessage("");
+
+  const wait =
+    random(900,1800);
+
+  timer = setTimeout(function(){
+
+    button.classList.add("ready");
+
+    button.textContent =
+      "TAP!";
+
+    levelStartTime =
+      performance.now();
+
+  },wait);
+
+}
+
+
+function centerClicked(){
+
+  if(level !== 3){
     return;
   }
 
-  canTap = false;
+  const button =
+    $("centerButton");
 
-  score += 100;
+  if(!button.classList.contains("ready")){
 
-  document.getElementById("score").textContent =
-    score;
+    failLevel(
+      "Too early!"
+    );
 
-  document.getElementById("message").textContent =
-    "Nice!";
+    return;
 
-  document.getElementById("target").style.visibility =
-    "hidden";
+  }
 
-  setTimeout(function(){
+  const reaction =
+    performance.now() - levelStartTime;
 
-    level++;
+  const points =
+    Math.max(
+      120,
+      Math.round(700-reaction)
+    );
 
-    startLevel();
+  score += points;
+  streak++;
+
+  button.classList.add("hidden");
+
+  $("feedback").textContent =
+    "+" + points + "  " +
+    Math.round(reaction) + "ms";
+
+  $("feedback").className =
+    "feedback good";
+
+  setMessage("Good discipline.");
+
+  updateStats();
+
+  nextLevel();
+
+}
+
+
+/* -------------------------
+   LEVEL 4
+   MOVING TARGET
+------------------------- */
+
+function levelFour(){
+
+  setupLevel(
+    "Moving Target",
+    "The target moves. Hit it before it disappears."
+  );
+
+  setMessage("Track it...");
+
+  timer = setTimeout(function(){
+
+    const target =
+      $("target");
+
+    target.className =
+      "target yellow";
+
+    target.style.display =
+      "block";
+
+    randomPosition(target);
+
+    levelStartTime =
+      performance.now();
+
+    moveTarget();
 
   },700);
 
 }
 
 
+function moveTarget(){
+
+  if(level !== 4){
+    return;
+  }
+
+  const target =
+    $("target");
+
+  randomPosition(target);
+
+  targetTimeout =
+    setTimeout(function(){
+
+      moveTarget();
+
+    },random(350,650));
+
+}
+
+
+function movingTargetSuccess(){
+
+  clearTimeout(targetTimeout);
+
+  const elapsed =
+    performance.now()-levelStartTime;
+
+  const points =
+    Math.max(
+      150,
+      Math.round(900-elapsed)
+    );
+
+  score += points;
+  streak++;
+
+  $("target").style.display =
+    "none";
+
+  $("feedback").textContent =
+    "+" + points + "  Hit!";
+
+  $("feedback").className =
+    "feedback good";
+
+  setMessage("Nice tracking.");
+
+  updateStats();
+
+  nextLevel();
+
+}
+
+
+/* -------------------------
+   LEVEL 5
+   DOUBLE STRIKE
+------------------------- */
+
+function levelFive(){
+
+  setupLevel(
+    "Double Strike",
+    "Hit BLUE first, then YELLOW. Both must be hit quickly."
+  );
+
+  sequenceStep = 0;
+
+  setMessage("BLUE → YELLOW");
+
+  timer = setTimeout(function(){
+
+    showSequenceTarget();
+
+  },700);
+
+}
+
+
+function showSequenceTarget(){
+
+  const target =
+    $("target");
+
+  randomPosition(target);
+
+  if(sequenceStep === 0){
+
+    target.className =
+      "target blue";
+
+  }
+
+  else{
+
+    target.className =
+      "target yellow";
+
+  }
+
+  target.style.display =
+    "block";
+
+  target.classList.add("pop");
+
+  if(sequenceStep === 0){
+
+    levelStartTime =
+      performance.now();
+
+  }
+
+}
+
+
+function doubleStrikeSuccess(){
+
+  if(sequenceStep === 0){
+
+    sequenceStep = 1;
+
+    $("target").style.display =
+      "none";
+
+    $("feedback").textContent =
+      "BLUE ✓";
+
+    $("feedback").className =
+      "feedback good";
+
+    setMessage("Now YELLOW!");
+
+    timer = setTimeout(function(){
+
+      showSequenceTarget();
+
+    },150);
+
+    return;
+
+  }
+
+  const elapsed =
+    performance.now()-levelStartTime;
+
+  const points =
+    Math.max(
+      250,
+      Math.round(1200-elapsed)
+    );
+
+  score += points;
+  streak++;
+
+  $("target").style.display =
+    "none";
+
+  $("feedback").textContent =
+    "+" + points + "  Double Strike!";
+
+  $("feedback").className =
+    "feedback good";
+
+  setMessage("LEVEL COMPLETE!");
+
+  updateStats();
+
+  timer = setTimeout(function(){
+
+    finishGame();
+
+  },900);
+
+}
+
+
+/* -------------------------
+   TARGET CLICK ROUTER
+------------------------- */
+
+function targetClicked(){
+
+  if(level === 1){
+
+    levelOneSuccess();
+
+  }
+
+  else if(level === 2){
+
+    rapidSuccess();
+
+  }
+
+  else if(level === 4){
+
+    movingTargetSuccess();
+
+  }
+
+  else if(level === 5){
+
+    doubleStrikeSuccess();
+
+  }
+
+}
+
+
+/* -------------------------
+   FAIL
+------------------------- */
+
+function failLevel(reason){
+
+  clearTimers();
+
+  lives--;
+  streak = 0;
+
+  $("target").style.display =
+    "none";
+
+  $("centerButton").classList.add("hidden");
+
+  $("feedback").textContent =
+    "−1 LIFE";
+
+  $("feedback").className =
+    "feedback bad";
+
+  $("arena").classList.add("shake");
+
+  setMessage(reason);
+
+  updateStats();
+
+  if(lives <= 0){
+
+    timer = setTimeout(function(){
+
+      gameOver();
+
+    },900);
+
+    return;
+
+  }
+
+  timer = setTimeout(function(){
+
+    startLevel();
+
+  },900);
+
+}
+
+
+/* -------------------------
+   NEXT LEVEL
+------------------------- */
+
+function nextLevel(){
+
+  if(level >= TOTAL_LEVELS){
+
+    timer = setTimeout(
+      finishGame,
+      900
+    );
+
+    return;
+
+  }
+
+  level++;
+
+  timer = setTimeout(function(){
+
+    startLevel();
+
+  },900);
+
+}
+
+
+/* -------------------------
+   FINISH
+------------------------- */
+
+function finishGame(){
+
+  clearTimers();
+
+  $("speedGame").classList.add("hidden");
+  $("finish").classList.remove("hidden");
+
+  $("finishScore").textContent =
+    score;
+
+  const oldBest =
+    Number(
+      localStorage.getItem("brainRushSpeedBest") || 0
+    );
+
+  const best =
+    Math.max(oldBest,score);
+
+  localStorage.setItem(
+    "brainRushSpeedBest",
+    best
+  );
+
+  $("finishBest").textContent =
+    "Personal best: " + best;
+
+}
+
+
+function gameOver(){
+
+  $("speedGame").classList.add("hidden");
+  $("finish").classList.remove("hidden");
+
+  $("finishScore").textContent =
+    score;
+
+  $("finishBest").textContent =
+    "You ran out of lives. Try again.";
+
+}
+
+
+function exitSpeed(){
+
+  clearTimers();
+
+  $("speedGame").classList.add("hidden");
+  $("home").classList.remove("hidden");
+
+}
+
+
 function goHome(){
 
-  document.getElementById("gameArea").classList.add("hidden");
+  clearTimers();
 
-  document.getElementById("home").classList.remove("hidden");
+  $("finish").classList.add("hidden");
+  $("speedGame").classList.add("hidden");
+  $("home").classList.remove("hidden");
+
+}
+
+
+function comingSoon(){
+
+  alert(
+    "This category is coming next. Speed is being built first."
+  );
 
 }
 
